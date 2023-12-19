@@ -5,6 +5,10 @@
 
 # CSS / SASS
 
+## Syntax
+1. Skriv class namn med bindestreck som avdelare ex. 'this-is-a-class'
+2. Inga förkortningar
+
 ## Sass Partials
 
 1. Variabler / mixins partials
@@ -33,12 +37,17 @@ outline: 1px solid hotpink
 
 # TS
 
+## Syntax
+1. Skriv camelCase
+2. Inga förkortningar ex. (ej btn, skriv button)
+
 ## Funktion syntax / funktionalitet
 
 1. Function syntax istället för arrow-functions
 2. Lokala funktioner om möjligt
 3. Inte vara rädd för långa funktionsnamn
 4. Om möjligt kortare funktioner som gör endast en sak
+
 
 ## Egen types fil
 
