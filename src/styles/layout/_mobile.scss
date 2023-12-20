@@ -2,20 +2,48 @@
 .quiz-finished {
   background-color: $background-primary;
   @include flex-center;
+  flex-direction: column;
+  font-family: $font-secondary;
+  color: white;
+  padding-top: 30px;
   .your-score-box {
     background-color: $background-highscore;
-    width: 200px;
+    width: 250px;
     height: 200px;
+    text-align: center;
+    margin-bottom: 15px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    p {
+    padding-top: 30px;
+    }
   }
-  .high-score-list {
+  .high-score-box {
     background-color: $background-highscore;
-    width: 200px;
+    width: 250px;
     height: 200px;
+    text-align: center;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    .high-score-list {
+      display: flex;
+      flex-wrap: wrap; 
+      margin: 15px;
+      padding: 0;
+      
+      .list-right {
+         flex: 50%;
+      }
+      .list-left {
+      flex: 50%;
+      }
+    }
   }
-  .finished-button-box {
-    @include flex-center;
+  .finished-buttons-box {
+    @include flex-between;
+    flex-direction: column;
     .button {
       @include button;
+      color: white;
+      margin: 15px;
     }
   }
 }
