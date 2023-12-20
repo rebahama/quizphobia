@@ -1,5 +1,4 @@
-import './scss/style.scss'; // Importera huvud-SCSS-filen
-
+import './styles/style.scss';
 
 /******************************************************
  * ************ Variables ****************************
@@ -7,23 +6,21 @@ import './scss/style.scss'; // Importera huvud-SCSS-filen
 
 /*                      const                    */
 
-const answerTime = 5;    // - Variable to use for the time it takes for user to answer question 
+const answerTime = 5; // - Variable to use for the time it takes for user to answer question
 const wrongAnswer = true; //  - Boolean to use for wrong answer
-
-
 
 /*                      let                      */
 
 let score = 0;
 
-
-
-
 /******************************************************
  * ************ Functions ****************************
  *****************************************************/
 
-function getPointsForAnsweringQuestion(answerTime: number, wrongAnswer: boolean): number {
+function getPointsForAnsweringQuestion(
+  answerTime: number,
+  wrongAnswer: boolean
+): number {
   if (wrongAnswer) {
     score -= 30;
     console.log(score);
@@ -44,8 +41,7 @@ function getPointsForAnsweringQuestion(answerTime: number, wrongAnswer: boolean)
 }
 
 console.log(score);
-getPointsForAnsweringQuestion(answerTime, wrongAnswer); // passing the answerTime for each question as an argument 
-
+getPointsForAnsweringQuestion(answerTime, wrongAnswer); // passing the answerTime for each question as an argument
 
 /******************************************************
  * ************ Eventlisteners ****************************
