@@ -33,9 +33,11 @@ main {
     max-width: 500px;
     height: 36px;
   }
-
+  .list-highscore-container {
+    width: 50%;
+  }
   .rules-text,
   .intro-heading {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
   }
 }
