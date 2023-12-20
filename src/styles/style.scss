@@ -2,6 +2,14 @@
 @import "variables/mixins";
 @import "variables/variables";
 
+.main-body-background {
+  background-color: $background-primary;
+}
+/*Intro styling*/
+.intro-buttons {
+  @include button;
+}
+
 @import "layout/mobile";
 
 @media screen and (min-width: 768px) {
