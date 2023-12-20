@@ -48,12 +48,23 @@
 .name-input-text::placeholder {
   color: $input-color; /* Black placeholder text color */
 }
-/* Heading*/
+/* Heading and rules*/
 .intro-heading {
   margin-bottom: 100px;
   font-family: $font-secondary;
   font-size: 40px;
   text-align: center;
+}
+.rules-text {
+  color: $rules-text-color;
+  font-size: 25px;
+  margin: 80px;
+  width: 50%;
+}
+/*Rules and highscore container*/
+.center-text-highscore-container {
+  @include flex-center;
+  flex-direction: column;
 }
 
 @import "layout/mobile";
