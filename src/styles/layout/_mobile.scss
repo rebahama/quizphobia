@@ -1,0 +1,21 @@
+//---Quiz finished
+.quiz-finished {
+  background-color: $background-primary;
+  @include flex-center;
+  .your-score-box {
+    background-color: $background-highscore;
+    width: 200px;
+    height: 200px;
+  }
+  .high-score-list {
+    background-color: $background-highscore;
+    width: 200px;
+    height: 200px;
+  }
+  .finished-button-box {
+    @include flex-center;
+    .button {
+      @include button;
+    }
+  }
+}
