@@ -66,14 +66,6 @@ main {
     );
   }
 
-  /*Intro styling*/
-  /*Container intro styling*/
-  .main-flex-container-intro {
-    @include flex-center;
-  }
-  .flex-container-intro {
-    @include flex-center;
-  }
   /*Button styling*/
   .intro-buttons {
     @include button;
@@ -119,7 +111,7 @@ main {
   }
   .rules-text {
     color: $color-white;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     text-align: center;
   }
   /*Rules and highscore container*/
@@ -152,6 +144,7 @@ main {
 
   .flex-highscore {
     @include flex-page-highscore;
+    letter-spacing: 2px;
   }
 
   .start-button:hover {
@@ -163,6 +156,7 @@ main {
   .button-container,
   .flex-container-intro {
     @include flex-center;
+    padding: 20px;
     flex-direction: column;
     gap: 20px;
   }
