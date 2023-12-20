@@ -6,6 +6,8 @@ import './scss/style.scss'; // Importera huvud-SCSS-filen
 
 /*                      const                    */
 
+const answerTime = 5;    // - Variable to use for the time it takes for user to answer question 
+const wrongAnswer = true; //  - Boolean to use for wrong answer
 
 
 
@@ -13,8 +15,6 @@ import './scss/style.scss'; // Importera huvud-SCSS-filen
 
 let score = 0;
 
-// let answerTime = ;     - Variable to use for the time it takes for user to answer question
-// let wrongAnswer = ;    - Boolean to use for wrong answer
 
 
 
@@ -22,7 +22,7 @@ let score = 0;
  * ************ Functions ****************************
  *****************************************************/
 
-function getPointsForAnsweringQuestion(answerTime: number, wrongAnswer: boolean): void {
+function getPointsForAnsweringQuestion(answerTime: number, wrongAnswer: boolean): number {
   if (wrongAnswer) {
     score -= 30;
     console.log(score);
@@ -39,9 +39,10 @@ function getPointsForAnsweringQuestion(answerTime: number, wrongAnswer: boolean)
     score += 50;
     console.log(score);
   }
-
+  return score;
 }
 
+console.log(score);
 getPointsForAnsweringQuestion(answerTime, wrongAnswer); // passing the answerTime for each question as an argument 
 
 
