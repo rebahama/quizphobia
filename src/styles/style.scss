@@ -4,10 +4,35 @@
 
 .main-body-background {
   background-color: $background-primary;
+  font-family: $font-primary;
 }
 /*Intro styling*/
+.main-flex-container-intro{
+  display: flex;
+  justify-content: center;
+}
+.flex-container-intro{
+ 
+}
 .intro-buttons {
   @include button;
+  border-radius: 20px;
+  width: 238px;
+}
+.start-button {
+  @include button;
+  border-radius: 20px;
+  width: 151px;
+}
+.name-input {
+  @include button;
+  border-radius: 20px;
+  width: 397px;
+}
+.intro-heading {
+  text-align: center;
+  font-family: $font-secondary;
+  font-size: 32px;
 }
 
 @import "layout/mobile";

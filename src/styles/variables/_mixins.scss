@@ -14,6 +14,7 @@
 @mixin button {
     background-color: $button-color;
     padding: 8px;
+    margin: 20px;
     border-radius: 8px;
     border-style: none;
     cursor: pointer;
