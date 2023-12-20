@@ -1,20 +1,24 @@
 @mixin flex-between {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+@mixin flex-page-highscore {
+  display: flex;
+  justify-content: space-evenly;
 }
 
 @mixin flex-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 //---adjust when design is set
 @mixin button {
-    background-color: $button-color;
-    padding: 8px;
-    margin: 20px;
-    border-style: none;
-    cursor: pointer;
+  background-color: $button-color;
+  padding: 8px;
+  margin: 20px;
+  border-style: none;
+  cursor: pointer;
 }
