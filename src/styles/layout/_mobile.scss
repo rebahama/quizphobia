@@ -77,6 +77,7 @@ main {
   /*Button styling*/
   .intro-buttons {
     @include button;
+    padding: 20px;
     color: $color-white;
     border-radius: 50px;
     height: 60px;
@@ -107,11 +108,10 @@ main {
     color: $color-white;
   }
   .name-input-text::placeholder {
-    color: $color-white; /* Black placeholder text color */
+    color: $color-white; /* White placeholder text color */
   }
   /* Heading and rules*/
   .intro-heading {
-    margin: 100px 0;
     font-family: $font-secondary;
     font-size: 2.5rem;
     text-align: center;
@@ -119,19 +119,18 @@ main {
   .rules-text {
     color: $color-white;
     font-size: 2rem;
-    margin: 80px;
     text-align: center;
-
   }
   /*Rules and highscore container*/
   .center-text-highscore-container {
     @include flex-center;
     flex-direction: column;
+    padding: 30px;
+    gap: 50px;
   }
   /*List highscore container */
   .list-highscore-container {
     background-color: $background-highscore;
-    margin: 80px 0;
     border-radius: 60px;
     color: $color-white;
     font-family: $font-secondary;
@@ -152,7 +151,6 @@ main {
 
   .flex-highscore {
     @include flex-page-highscore;
-    margin: 40px;
   }
 
   .start-button:hover {
@@ -161,9 +159,10 @@ main {
   .intro-buttons:hover {
     background-color: $button-hover;
   }
-  .button-container, .flex-container-intro{
+  .button-container,
+  .flex-container-intro {
     @include flex-center;
     flex-direction: column;
+    gap: 20px;
   }
-
 }
