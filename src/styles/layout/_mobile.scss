@@ -65,14 +65,8 @@ main {
       $progress-bar-gray 10%
     );
   }
-}
 
-.main-body-background {
-    background-color: $background-primary;
-    font-family: $font-primary;
-  }
   /*Intro styling*/
-  
   /*Container intro styling*/
   .main-flex-container-intro {
     @include flex-center;
@@ -83,35 +77,37 @@ main {
   /*Button styling*/
   .intro-buttons {
     @include button;
-    border-radius: 20px;
-    height: 40px;
+    color: $color-white;
+    border-radius: 50px;
+    height: 60px;
     font-weight: $font-bold-style;
-    width: 238px;
+    width: 200px;
   }
   .start-button {
     @include button;
-    border-radius: 30px;
-    height: 50px;
+    border-radius: 50px;
+    color: $color-white;
+    height: 80px;
     font-weight: $font-bold-style;
-    width: 151px;
+    width: 300px;
   }
   /* Input field intro*/
   .name-input {
     @include button;
-    border-radius: 30px;
-    height: 30px;
+    border-radius: 50px;
+    height: 60px;
     font-weight: $font-bold-style;
-    width: 397px;
+    width: 300px;
   }
   .name-input-text {
     width: 300px;
     padding: 10px;
     font-size: 1rem;
     text-align: center;
-    color: $input-color;
+    color: $color-white;
   }
   .name-input-text::placeholder {
-    color: $input-color; /* Black placeholder text color */
+    color: $color-white; /* Black placeholder text color */
   }
   /* Heading and rules*/
   .intro-heading {
@@ -121,7 +117,7 @@ main {
     text-align: center;
   }
   .rules-text {
-    color: $rules-text-color;
+    color: $color-white;
     font-size: 1.5rem;
     margin: 80px;
     width: 50%;
@@ -133,22 +129,33 @@ main {
   }
   /*List highscore container */
   .list-highscore-container {
-    width: 50%;
+    width: 80%;
+    color: $color-white;
     font-family: $font-secondary;
     background-color: $background-highscore;
   }
-  
+
   /*Style heading and text inside highscore container*/
   .list-highscore-container li {
     list-style-type: none;
-    font-size: 1.25rem;
+    line-height: 50px;
+    font-size: 2rem;
   }
   .highscore-heading {
     font-size: 2rem;
     text-align: center;
   }
-  
+
   .flex-highscore {
     @include flex-page-highscore;
     margin: 40px;
   }
+
+  .start-button:hover {
+    background-color: $button-hover;
+  }
+  .intro-buttons:hover {
+    background-color: $button-hover;
+  }
+
+}
