@@ -1,0 +1,36 @@
+main {
+  max-width: 800px;
+  .question-section {
+    gap: 85px;
+    .question-container {
+      gap: 60px;
+      div {
+        h2 {
+          font-size: 2rem;
+        }
+        p {
+          font-size: 1.5rem;
+          line-height: 125%;
+        }
+      }
+      ul {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        row-gap: 40px;
+        column-gap: 20px;
+        li {
+          width: 45%;
+          border-radius: 40px;
+          height: 60px;
+          font-size: 1.25rem;
+        }
+      }
+    }
+  }
+  .progress-bar {
+    width: 80%;
+    max-width: 500px;
+    height: 36px;
+  }
+}
