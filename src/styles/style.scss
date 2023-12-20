@@ -7,32 +7,53 @@
   font-family: $font-primary;
 }
 /*Intro styling*/
-.main-flex-container-intro{
-  display: flex;
-  justify-content: center;
+
+/*Container intro styling*/
+.main-flex-container-intro {
+  @include flex-center;
 }
-.flex-container-intro{
- 
+.flex-container-intro {
+  @include flex-center;
 }
+/*Button styling*/
 .intro-buttons {
   @include button;
   border-radius: 20px;
+  height: 40px;
+  font-weight: $font-bold-style;
   width: 238px;
 }
 .start-button {
   @include button;
-  border-radius: 20px;
+  border-radius: 30px;
+  height: 50px;
+  font-weight: $font-bold-style;
   width: 151px;
 }
+/* Input field intro*/
 .name-input {
   @include button;
-  border-radius: 20px;
+  border-radius: 30px;
+  height: 30px;
+  font-weight: $font-bold-style;
   width: 397px;
 }
-.intro-heading {
+.name-input-text {
+  width: 300px;
+  padding: 10px;
+  font-size: 16px;
   text-align: center;
+  color: $input-color;
+}
+.name-input-text::placeholder {
+  color: $input-color; /* Black placeholder text color */
+}
+/* Heading*/
+.intro-heading {
+  margin-bottom: 100px;
   font-family: $font-secondary;
-  font-size: 32px;
+  font-size: 40px;
+  text-align: center;
 }
 
 @import "layout/mobile";
