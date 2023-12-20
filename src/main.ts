@@ -1,7 +1,6 @@
-<<<<<<< HEAD
 import './styles/style.scss'; // Importera huvud-SCSS-filen
-=======
-import './styles/style.scss';
+
+
 
 /******************************************************
  * ************ Variables ****************************
@@ -22,7 +21,7 @@ let score = 0;
 
 function getPointsForAnsweringQuestion(
   answerTime: number,
-  wrongAnswer: boolean
+  wrongAnswer: boolean,
 ): number {
   if (wrongAnswer) {
     score -= 30;
@@ -49,4 +48,4 @@ getPointsForAnsweringQuestion(answerTime, wrongAnswer); // passing the answerTim
 /******************************************************
  * ************ Eventlisteners ****************************
  *****************************************************/
->>>>>>> 88a96e2ff82b0b1978731731965033a758bc773e
+
