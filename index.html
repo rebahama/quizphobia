@@ -47,7 +47,10 @@
     </script>
     <title>Phobia Quiz</title>
   </head>
-  <body class="main-body-background">
+
+  <body>
+  <header></header>
+   <main>
     <div class="app" id="app">
       <div class="main-flex-container-intro">
         <div>
@@ -98,7 +101,23 @@
         </ul>
       </div>
     </div>
-
-    <script type="module" src="/src/main.ts"></script>
+     
+        <section class="question-section" id="questionSection">
+        <div class="question-container">
+          <div>
+            <h2>Question</h2>
+            <p>Amathophobia is the fear of...?</p>
+          </div>
+          <ul id="questionList">
+            <li>dust</li>
+            <li>knots</li>
+            <li>math</li>
+            <li>tangled hair</li>
+          </ul>
+        </div>
+        <div class="progress-bar" id="progressBar"></div>
+      </section>
+     </main>
+  <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

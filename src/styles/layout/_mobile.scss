@@ -1,3 +1,72 @@
+body {
+  font-family: $font-primary;
+  background: $background-primary;
+  display: flex;
+  justify-content: center;
+}
+
+main {
+  @include flex-column-center;
+  width: 100%;
+  .question-section {
+    width: 100%;
+    @include flex-column-center;
+    gap: 30px;
+    .question-container {
+      width: 100%;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      @include flex-column-center;
+      gap: 20px;
+      div {
+        width: 100%;
+        @include flex-column-center;
+        gap: 15px;
+        h2 {
+          color: black;
+          font-family: $font-secondary;
+          font-size: 1.5rem;
+          letter-spacing: 3px;
+        }
+        p {
+          width: 80%;
+          text-align: center;
+        }
+      }
+      ul {
+        list-style: none;
+        @include flex-column-center;
+        gap: 15px;
+        width: 80%;
+        li {
+          width: 100%;
+          max-width: 400px;
+          border-radius: 30px;
+          height: 50px;
+          @include flex-center;
+          background: $button-color;
+          cursor: pointer;
+          &:hover {
+            background: $button-hover;
+          }
+        }
+      }
+    }
+  }
+  .progress-bar {
+    width: 60%;
+    max-width: 350px;
+    height: 24px;
+    border-radius: 20px;
+    background: linear-gradient(
+      to right,
+      $button-color 10%,
+      $progress-bar-gray 10%
+    );
+  }
+}
+
 .main-body-background {
     background-color: $background-primary;
     font-family: $font-primary;
