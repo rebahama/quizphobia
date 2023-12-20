@@ -1,0 +1,13 @@
+@import "vendor/normalize";
+@import "variables/mixins";
+@import "variables/variables";
+
+@import "layout/mobile";
+
+@media screen and (min-width: 768px) {
+  @import "layout/tablet";
+}
+
+@media screen and (min-width: 1280px) {
+  @import "layout/desktop";
+}

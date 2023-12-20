@@ -1,0 +1,20 @@
+//---color pallette
+$background-header: #006466;
+$background-primary: #654c6c;
+$background-highscore: #312244;
+$button-color: #212f45;
+
+//---fonts
+
+$font-primary: 'roboto', sans-serif;
+$font-secondary: 'creepster', sans-serif; 
+
+//---extra color
+$medium-petrol: #144552;
+
+$debugging: true;
+div {
+  @if $debugging {
+    outline: 1px solid hotpink;
+  }
+}
