@@ -16,7 +16,7 @@
     Cecilia - Det kreativa.  Tråkigt - Nej, blir frustrerad vid problem.    
     Matthias - Överföra design till kod. föredrar logik och kod. Tråkigt -  
     Rehbas -    
-    Markus -    
+    Marcus - Skapa design. Tråkigt - Lätt för att låsa mig vid hinder.   
 11. Konfiguration - Jennis, kollar om det behövs ändringar vb.  
 12. Hur ofta commit , utseende - Commita när komponenter är färdiga. 
     [feat(header): style]   
@@ -37,6 +37,7 @@
 ## Underskrivet av
 @CeciliaL1
 @Annika-Nyholm
+@Marcusey
 
 
 

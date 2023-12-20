@@ -1,4 +1,4 @@
-import './scss/style.scss'; // Importera huvud-SCSS-filen
+import './styles/style.scss'; // Importera huvud-SCSS-filen
 
 
 /******************************************************
