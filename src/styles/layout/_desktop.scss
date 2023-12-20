@@ -33,8 +33,20 @@ main {
   .flex-container-intro {
     @include flex-center;
     padding: 20px;
-    gap:20px;
+    gap: 20px;
     flex-wrap: wrap;
     flex-direction: row;
+  }
+
+  .center-text-highscore-container {
+    flex-direction: row;
+    padding: 30px;
+    gap: 190px;
+  }
+  .intro-heading {
+    font-size: 2rem;
+  }
+  .list-highscore-container {
+    width: 100%;
   }
 }
