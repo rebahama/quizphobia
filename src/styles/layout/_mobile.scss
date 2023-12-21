@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: $font-primary;
   background: $background-primary;
@@ -8,6 +12,175 @@ body {
 main {
   @include flex-column-center;
   width: 100%;
+  .start-section {
+    .intro-heading {
+      font-family: $font-secondary;
+      font-size: 1.5rem;
+      letter-spacing: 3px;
+      text-align: center;
+    }
+    .start-container {
+      .button-container,
+      .flex-container-intro {
+        @include flex-center;
+        padding: 20px;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .button-container {
+        .intro-buttons {
+          padding: 20px;
+          color: $color-white;
+          border-radius: 50px;
+          height: 60px;
+          font-weight: $font-bold-style;
+          width: 200px;
+        }
+      }
+
+      .flex-container-intro {
+        input {
+          &.name-input {
+            @include button;
+            border-radius: 50px;
+            height: 60px;
+            font-weight: $font-bold-style;
+            width: 300px;
+          }
+          &.name-input-text {
+            width: 300px;
+            padding: 10px;
+            font-size: 1rem;
+            text-align: center;
+            color: $color-white;
+          }
+          &::placeholder {
+            color: $color-white; /* Black placeholder text color */
+          }
+        }
+
+        .start-button {
+          @include button;
+          border-radius: 50px;
+          color: $color-white;
+          height: 60px;
+          font-weight: $font-bold-style;
+          width: 300px;
+        }
+      }
+    }
+  }
+  .start-section {
+    /* Heading and rules*/
+    .intro-heading {
+      font-family: $font-secondary;
+      font-size: 1.5rem;
+      letter-spacing: 3px;
+      text-align: center;
+    }
+    .start-container {
+      .button-container,
+      .flex-container-intro {
+        @include flex-center;
+        flex-direction: column;
+        padding: 20px;
+        gap: 20px;
+      }
+
+      .button-container {
+        /*Button styling*/
+        .intro-buttons {
+          @include button;
+          color: $color-white;
+          border-radius: 50px;
+          height: 60px;
+          font-weight: $font-bold-style;
+          width: 200px;
+          &:hover {
+            background-color: $button-hover;
+          }
+        }
+      }
+
+      .flex-container-intro {
+        input {
+          /* Input field intro*/
+          &.name-input {
+            @include button;
+            border-radius: 50px;
+            height: 60px;
+            font-weight: $font-bold-style;
+            width: 300px;
+          }
+          &.name-input-text {
+            width: 300px;
+            padding: 10px;
+            font-size: 1rem;
+            text-align: center;
+            color: $color-white;
+          }
+          &::placeholder {
+            color: $color-white; /* White placeholder text color */
+          }
+        }
+        .name-input {
+          height: 40px;
+        }
+        .start-button {
+          @include button;
+          border-radius: 50px;
+          color: $color-white;
+          height: 40px;
+          font-weight: $font-bold-style;
+          width: 300px;
+          &:hover {
+            background-color: $button-hover;
+          }
+        }
+      }
+    }
+    /*Rules and highscore container*/
+    .center-text-highscore-container {
+      @include flex-center;
+      flex-direction: column;
+      padding: 30px;
+      gap: 50px;
+      .rules-text {
+        color: $color-white;
+        font-size: 1.2rem;
+        text-align: center;
+      }
+      /*Style heading and text inside highscore container*/
+      .list-highscore-container {
+        background-color: $background-highscore;
+        font-family: $font-secondary;
+        width: 50%;
+        border-radius: 50px;
+        color: $color-white;
+        list-style-type: none;
+        line-height: 50px;
+        font-size: 1.5rem;
+        .highscore-heading {
+          font-size: 1.5rem;
+          letter-spacing: 3px;
+          text-align: center;
+        }
+        .flex-highscore {
+          @include flex-page-highscore;
+          letter-spacing: 2px;
+          .list-split-one,
+          .list-split-two {
+            li {
+              list-style-type: none;
+              line-height: 50px;
+              font-size: 1.5rem;
+            }
+          }
+        }
+      }
+    }
+  }
   .question-section {
     width: 100%;
     @include flex-column-center;
@@ -64,101 +237,5 @@ main {
       $button-color 10%,
       $progress-bar-gray 10%
     );
-  }
-
-  /*Button styling*/
-  .intro-buttons {
-    @include button;
-    padding: 20px;
-    color: $color-white;
-    border-radius: 50px;
-    height: 60px;
-    font-weight: $font-bold-style;
-    width: 200px;
-  }
-  .start-button {
-    @include button;
-    border-radius: 50px;
-    color: $color-white;
-    height: 80px;
-    font-weight: $font-bold-style;
-    width: 300px;
-  }
-  /* Input field intro*/
-  .name-input {
-    @include button;
-    border-radius: 50px;
-    height: 60px;
-    font-weight: $font-bold-style;
-    width: 300px;
-  }
-  .name-input-text {
-    width: 300px;
-    padding: 10px;
-    font-size: 1rem;
-    text-align: center;
-    color: $color-white;
-  }
-  .name-input-text::placeholder {
-    color: $color-white; /* White placeholder text color */
-  }
-  /* Heading and rules*/
-  .intro-heading {
-    font-family: $font-secondary;
-    font-size: 1.5rem;
-    letter-spacing: 3px;
-    text-align: center;
-  }
-  .rules-text {
-    color: $color-white;
-    font-size: 1.2rem;
-    text-align: center;
-  }
-  /*Rules and highscore container*/
-  .center-text-highscore-container {
-    @include flex-center;
-    flex-direction: column;
-    padding: 30px;
-    gap: 50px;
-  }
-  /*List highscore container */
-  .list-highscore-container {
-    background-color: $background-highscore;
-    border-radius: 60px;
-    color: $color-white;
-    font-family: $font-secondary;
-    padding: 30px;
-    width: 50%;
-  }
-
-  /*Style heading and text inside highscore container*/
-  .list-highscore-container li {
-    list-style-type: none;
-    line-height: 50px;
-    font-size: 1.5rem;
-  }
-  .highscore-heading {
-    font-size: 1.5rem;
-    letter-spacing: 3px;
-    text-align: center;
-  }
-
-  .flex-highscore {
-    @include flex-page-highscore;
-    letter-spacing: 2px;
-  }
-
-  .start-button:hover {
-    background-color: $button-hover;
-  }
-  .intro-buttons:hover {
-    background-color: $button-hover;
-  }
-  .button-container,
-  .flex-container-intro {
-    @include flex-center;
-    padding: 20px;
-    flex-direction: column;
-    gap: 20px;
   }
 }
