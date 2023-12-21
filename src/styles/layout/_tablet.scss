@@ -1,5 +1,15 @@
 main {
   max-width: 800px;
+  .start-section {
+    .intro-heading {
+      font-size: 1.5rem;
+    }
+    .center-text-highscore-container {
+      .list-highscore-container {
+        width: 50%;
+      }
+    }
+  }
   .question-section {
     gap: 85px;
     .question-container {

@@ -3,6 +3,10 @@
   justify-content: space-between;
   align-items: center;
 }
+@mixin flex-page-highscore {
+  display: flex;
+  justify-content: space-evenly;
+}
 
 @mixin flex-center {
   display: flex;
@@ -20,7 +24,6 @@
 @mixin button {
   background-color: $button-color;
   padding: 8px;
-  border-radius: 8px;
   border-style: none;
   cursor: pointer;
 }

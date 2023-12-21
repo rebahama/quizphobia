@@ -24,7 +24,7 @@ let score = 0;
 
 function getPointsForAnsweringQuestion(
   answerTime: number,
-  wrongAnswer: boolean
+  wrongAnswer: boolean,
 ): number {
   if (wrongAnswer) {
     score -= 30;
@@ -51,3 +51,4 @@ getPointsForAnsweringQuestion(answerTime, wrongAnswer); // passing the answerTim
 /******************************************************
  * ************ Eventlisteners ****************************
  *****************************************************/
+
