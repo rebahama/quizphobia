@@ -46,34 +46,33 @@ main {
 }
 //---Quiz finished
 .quiz-finished {
-   display: flex;
-   flex-wrap: wrap;
-   justify-content: space-around;
-   flex-direction: row; 
-   font-size: 1.5rem;
-   .your-score-box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  flex-direction: row;
+  font-size: 1.5rem;
+  .your-score-box {
     width: 400px;
     height: 450px;
     p {
-        padding-top: 100px;
+      padding-top: 100px;
     }
-   }
-   .high-score-box {
+  }
+  .high-score-box {
     width: 400px;
     height: 450px;
     .high-score-list {
-        margin: 40px;
-        flex-direction: column;
-        flex-wrap: nowrap;
+      margin: 40px;
+      flex-direction: column;
+      flex-wrap: nowrap;
     }
-   }
-   .finished-buttons-box {
+  }
+  .finished-buttons-box {
     flex-direction: row;
     width: 500px;
     gap: 50px;
     .button {
-        width: 150px;
-        
+      width: 150px;
     }
-   }
+  }
 }
