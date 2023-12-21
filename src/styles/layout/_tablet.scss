@@ -43,4 +43,37 @@ main {
     max-width: 500px;
     height: 36px;
   }
+  .quiz-finished {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    flex-direction: row;
+    font-size: 1.5rem;
+    .your-score-box {
+      width: 350px;
+      height: 400px;
+      p {
+        padding-top: 100px;
+      }
+    }
+    .high-score-box {
+      width: 350px;
+      height: 400px;
+      h2 {
+        padding-top: 15px;
+      }
+      .high-score-list {
+        margin-left: 40px;
+        flex-direction: column;
+        flex-wrap: nowrap;
+      }
+    }
+    .finished-buttons-box {
+      flex-direction: row;
+      width: 500px;
+      gap: 50px;
+    }
+  }
 }
+
+

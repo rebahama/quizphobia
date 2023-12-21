@@ -68,4 +68,27 @@ main {
     height: 40px;
     max-width: 700px;
   }
+  .quiz-finished {
+    font-size: 2rem;
+    .your-score-box {
+      width: 500px;
+      height: 550px;
+      p {
+        padding-top: 150px;
+      }
+    }
+    .high-score-box {
+      width: 500px;
+      height: 550px;
+      h2 {
+        padding-top: 25px;
+      }
+      .high-score-list {
+        margin: 50px;
+      }
+    }
+    .finished-buttons-box {
+      width: 700px;
+    }
+  }
 }

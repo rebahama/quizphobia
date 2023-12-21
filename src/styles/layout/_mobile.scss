@@ -238,4 +238,63 @@ main {
       $progress-bar-gray 10%
     );
   }
+  //---Quiz finished
+  .quiz-finished {
+    background-color: $background-primary;
+    @include flex-center;
+    flex-direction: column;
+    font-family: $font-secondary;
+    color: white;
+    padding-top: 30px;
+    gap: 30px;
+    .your-score-box {
+      background-color: $background-highscore;
+      width: 300px;
+      height: 250px;
+      text-align: center;
+      box-shadow:
+        0 8px 16px 0 rgba(0, 0, 0, 0.2),
+        0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      p {
+        padding-top: 70px;
+      }
+    }
+    .high-score-box {
+      background-color: $background-highscore;
+      width: 300px;
+      height: 250px;
+      text-align: center;
+      box-shadow:
+        0 8px 16px 0 rgba(0, 0, 0, 0.2),
+        0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      h2 {
+        letter-spacing: 3px;
+        padding-top: 10px;
+      }
+      .high-score-list {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0;
+        margin-left: 15px;
+        .list-right {
+          flex: 50%;
+        }
+        .list-left {
+          flex: 50%;
+        }
+      }
+    }
+    .finished-buttons-box {
+      @include flex-between;
+      flex-direction: column;
+      gap: 15px;
+      .button {
+        @include button;
+        color: white;
+        &:hover {
+          background-color: $button-hover;
+        }
+      }
+    }
+  }
 }
