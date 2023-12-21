@@ -1,6 +1,6 @@
 export interface IQuestionObject {
     id: number,
     question: string,
-    answers: [],
+    answers: string[],
     correct_answer: string
 };
