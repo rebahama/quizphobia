@@ -1,6 +1,6 @@
 import './styles/style.scss'; // Importera huvud-SCSS-filen
 import array from './json/quiz.json'; // Importing json file to array for using to randomize questions.
-import type { IQuestionObject } from './assets/utils/types.ts'; // importing interface 
+import type { IQuestionObject } from './assets/utils/types.ts'; // importing interface
 
 /******************************************************
  * ************ Variables ****************************
@@ -8,16 +8,11 @@ import type { IQuestionObject } from './assets/utils/types.ts'; // importing int
 
 /*                      const                    */
 
-const answerTime = 5;    // - Variable to use for the time it takes for user to answer question 
+const answerTime = 5; // - Variable to use for the time it takes for user to answer question
 const wrongAnswer = false; //  - Boolean to use for wrong answer
-const questionArray: IQuestionObject[] = [];  // array with interface to put random questions in.
+const questionArray: IQuestionObject[] = []; // array with interface to put random questions in.
 
 console.log(questionArray);
-
-
-=======
-const answerTime = 5; // - Variable to use for the time it takes for user to answer question
-const wrongAnswer = true; //  - Boolean to use for wrong answer
 
 /*                      let                      */
 
@@ -52,9 +47,6 @@ function getPointsForAnsweringQuestion(
 
 console.log(score);
 getPointsForAnsweringQuestion(answerTime, wrongAnswer); // passing the answerTime for each question as an argument
-
-
-
 
 /******************************************************
  * ************ Eventlisteners ****************************
