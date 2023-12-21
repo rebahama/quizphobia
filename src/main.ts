@@ -1,51 +1,54 @@
-import './scss/style.scss'; // Importera huvud-SCSS-filen
-import typescriptLogo from './assets/images/typescript.svg'; // Exempel på hur ni importerar bilder
-import { sortArrayByText } from './assets/utils/helpers'; // Exempel på hur ni importerar en funktion från en annan fil
+import './styles/style.scss'; // Importera huvud-SCSS-filen
+import array from './json/quiz.json'; // Importing json file to array for using to randomize questions.
+import type { IQuestionObject } from './assets/utils/types.ts'; // importing interface
 
-/**
- * Här definierar vi en mall för hur vi vill att vår array ska se ut.
- * Ett så kallat "interface".
- * Den är för att garantera att ALLA objekt i vår array har samtliga egenskaper.
- * Prova t.ex. att lägga till en egenskap i interfacet, och notera hur arrayen nedanför
- * får rödmarkeringar där denna egenskap saknas.
- */
-interface IExampleArray {
-  name: string;
-  age: number;
+/******************************************************
+ * ************ Variables ****************************
+ *****************************************************/
+
+/*                      const                    */
+
+const answerTime = 5; // - Variable to use for the time it takes for user to answer question
+const wrongAnswer = false; //  - Boolean to use for wrong answer
+const questionArray: IQuestionObject[] = []; // array with interface to put random questions in.
+
+console.log(questionArray);
+
+/*                      let                      */
+
+let score = 0;
+
+/******************************************************
+ * ************ Functions ****************************
+ *****************************************************/
+
+function getPointsForAnsweringQuestion(
+  answerTime: number,
+  wrongAnswer: boolean,
+): number {
+  if (wrongAnswer) {
+    score -= 30;
+    console.log(score);
+  } else if (answerTime < 5) {
+    score = score + 150;
+    console.log(score);
+  } else if (answerTime < 10) {
+    score += 125;
+    console.log(score);
+  } else if (answerTime < 15) {
+    score += 100;
+    console.log(score);
+  } else {
+    score += 50;
+    console.log(score);
+  }
+  return score;
 }
 
-// Här skriver vi att vår array med namnet myExampleArray ska följa reglerna (interfacet)
-// i IExampleArray och att det är en array genom att vi sätter [] efter
-const myExampleArray: IExampleArray[] = [
-  {
-    name: 'Hans',
-    age: 25,
-  },
-  {
-    name: 'Greta',
-    age: 30,
-  },
-  {
-    name: 'Häxan',
-    age: 87,
-  },
-];
+console.log(score);
+getPointsForAnsweringQuestion(answerTime, wrongAnswer); // passing the answerTime for each question as an argument
 
-// Skriv ut den sorterade arrayen i konsolen, använd en importerad funktion
-console.table(sortArrayByText(myExampleArray, 'name'));
+/******************************************************
+ * ************ Eventlisteners ****************************
+ *****************************************************/
 
-// Använd samma funktion för att sortera på en annan egenskap
-console.table(sortArrayByText(myExampleArray, 'age'));
-
-// Hämta ett HTML-element från index.html
-const container: HTMLDivElement | null = document.querySelector('#app');
-
-if (container !== null) { // Om HTML-elementet finns
-  container.innerHTML = `
-    <div>
-      <h1>Hello FED23D!</h1>
-      <img src="${typescriptLogo}" loading="lazy" width="32" height="32"
-        alt="Blå bakgrund, vita bokstäver ovanpå med texten TS">
-    </div>
-  `;
-}
