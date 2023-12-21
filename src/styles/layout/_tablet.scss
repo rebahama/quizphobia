@@ -1,22 +1,4 @@
-nav {
-    background-color: #006466;
-    color: #ffffff;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 16px;
-    padding-left: 10px;
-}
-
-.score_container {
-    display: flex;
-    align-items: center;
-    background-color: white;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    padding-right: 10px;
-}main {
+main {
   max-width: 800px;
   .question-section {
     gap: 85px;
