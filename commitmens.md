@@ -1,4 +1,3 @@
-
 # Gruppkontrakt
 
 1. Kamera på/av - Frivilligt - Föredrar kamera
@@ -6,9 +5,9 @@
 3. Arbetstider - Första hand Dagtid. vb. övriga tider.
 4. Arbetsmetoder - Blandat, delar upp i issues i små delar. Stöttar varandra vid behov.
 5. Förhinder - Främst genom discord.
-6. Deltagande/inspiration - vid dåligt deltagande, kontakta personen i fråga, sekundärt går till jenni. 
-   Var ärlig och öppen.    
-   Jobbar du snabbt - Hör med gruppkamraterna om dem behöver hjälp/jobba med projektet lokalt för att ge plats.   
+6. Deltagande/inspiration - vid dåligt deltagande, kontakta personen i fråga, sekundärt går till jenni.
+   Var ärlig och öppen.
+   Jobbar du snabbt - Hör med gruppkamraterna om dem behöver hjälp/jobba med projektet lokalt för att ge plats.
 7. Respektfullt, mycket feedback, öppen dialog.
 8. VG   
 9. Blandat  
@@ -25,19 +24,18 @@
 15. Hantera att göra listan - Följa flödet, Ha två 'issues' åt gången på sitt bord. Assigna issues till sig själv.    
 16. Sätta upp tidplan när agilt projektarbete drar igång. 
 17. Skriv självförklarande kod, annars kommentarer.
-    Dokumentation vid funktioner som är mer komplicerade. 
-    Följ logik i programmet. 
-    Namnge funktioner : 
+    Dokumentation vid funktioner som är mer komplicerade.
+    Följ logik i programmet.
+    Namnge funktioner :
     funktioner som retunerar : get..
     funktioner boolean : is..
     funktioner toggle: toggle..
 
-  Skriva på engelska. 
+Skriva på engelska.
 
 ## Underskrivet av
+
 @CeciliaL1
 @Annika-Nyholm
 @Marcusey
-
-
-
+@Matthias-Nilsson
