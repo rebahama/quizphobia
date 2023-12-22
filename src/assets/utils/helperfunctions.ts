@@ -1,10 +1,10 @@
 import type { IStoredUserType } from './types';
 
 /**
- * getter function that returns arrayOfObjects from localStorage
- * @param arrayOfOjbects arrayOfObjects as declared in localStorage
- * @param storageName name that has been giving to the array
- * @returns
+ * getter function that returns an array of objects from localStorage after parsing the stored data
+ * @param arrayOfOjbects array of objects as declared in localStorage
+ * @param storageName stored name given to the stored array
+ * @returns array of objects
  */
 export function getArrayOfObjectsFromLocalStorage(
   arrayOfOjbects: IStoredUserType[],
