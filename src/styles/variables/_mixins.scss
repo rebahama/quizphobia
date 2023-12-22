@@ -3,6 +3,10 @@
   justify-content: space-between;
   align-items: center;
 }
+@mixin flex-page-highscore {
+  display: flex;
+  justify-content: space-evenly;
+}
 
 @mixin flex-center {
   display: flex;
@@ -19,8 +23,9 @@
 //---adjust when design is set
 @mixin button {
   background-color: $button-color;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
   padding: 8px;
-  border-radius: 8px;
+  border-radius: 50px;
   border-style: none;
   cursor: pointer;
 }

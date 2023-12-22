@@ -1,5 +1,44 @@
 main {
   max-width: 1110px;
+  .start-section {
+    .intro-heading {
+      font-size: 2rem;
+    }
+    .button-container,
+    .flex-container-intro {
+      @include flex-center;
+      padding: 20px;
+      gap: 20px;
+      flex-wrap: wrap;
+      flex-direction: row;
+    }
+    .center-text-highscore-container {
+      width: 100%;
+      flex-direction: row;
+      padding: 30px;
+      .rules-text {
+        font-size: 1.5rem;
+        width: 50%;
+      }
+      .list-highscore-container {
+        .highscore-heading {
+          font-size: 2rem;
+        }
+      }
+    }
+    .start-container {
+      .button-container {
+        flex-direction: row;
+      }
+      .flex-container-intro {
+        flex-direction: row;
+        .start-button {
+          height: 60px;
+        }
+      }
+    }
+  }
+
   .question-section {
     gap: 100px;
     .question-container {
@@ -28,5 +67,28 @@ main {
     width: 80%;
     height: 40px;
     max-width: 700px;
+  }
+  .quiz-finished {
+    font-size: 2rem;
+    .your-score-box {
+      width: 500px;
+      height: 550px;
+      p {
+        padding-top: 150px;
+      }
+    }
+    .high-score-box {
+      width: 500px;
+      height: 550px;
+      h2 {
+        padding-top: 25px;
+      }
+      .high-score-list {
+        margin: 50px;
+      }
+    }
+    .finished-buttons-box {
+      width: 700px;
+    }
   }
 }
