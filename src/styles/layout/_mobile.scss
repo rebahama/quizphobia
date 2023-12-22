@@ -22,7 +22,7 @@ body {
   font-size: 1rem;
   padding-left: 10px;
   padding-right: 10px;
-/* Utkommenterat i index.html i väntan på klarhet om symbol
+  /* Utkommenterat i index.html i väntan på klarhet om symbol
      .score-container {
     background-color: white;
     border-radius: 50%;
@@ -337,18 +337,20 @@ main {
       }
 
       .high-score-list {
-        display: flex;
-        flex-wrap: wrap;
+        @include flex-page-highscore;
         padding: 0;
-        margin-left: 15px;
 
+        .list-left,
         .list-right {
-          flex: 50%;
+          li {
+            list-style-type: none;
+            line-height: 30px;
+            font-size: 1.5rem;
+            text-align: left;
+          }
         }
 
-        .list-left {
-          flex: 50%;
-        }
+
       }
     }
 
