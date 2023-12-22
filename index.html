@@ -2,9 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link
-      rel="icon"
-      href="src/assets/images/shy-face-svgrepo-com.svg"/>
+    <link rel="icon" href="src/assets/images/shy-face-svgrepo-com.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -20,7 +18,10 @@
       content="Phobia Quiz: Test Your Knowledge On Unusual Phobias!"
     />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://medieinstitutet.github.io/fed23d-javascript-grundkurs-gruppuppgift-tangerinerna/"/>
+    <meta
+      property="og:url"
+      content="https://medieinstitutet.github.io/fed23d-javascript-grundkurs-gruppuppgift-tangerinerna/"
+    />
     <meta
       property="og:description"
       content="Phobia Quiz: Test your knowledge on unusal phobias in this interactive web app.
@@ -47,72 +48,73 @@
   </head>
 
   <body>
-
     <header>
       <section class="top-banner">
         <h2>Trivia</h2>
-          <div class="question-number">1/10</div><!-- ersätt '1/10' med js -->
-          <div class="time-clock">Tiden</div><!-- ersätt 'tiden' med js -->
-          <div class="current-score">Poäng</div><!-- ersätt 'poängen' med js -->
-<!--           <div class="score-container"></div> Byt ut mot star.png framför score, alternativt lägg in en img bakom scorefunktionen i js -->
-        </section>
+        <div class="question-number">1/10</div>
+        <!-- ersätt '1/10' med js -->
+        <div class="time-clock">Tiden</div>
+        <!-- ersätt 'tiden' med js -->
+        <div class="current-score">Poäng</div>
+        <!-- ersätt 'poängen' med js -->
+        <!--           <div class="score-container"></div> Byt ut mot star.png framför score, alternativt lägg in en img bakom scorefunktionen i js -->
+      </section>
     </header>
-
 
     <main>
       <section class="start-section" id="startSection">
         <h1 class="intro-heading">
           Welcome to the quiz about scary and unusual phobias
         </h1>
-        <div class="start-container"> 
+        <div class="start-container">
           <div class="button-container" id="buttonContainer">
             <button class="intro-buttons">Player 1</button>
             <button class="intro-buttons">Player 2</button>
             <button class="intro-buttons">Player 3</button>
           </div>
-            <div class="flex-container-intro">
-              <input
-                type="text"
-                id="name"
-                name="name"
-                placeholder="Or choose your name"
-                class="name-input name-input-text"
-              />
-              <button class="start-button">Start quiz</button>
-            </div>
+          <div class="flex-container-intro">
+            <input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Or choose your name"
+              class="name-input name-input-text"
+            />
+            <button class="start-button">Start quiz</button>
           </div>
         </div>
         <div class="center-text-highscore-container">
           <p class="rules-text">
-            <span>Rules to play: <br></span>
-            You'll get one question and four answers. <br>
-            The faster you get the right answer, the more points you'll get.<br>
-            If you choose the wrong answer you'll get minus points <br>
+            <span>Rules to play: <br /></span>
+            You'll get one question and four answers. <br />
+            The faster you get the right answer, the more points you'll get.<br />
+            If you choose the wrong answer you'll get minus points <br />
             Will you make it to the Highscore list?
           </p>
 
-          <ul class="list-highscore-container">
+          <div class="list-highscore-container">
             <p class="highscore-heading">Highscore</p>
+
             <div class="list-score-output flex-highscore">
-              <div class="list-split-one">
+              <ul class="list-split-one">
                 <li>1. test</li>
                 <li>2.</li>
                 <li>3.</li>
                 <li>4.</li>
                 <li>5.</li>
-              </div>
-              <div class="list-split-two">
+              </ul>
+              <ul class="list-split-two">
                 <li>6.</li>
                 <li>7.</li>
                 <li>8.</li>
                 <li>9.</li>
                 <li>10.</li>
-              </div>
+              </ul>
             </div>
-          </ul>
+          </div>
         </div>
       </section>
-      
+
       <section class="question-section" id="questionSection">
         <div class="question-container">
           <div>
@@ -128,7 +130,7 @@
         </div>
         <div class="progress-bar" id="progressBar"></div>
       </section>
-      
+
       <section class="quiz-finished" id="quizFinished">
         <div class="your-score-box">
           <p>Your score <span>16/25p</span></p>
@@ -136,22 +138,22 @@
         </div>
         <div class="high-score-box">
           <h2>Highscore</h2>
-          <ol class="high-score-list" id="highScoreList">
-            <div class="list-left">
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-            </div>
-            <div class="list-right">
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-            </div>
-          </ol>
+          <div class="high-score-list" id="highScoreList">
+            <ul class="list-left">
+              <li>1. Julskum</li>
+              <li>2.</li>
+              <li>3.</li>
+              <li>4.</li>
+              <li>5.</li>
+            </ul>
+            <ul class="list-right">
+              <li>6.</li>
+              <li>7.</li>
+              <li>8.</li>
+              <li>9.</li>
+              <li>10.</li>
+            </ul>
+          </div>
         </div>
         <div class="finished-buttons-box">
           <button class="button" id="mainMenuButton">main menu</button>
