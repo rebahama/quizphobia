@@ -1,9 +1,11 @@
 main {
   max-width: 1110px;
+
   .start-section {
     .intro-heading {
       font-size: 2rem;
     }
+
     .button-container,
     .flex-container-intro {
       @include flex-center;
@@ -12,26 +14,36 @@ main {
       flex-wrap: wrap;
       flex-direction: row;
     }
+
     .center-text-highscore-container {
       width: 100%;
       flex-direction: row;
       padding: 30px;
+
       .rules-text {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         width: 50%;
+
+        span {
+          font-size: 1.5rem;
+        }
       }
+
       .list-highscore-container {
         .highscore-heading {
           font-size: 2rem;
         }
       }
     }
+
     .start-container {
       .button-container {
         flex-direction: row;
       }
+
       .flex-container-intro {
         flex-direction: row;
+
         .start-button {
           height: 60px;
         }
@@ -41,20 +53,25 @@ main {
 
   .question-section {
     gap: 100px;
+
     .question-container {
       gap: 80px;
+
       div {
         h2 {
           font-size: 3rem;
         }
+
         p {
           font-size: 2rem;
           line-height: 125%;
         }
       }
+
       ul {
         row-gap: 50px;
         column-gap: 30px;
+
         li {
           border-radius: 50px;
           height: 80px;
@@ -63,30 +80,38 @@ main {
       }
     }
   }
+
   .progress-bar {
     width: 80%;
     height: 40px;
     max-width: 700px;
   }
+
   .quiz-finished {
     font-size: 2rem;
+
     .your-score-box {
       width: 500px;
       height: 550px;
+
       p {
         padding-top: 150px;
       }
     }
+
     .high-score-box {
       width: 500px;
       height: 550px;
+
       h2 {
         padding-top: 25px;
       }
+
       .high-score-list {
         margin: 50px;
       }
     }
+
     .finished-buttons-box {
       width: 700px;
     }
