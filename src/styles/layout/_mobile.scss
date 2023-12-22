@@ -2,21 +2,25 @@
   background-color: #006466;
   color: white;
   display: flex;
-  width: 100%;
+  width: 100vw;
   justify-content: space-between;
   align-items: center;
   font-size: 1rem;
   padding-left: 10px;
-    .score-container {
+  padding-right: 10px;
+/* Utkommenterat i index.html i väntan på klarhet om symbol
+     .score-container {
     background-color: white;
     border-radius: 50%;
     width: 40px;
     height: 40px;
     padding-right: 10px;
-  }
+  } */
 }
 
 body {
+  align-items: center;
+  flex-direction: column;
   font-family: $font-primary;
   background: $background-primary;
   display: flex;
