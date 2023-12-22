@@ -34,22 +34,35 @@ console.log('selectedUser: ', selectedUser);
  * ************ Functions ****************************
  *****************************************************/
 
-function doesUserExistInArray(users: IStoredUserType[], username: string | null): boolean {
+/**
+ * Function for checking if an user already exist in an array using the some array method
+ * @param users existing users (array of objects) in interface type IStoredUserType[]
+ * @param userName userName of type string
+ * @returns boolean if the userName string is the same as the string in the stored users
+ */
+function doesUserExistInArray(users: IStoredUserType[], userName: string | null): boolean {
   return users.some(userObject => {
+    // if userObject.user does not exist in this array return false
     if (userObject.user === null) {
       return false;
     }
-    return userObject.user.toLowerCase() === username?.toLowerCase();
+    // return a boolean where we are checking if the selected user corresponds to the userObject user string;
+    return userObject.user.toLowerCase() === userName?.toLowerCase();
   });
 }
 
+/**
+ * Adds user to local storage
+ * @param userName userName of type string
+ * @returns void
+ */
 function addUserToLocaleStorage(userName: string | null): void {
   const existingUsers = getArrayOfObjectsFromLocalStorage(storedUsers, 'users');
   // type checking if userName is null or if the user already exists in array, if so return
   if (userName === null || doesUserExistInArray(existingUsers, userName)) {
     return;
   }
-  // create new user object
+  // create an object for the newUser
   const newUser = {
     id: existingUsers.length,
     user: userName,
