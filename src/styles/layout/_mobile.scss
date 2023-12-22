@@ -12,6 +12,7 @@ body {
 main {
   @include flex-column-center;
   width: 100%;
+
   .start-section {
     .intro-heading {
       font-family: $font-secondary;
@@ -19,7 +20,9 @@ main {
       letter-spacing: 3px;
       text-align: center;
     }
+
     .start-container {
+
       .button-container,
       .flex-container-intro {
         @include flex-center;
@@ -48,6 +51,7 @@ main {
             font-weight: $font-bold-style;
             width: 300px;
           }
+
           &.name-input-text {
             width: 300px;
             padding: 10px;
@@ -55,8 +59,10 @@ main {
             text-align: center;
             color: $color-white;
           }
+
           &::placeholder {
-            color: $color-white; /* Black placeholder text color */
+            color: $color-white;
+            /* Black placeholder text color */
           }
         }
 
@@ -71,7 +77,9 @@ main {
       }
     }
   }
+
   .start-section {
+
     /* Heading and rules*/
     .intro-heading {
       font-family: $font-secondary;
@@ -79,7 +87,9 @@ main {
       letter-spacing: 3px;
       text-align: center;
     }
+
     .start-container {
+
       .button-container,
       .flex-container-intro {
         @include flex-center;
@@ -89,6 +99,7 @@ main {
       }
 
       .button-container {
+
         /*Button styling*/
         .intro-buttons {
           @include button;
@@ -97,6 +108,7 @@ main {
           height: 60px;
           font-weight: $font-bold-style;
           width: 200px;
+
           &:hover {
             background-color: $button-hover;
           }
@@ -105,6 +117,7 @@ main {
 
       .flex-container-intro {
         input {
+
           /* Input field intro*/
           &.name-input {
             @include button;
@@ -113,6 +126,7 @@ main {
             font-weight: $font-bold-style;
             width: 300px;
           }
+
           &.name-input-text {
             width: 300px;
             padding: 10px;
@@ -120,13 +134,17 @@ main {
             text-align: center;
             color: $color-white;
           }
+
           &::placeholder {
-            color: $color-white; /* White placeholder text color */
+            color: $color-white;
+            /* White placeholder text color */
           }
         }
+
         .name-input {
           height: 40px;
         }
+
         .start-button {
           @include button;
           border-radius: 50px;
@@ -134,23 +152,31 @@ main {
           height: 40px;
           font-weight: $font-bold-style;
           width: 300px;
+
           &:hover {
             background-color: $button-hover;
           }
         }
       }
     }
+
     /*Rules and highscore container*/
     .center-text-highscore-container {
       @include flex-center;
       flex-direction: column;
       padding: 30px;
       gap: 50px;
+
       .rules-text {
         color: $color-white;
-        font-size: 1.2rem;
+        font-size: 1rem;
         text-align: center;
+
+        span {
+          font-size: 1.2rem;
+        }
       }
+
       /*Style heading and text inside highscore container*/
       .list-highscore-container {
         background-color: $background-highscore;
@@ -161,14 +187,17 @@ main {
         list-style-type: none;
         line-height: 50px;
         font-size: 1.5rem;
+
         .highscore-heading {
           font-size: 1.5rem;
           letter-spacing: 3px;
           text-align: center;
         }
+
         .flex-highscore {
           @include flex-page-highscore;
           letter-spacing: 2px;
+
           .list-split-one,
           .list-split-two {
             li {
@@ -181,10 +210,12 @@ main {
       }
     }
   }
+
   .question-section {
     width: 100%;
     @include flex-column-center;
     gap: 30px;
+
     .question-container {
       width: 100%;
       color: white;
@@ -192,26 +223,31 @@ main {
       flex-direction: column;
       @include flex-column-center;
       gap: 20px;
+
       div {
         width: 100%;
         @include flex-column-center;
         gap: 15px;
+
         h2 {
           color: black;
           font-family: $font-secondary;
           font-size: 1.5rem;
           letter-spacing: 3px;
         }
+
         p {
           width: 80%;
           text-align: center;
         }
       }
+
       ul {
         list-style: none;
         @include flex-column-center;
         gap: 15px;
         width: 80%;
+
         li {
           width: 100%;
           max-width: 400px;
@@ -220,6 +256,7 @@ main {
           @include flex-center;
           background: $button-color;
           cursor: pointer;
+
           &:hover {
             background: $button-hover;
           }
@@ -227,17 +264,17 @@ main {
       }
     }
   }
+
   .progress-bar {
     width: 60%;
     max-width: 350px;
     height: 24px;
     border-radius: 20px;
-    background: linear-gradient(
-      to right,
-      $button-color 10%,
-      $progress-bar-gray 10%
-    );
+    background: linear-gradient(to right,
+        $button-color 10%,
+        $progress-bar-gray 10%);
   }
+
   //---Quiz finished
   .quiz-finished {
     background-color: $background-primary;
@@ -247,6 +284,7 @@ main {
     color: white;
     padding-top: 30px;
     gap: 30px;
+
     .your-score-box {
       background-color: $background-highscore;
       width: 300px;
@@ -255,10 +293,12 @@ main {
       box-shadow:
         0 8px 16px 0 rgba(0, 0, 0, 0.2),
         0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
       p {
         padding-top: 70px;
       }
     }
+
     .high-score-box {
       background-color: $background-highscore;
       width: 300px;
@@ -267,30 +307,37 @@ main {
       box-shadow:
         0 8px 16px 0 rgba(0, 0, 0, 0.2),
         0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
       h2 {
         letter-spacing: 3px;
         padding-top: 10px;
       }
+
       .high-score-list {
         display: flex;
         flex-wrap: wrap;
         padding: 0;
         margin-left: 15px;
+
         .list-right {
           flex: 50%;
         }
+
         .list-left {
           flex: 50%;
         }
       }
     }
+
     .finished-buttons-box {
       @include flex-between;
       flex-direction: column;
       gap: 15px;
+
       .button {
         @include button;
         color: white;
+
         &:hover {
           background-color: $button-hover;
         }
