@@ -44,7 +44,7 @@
   </head>
 
   <body>
-    <header>
+    <header role="banner"> 
       <section class="top-banner">
         <h2>Trivia</h2>
         <div class="question-number">1/10</div>
@@ -57,7 +57,7 @@
       </section>
     </header>
 
-    <main>
+    <main role="main">
       <section class="start-section" id="startSection">
         <h1 class="intro-heading">Welcome to the quiz about scary and unusual phobias</h1>
         <div class="start-container">
@@ -74,7 +74,7 @@
               placeholder="Or choose your name"
               class="name-input name-input-text"
             />
-            <button class="start-button" id="startButton">Start quiz</button>
+            <button class="start-button" id="startButton" aria-label="start">Start quiz</button>
           </div>
         </div>
         <div class="center-text-highscore-container">
@@ -86,7 +86,7 @@
             Will you make it to the Highscore list?
           </p>
 
-          <div class="list-highscore-container">
+          <div class="list-highscore-container" role="highscores">
             <p class="highscore-heading">Highscore</p>
 
             <div class="list-score-output flex-highscore">
@@ -109,7 +109,7 @@
         </div>
       </section>
 
-      <section class="question-section" id="questionSection">
+      <section class="question-section" id="questionSection" role="questions">
         <div class="question-container">
           <div>
             <h2>Question</h2>
@@ -149,9 +149,9 @@
             </ul>
           </div>
         </div>
-        <div class="finished-buttons-box">
-          <button class="button" id="mainMenuButton">main menu</button>
-          <button class="button" id="restartQuizButton">restart quiz</button>
+        <div class="finished-buttons-box" role="finished">
+          <button class="button" id="mainMenuButton" aria-label="main menu">main menu</button>
+          <button class="button" id="restartQuizButton" aria-label="restart">restart quiz</button>
         </div>
       </section>
     </main>
