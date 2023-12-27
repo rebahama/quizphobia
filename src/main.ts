@@ -27,12 +27,20 @@ let storedUsers: IStoredUserType[];
 const selectedUser: string | null = 'Matthias'; // placeholder for now to handle logic
 let score = 0;
 
-let clearTime;
-let seconds = 0;
-let minutes = 0;
-let secs;
-let mins;
 
+//  Variables for mainInterval  
+let clearTimeMainInterval;
+let clearTimeQuestionInterval: number;
+let mainSeconds = 0;
+let mainMinutes = 0;
+let mainSecs;
+let mainMins;
+
+//  variables for questionInterval
+let questionSeconds = 0;
+let questionMinutes = 0;
+let questionSecs;
+let questionMins;
 
 console.log('originalArray: ', array);
 console.log('questionArray: ', questionArray);
@@ -99,22 +107,29 @@ function setMainInterval(): void {
     return;
   }
 
-  if (seconds === 60) {
-    seconds = 0;
-    minutes = minutes + 1;
+  if (mainSeconds === 60) { // if seconds reach 60 - add 1 to mainMinutes
+    mainSeconds = 0;
+    mainMinutes = mainMinutes + 1;
   }
 
-  secs = seconds < 10 ? `0${seconds}` : seconds;
-  mins = minutes < 10 ? `0${minutes}:` : `${minutes}+:`;
+  mainSecs = mainSeconds < 10 ? `0${mainSeconds}` : mainSeconds;  
+  mainMins = mainMinutes < 10 ? `0${mainMinutes}:` : `${mainMinutes}+:`;
 
-  mainTimerContainer.innerHTML = mins + secs;
-  seconds ++;
+  mainTimerContainer.innerHTML = mainMins + mainSecs;
+  mainSeconds ++;
   
-  clearTime = setTimeout(setMainInterval, 1000);
+  clearTimeMainInterval = setTimeout(setMainInterval, 1000);
 }
 
-function setQuestionInterval():void {
+function setQuestionInterval(): void {
 
+  if (questionSeconds === 60) {
+    questionSeconds = 0;
+    questionMinutes = questionMinutes + 1;
+  }
+  questionSeconds ++;
+
+  clearTimeQuestionInterval = setTimeout(setQuestionInterval, 1000);
 }
 
 function getPointsForAnsweringQuestion(
@@ -149,14 +164,27 @@ getPointsForAnsweringQuestion(answerTime, wrongAnswer); // passing the answerTim
 
 startButton?.addEventListener('click', () => {
   addUserToLocalStorage(selectedUser);
-  setTimeout(setMainInterval, 1000);
+  setTimeout(setMainInterval, 1000); // mainInterval - clearInterval(clearTimeMainInterval) when quiz is done.
 });
 
-setTimeout(setQuestionInterval, 1000);
+
 console.log(startButton);
+
 /******************************************************
  * ************ Execution ****************************
  *****************************************************/
 
 const randomQuestions = getRandomQuestions(array, 10);
 console.log(randomQuestions);
+
+/**
+ * Timer for questionInterval.
+ *  - start timer witch each question, clear when answered clearInterval(clearTimeQuestionInterval)
+ *  - answerTime = questionSeconds;
+ *  - wrongAnswer (true/false)
+ * - call function getPointsForAnsweringQuestions(answerTime, wrongAnswer) 
+ *    - Send in parameters for answerTime and wronganswer
+ *  
+ * */
+ 
+setTimeout(setQuestionInterval, 1000); 
