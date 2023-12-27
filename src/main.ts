@@ -23,8 +23,8 @@ let score = 0;
  *****************************************************/
 
 function getRandomQuestions(jsonArray: IQuestionObject[], numQuestions: number): IQuestionObject[] {
-  const shuffledArray = [...jsonArray].sort(() => Math.random() - 0.5);
-  return shuffledArray.slice(0, numQuestions);
+  const questionArray = [...jsonArray].sort(() => Math.random() - 0.5);
+  return questionArray.slice(0, numQuestions);
 }
 
 function getPointsForAnsweringQuestion(
@@ -57,3 +57,9 @@ getPointsForAnsweringQuestion(answerTime, wrongAnswer); // passing the answerTim
  * ************ Eventlisteners ****************************
  *****************************************************/
 
+/******************************************************
+ * ************ Execution ****************************
+ *****************************************************/
+
+const randomQuestions = getRandomQuestions(array, 10);
+console.log(randomQuestions);
