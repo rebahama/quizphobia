@@ -9,6 +9,8 @@ import type { IQuestionObject, IStoredUserType } from './assets/utils/types.ts';
  *****************************************************/
 
 const startButton = document.querySelector('#startButton');
+const startContainer = document.querySelector('.start-container');
+const highScoreContainer = document.querySelector('.center-text-highscore-container');
 
 /******************************************************
  * ************ Variables ****************************
@@ -112,12 +114,22 @@ function getPointsForAnsweringQuestion(
 console.log('score:', score);
 getPointsForAnsweringQuestion(answerTime, wrongAnswer); // passing the answerTime for each question as an argument
 
+
+function removeAndHideSections (): void {
+  startContainer?.classList.add('hidden');
+  highScoreContainer?.classList.add('hidden');
+}
+
 /******************************************************
  * ************ Eventlisteners ****************************
  *****************************************************/
 
 startButton?.addEventListener('click', () => {
   addUserToLocalStorage(selectedUser);
+});
+
+startButton?.addEventListener('click', () => {
+  removeAndHideSections();
 });
 
 console.log(startButton);
