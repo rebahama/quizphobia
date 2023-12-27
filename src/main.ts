@@ -1,16 +1,21 @@
 import './styles/style.scss'; // Importera huvud-SCSS-filen
 import array from './json/quiz.json'; // Importing json file to array for using to randomize questions.
-import { getArrayOfObjectsFromLocalStorage, getRandomQuestions } from './assets/utils/helperfunctions.ts';
+import {
+  getArrayOfObjectsFromLocalStorage,
+  getRandomQuestions
+} from './assets/utils/helperfunctions.ts';
 import type { IQuestionObject, IStoredUserType } from './assets/utils/types.ts'; // importing interface
-
 
 /******************************************************
  * ************ Selectors ****************************
  *****************************************************/
 
+const userButtonsContainer = document.querySelector('#buttonContainer');
 const startButton = document.querySelector('#startButton');
 const startContainer = document.querySelector('.start-container');
 const highScoreContainer = document.querySelector('.center-text-highscore-container');
+
+console.log(userButtonsContainer);
 
 /******************************************************
  * ************ Variables ****************************
@@ -36,6 +41,33 @@ console.log('selectedUser: ', selectedUser);
  * ************ Functions ****************************
  *****************************************************/
 
+/**
+ *
+ * Generating existing users from local storage as HTML
+ * @param userButtonsContainer button container for users of type Element | null
+ * @returns void
+ */
+function generateExistingUsersInHTML(
+  userButtonsContainer: Element | null
+): void {
+  // get an array of existing users from localstorage with a helperfunction
+  const existingUsersArray = getArrayOfObjectsFromLocalStorage(
+    storedUsers,
+    'users'
+  );
+  // if there are not existing users in the array from localstorage exit the function
+  if (userButtonsContainer === null || !(existingUsersArray.length > 0)) {
+    return;
+  }
+  userButtonsContainer.innerHTML = '';
+  // creating and appending the existing users
+  existingUsersArray.forEach((user) => {
+    const userButton = document.createElement('button');
+    userButton.classList.add('intro-buttons');
+    userButton.textContent = user.user;
+    userButtonsContainer.append(userButton);
+  });
+}
 
 /**
  * Function for checking if an user already exist in an array using the some array method
@@ -124,6 +156,9 @@ function removeAndHideSections (): void {
  * ************ Eventlisteners ****************************
  *****************************************************/
 
+document.addEventListener('DOMContentLoaded', () => {
+  generateExistingUsersInHTML(userButtonsContainer);
+});
 startButton?.addEventListener('click', () => {
   addUserToLocalStorage(selectedUser);
 });
