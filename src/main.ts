@@ -22,6 +22,11 @@ let score = 0;
  * ************ Functions ****************************
  *****************************************************/
 
+function getRandomQuestions(jsonArray: IQuestionObject[], numQuestions: number): IQuestionObject[] {
+  const shuffledArray = [...jsonArray].sort(() => Math.random() - 0.5);
+  return shuffledArray.slice(0, numQuestions);
+}
+
 function getPointsForAnsweringQuestion(
   answerTime: number,
   wrongAnswer: boolean,
