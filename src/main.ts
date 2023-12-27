@@ -23,12 +23,12 @@ console.log(userButtonsContainer);
 
 const answerTime = 5; // - Variable to use for the time it takes for user to answer question
 const wrongAnswer = false; //  - Boolean to use for wrong answer
-const questionArray: IQuestionObject[] = []; // array with interface to put random questions in.
-/*                      let                      */
 
+let questionArray = getRandomQuestions(array, 10);
 let storedUsers: IStoredUserType[];
-/* let selectedUser: string | null = null; use this when logic for selectedUser is in place */
-const selectedUser: string | null = 'Matthias'; // placeholder for now to handle logic
+let selectedUser: string | null = null;
+let currentQuestionNumber = 0;
+let isAnswerCorrect = false;
 let score = 0;
 
 console.log('originalArray: ', array);
@@ -159,6 +159,3 @@ console.log(startButton);
 /******************************************************
  * ************ Execution ****************************
  *****************************************************/
-
-const randomQuestions = getRandomQuestions(array, 10);
-console.log(randomQuestions);
