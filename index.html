@@ -44,7 +44,7 @@
   </head>
 
   <body>
-    <header>
+    <header role="banner"> 
       <section class="top-banner">
         <h2>Trivia</h2>
         <div class="question-number">1/10</div>
@@ -57,7 +57,7 @@
       </section>
     </header>
 
-    <main>
+    <main role="main">
       <section class="start-section" id="startSection">
         <h1 class="intro-heading">Welcome to the quiz about scary and unusual phobias</h1>
         <div class="start-container">
@@ -73,8 +73,11 @@
               name="name"
               placeholder="Or choose your name"
               class="name-input name-input-text"
+              aria-label="Your name"
             />
-            <button class="start-button" id="startButton">Start quiz</button>
+            
+            <button class="start-button" id="startButton" aria-label="Start quiz" aria-describedby="startButtonDescription">Start quiz</button>
+            <span class="start-button-info" id="startButtonDescription">Click start button to begin the quiz and test your knowledge on unusual phobias.</span>
           </div>
         </div>
         <div class="center-text-highscore-container">
@@ -150,8 +153,8 @@
           </div>
         </div>
         <div class="finished-buttons-box">
-          <button class="button" id="mainMenuButton">main menu</button>
-          <button class="button" id="restartQuizButton">restart quiz</button>
+          <button class="button" id="mainMenuButton" aria-label="Return to the main menu">Main menu</button>
+          <button class="button" id="restartQuizButton" aria-label="Restart quiz">Restart quiz</button>
         </div>
       </section>
     </main>

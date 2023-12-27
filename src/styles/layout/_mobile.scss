@@ -40,6 +40,7 @@ main {
     .intro-heading {
       font-family: $font-secondary;
       font-size: 1.5rem;
+      color: $color-white;
       letter-spacing: 3px;
       text-align: center;
     }
@@ -63,6 +64,14 @@ main {
           font-weight: $font-bold-style;
           width: 200px;
         }
+
+        &:focus {
+          outline: 2px solid $color-red;
+          outline-offset: 2px;
+
+        }
+
+
       }
 
       .flex-container-intro {
@@ -85,7 +94,12 @@ main {
 
           &::placeholder {
             color: $color-white;
-            /* Black placeholder text color */
+          }
+
+          &:focus {
+            outline: 2px solid $color-red;
+            outline-offset: 2px;
+
           }
         }
 
@@ -96,6 +110,16 @@ main {
           height: 60px;
           font-weight: $font-bold-style;
           width: 300px;
+        }
+
+        .start-button-info {
+          color: $color-white;
+        }
+
+        button:focus,
+        input:focus {
+          outline: 2px solid $color-red;
+          outline-offset: 2px;
         }
       }
     }
@@ -134,6 +158,11 @@ main {
 
           &:hover {
             background-color: $button-hover;
+          }
+
+          &:focus {
+            outline: 2px solid $color-red;
+            outline-offset: 2px;
           }
         }
       }
@@ -253,7 +282,7 @@ main {
         gap: 15px;
 
         h2 {
-          color: black;
+          color: $color-white;
           font-family: $font-secondary;
           font-size: 1.5rem;
           letter-spacing: 3px;
@@ -366,7 +395,14 @@ main {
         &:hover {
           background-color: $button-hover;
         }
+
+        &:focus {
+          outline: 2px solid $color-red;
+          outline-offset: 2px;
+
+        }
       }
+
     }
   }
 }
