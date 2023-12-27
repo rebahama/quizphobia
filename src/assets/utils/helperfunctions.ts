@@ -1,4 +1,4 @@
-import type { IStoredUserType } from './types';
+import type { IQuestionObject, IStoredUserType } from './types';
 
 /**
  * getter function that returns an array of objects from localStorage after parsing the stored data
@@ -16,3 +16,8 @@ export function getArrayOfObjectsFromLocalStorage(
   arrayOfOjbects = storedData === null ? [] : JSON.parse(storedData);
   return arrayOfOjbects;
 }
+
+export function getRandomQuestions(jsonArray: IQuestionObject[], numQuestions: number): IQuestionObject[] {
+  return [...jsonArray].sort(() => Math.random() - 0.5).slice(0, numQuestions);
+}
+
