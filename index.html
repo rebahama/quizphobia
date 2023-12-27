@@ -53,14 +53,14 @@
   </head>
 
   <body>
-    <header role="banner"> 
+    <header role="banner">
       <section class="top-banner">
         <h2>Trivia</h2>
-        <div class="question-number">1/10</div>
+        <div class="question-number" id="questionNumber">1/10</div>
         <!-- ersätt '1/10' med js -->
         <div class="time-clock" id="mainTimer">Tiden</div>
         <!-- ersätt 'tiden' med js -->
-        <div class="current-score">Poäng</div>
+        <div class="current-score" id="currentScore">Score</div>
         <!-- ersätt 'poängen' med js -->
         <!--           <div class="score-container"></div> Byt ut mot star.png framför score, alternativt lägg in en img bakom scorefunktionen i js -->
       </section>
@@ -72,11 +72,7 @@
           Welcome to the quiz about scary and unusual phobias
         </h1>
         <div class="start-container">
-          <div class="button-container" id="buttonContainer">
-            <button class="intro-buttons">Player 1</button>
-            <button class="intro-buttons">Player 2</button>
-            <button class="intro-buttons">Player 3</button>
-          </div>
+          <div class="button-container" id="buttonContainer"></div>
           <div class="flex-container-intro">
             <input
               type="text"
@@ -86,9 +82,19 @@
               class="name-input name-input-text"
               aria-label="Your name"
             />
-            
-            <button class="start-button" id="startButton" aria-label="Start quiz" aria-describedby="startButtonDescription">Start quiz</button>
-            <span class="start-button-info" id="startButtonDescription">Click start button to begin the quiz and test your knowledge on unusual phobias.</span>
+
+            <button
+              class="start-button"
+              id="startButton"
+              aria-label="Start quiz"
+              aria-describedby="startButtonDescription"
+            >
+              Start quiz
+            </button>
+            <span class="start-button-info" id="startButtonDescription"
+              >Click start button to begin the quiz and test your knowledge on
+              unusual phobias.</span
+            >
           </div>
         </div>
         <div class="center-text-highscore-container">
@@ -124,18 +130,7 @@
       </section>
 
       <section class="question-section" id="questionSection">
-        <div class="question-container">
-          <div>
-            <h2>Question</h2>
-            <p>Amathophobia is the fear of...?</p>
-          </div>
-          <ul id="questionList">
-            <li>dust</li>
-            <li>knots</li>
-            <li>math</li>
-            <li>tangled hair</li>
-          </ul>
-        </div>
+        <div class="question-container" id="questionContainer"></div>
         <div class="progress-bar" id="progressBar"></div>
       </section>
 
@@ -164,8 +159,20 @@
           </div>
         </div>
         <div class="finished-buttons-box">
-          <button class="button" id="mainMenuButton" aria-label="Return to the main menu">Main menu</button>
-          <button class="button" id="restartQuizButton" aria-label="Restart quiz">Restart quiz</button>
+          <button
+            class="button"
+            id="mainMenuButton"
+            aria-label="Return to the main menu"
+          >
+            Main menu
+          </button>
+          <button
+            class="button"
+            id="restartQuizButton"
+            aria-label="Restart quiz"
+          >
+            Restart quiz
+          </button>
         </div>
       </section>
     </main>

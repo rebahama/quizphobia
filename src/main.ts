@@ -1,15 +1,21 @@
 import './styles/style.scss'; // Importera huvud-SCSS-filen
 import array from './json/quiz.json'; // Importing json file to array for using to randomize questions.
-import { getArrayOfObjectsFromLocalStorage, getRandomQuestions } from './assets/utils/helperfunctions.ts';
+import {
+  getArrayOfObjectsFromLocalStorage,
+  getRandomQuestions,
+  getFractionAsString
+} from './assets/utils/helperfunctions.ts';
 import type { IQuestionObject, IStoredUserType } from './assets/utils/types.ts'; // importing interface
-
 
 /******************************************************
  * ************ Selectors ****************************
  *****************************************************/
 
+const userButtonsContainer = document.querySelector('#buttonContainer');
 const startButton = document.querySelector('#startButton');
 const mainTimerContainer: HTMLElement | null = document.querySelector('#mainTimer');
+const questionNumberText = document.querySelector('#questionNumber');
+const questionContainer = document.querySelector('#questionContainer');
 
 /******************************************************
  * ************ Variables ****************************
@@ -19,12 +25,13 @@ const mainTimerContainer: HTMLElement | null = document.querySelector('#mainTime
 
 const answerTime = 5; // - Variable to use for the time it takes for user to answer question
 const wrongAnswer = false; //  - Boolean to use for wrong answer
-const questionArray: IQuestionObject[] = []; // array with interface to put random questions in.
-/*                      let                      */
 
+const questionArray = getRandomQuestions(array, 10);
 let storedUsers: IStoredUserType[];
-/* let selectedUser: string | null = null; use this when logic for selectedUser is in place */
-const selectedUser: string | null = 'Matthias'; // placeholder for now to handle logic
+/* let selectedUser: string | null = null; */
+const selectedUser = 'Matthias'; // placeholder should be replaced with the above
+const currentQuestionNumber = 1;
+let isAnswerCorrect = false;
 let score = 0;
 
 
@@ -50,6 +57,87 @@ console.log('selectedUser: ', selectedUser);
  * ************ Functions ****************************
  *****************************************************/
 
+/**
+ * Generates the question and updates question number in header
+ * @param array type IQuestionObject[]
+ * @param currentQuestionText text in the header for the current question of type Element | null
+ */
+function generateQuestion(
+  array: IQuestionObject[],
+  currentQuestionText: Element | null
+): void {
+  // resetting isAnswerCorrect to false / can be placed in other places aswell
+  isAnswerCorrect = false;
+  // START INDIVIDUAL TIMER HERE!
+  if (currentQuestionText !== null) {
+    currentQuestionText.textContent = getFractionAsString(
+      currentQuestionNumber,
+      questionArray.length
+    );
+  }
+  const currentQuestionObject = array[currentQuestionNumber - 1];
+  generateQuestionInHTML(currentQuestionObject, questionContainer);
+}
+
+/**
+ * Generates the question and answers in HTML
+ * @param currentQuestionObject type IQuestionObject
+ * @param questionContainer container for the question and answers
+ * @returns void
+ */
+function generateQuestionInHTML(
+  currentQuestionObject: IQuestionObject,
+  questionContainer: Element | null
+): void {
+  if (questionContainer === null) {
+    return;
+  }
+  // deconstruct and get values from the object to dynamically render in html
+  const { question, answers } = currentQuestionObject;
+  questionContainer.innerHTML = `
+    <div>
+      <h2>Question</h2>
+      <p>${question}</p>
+    </div>
+    <div class="question-list" id="questionList">
+    </div>
+  `;
+  const questionListContainer = document.querySelector('#questionList');
+  // iterates all the answers and appends each to the buttonlist container
+  answers.forEach((answer) => {
+    const answerButton = document.createElement('button');
+    answerButton.textContent = answer;
+    questionListContainer?.append(answerButton);
+  });
+}
+
+/**
+ *
+ * Generating existing users from local storage as HTML
+ * @param userButtonsContainer button container for users of type Element | null
+ * @returns void
+ */
+function generateExistingUsersInHTML(
+  userButtonsContainer: Element | null
+): void {
+  // get an array of existing users from localstorage with a helperfunction
+  const existingUsersArray = getArrayOfObjectsFromLocalStorage(
+    storedUsers,
+    'users'
+  );
+  // if there are not existing users in the array from localstorage exit the function
+  if (userButtonsContainer === null || !(existingUsersArray.length > 0)) {
+    return;
+  }
+  userButtonsContainer.innerHTML = '';
+  // creating and appending the existing users
+  existingUsersArray.forEach((user) => {
+    const userButton = document.createElement('button');
+    userButton.classList.add('intro-buttons');
+    userButton.textContent = user.user;
+    userButtonsContainer.append(userButton);
+  });
+}
 
 /**
  * Function for checking if an user already exist in an array using the some array method
@@ -162,8 +250,13 @@ getPointsForAnsweringQuestion(answerTime, wrongAnswer); // passing the answerTim
  * ************ Eventlisteners ****************************
  *****************************************************/
 
+document.addEventListener('DOMContentLoaded', () => {
+  generateExistingUsersInHTML(userButtonsContainer);
+});
 startButton?.addEventListener('click', () => {
+  // THESE SHOULD BE IN THE STARTGAME FUNCTION LATER
   addUserToLocalStorage(selectedUser);
+  generateQuestion(questionArray, questionNumberText);
   setTimeout(setMainInterval, 1000); // mainInterval - clearInterval(clearTimeMainInterval) when quiz is done.
 });
 
@@ -174,8 +267,6 @@ console.log(startButton);
  * ************ Execution ****************************
  *****************************************************/
 
-const randomQuestions = getRandomQuestions(array, 10);
-console.log(randomQuestions);
 
 /**
  * Timer for questionInterval.
