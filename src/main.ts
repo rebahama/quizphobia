@@ -40,8 +40,11 @@ console.log('selectedUser: ', selectedUser);
  * @param userName userName of type string
  * @returns boolean if the userName string is the same as the string in the stored users
  */
-function doesUserExistInArray(users: IStoredUserType[], userName: string | null): boolean {
-  return users.some(userObject => {
+function doesUserExistInArray(
+  users: IStoredUserType[],
+  userName: string | null
+): boolean {
+  return users.some((userObject) => {
     // if userObject.user does not exist in this array return false
     if (userObject.user === null) {
       return false;
@@ -56,30 +59,36 @@ function doesUserExistInArray(users: IStoredUserType[], userName: string | null)
  * @param userName userName of type string
  * @returns void
  */
-function addUserToLocaleStorage(userName: string | null): void {
-  const existingUsers = getArrayOfObjectsFromLocalStorage(storedUsers, 'users');
+function addUserToLocalStorage(userName: string | null): void {
+  const currentUsersArray = getArrayOfObjectsFromLocalStorage(
+    storedUsers,
+    'users'
+  );
   // type checking if userName is null or if the user already exists in array, if so return
-  if (userName === null || doesUserExistInArray(existingUsers, userName)) {
+  if (userName === null || doesUserExistInArray(currentUsersArray, userName)) {
     return;
   }
   // create an object for the newUser
   const newUser = {
-    id: existingUsers.length,
-    user: userName,
+    id: currentUsersArray.length,
+    user: userName
   };
-  // if existingUsers array is empty, then create an array with the newly create user and stringify it
-  if (existingUsers.length === 0) {
+  // if currentUsersArray array is empty, then create an array with the newly create user and stringify it
+  if (currentUsersArray.length === 0) {
     console.log('new user!');
     localStorage.setItem('users', JSON.stringify([newUser]));
   } else {
-    // if the existingUsers array already is in localStorage, push the new User to that array
+    // if the currentUsersArray array already is in localStorage, push the new User to that array
     console.log('user already exist!');
-    existingUsers.push(newUser);
-    localStorage.setItem('users', JSON.stringify(existingUsers));
+    currentUsersArray.push(newUser);
+    localStorage.setItem('users', JSON.stringify(currentUsersArray));
   }
 }
 
-function getPointsForAnsweringQuestion(answerTime: number, wrongAnswer: boolean): number {
+function getPointsForAnsweringQuestion(
+  answerTime: number,
+  wrongAnswer: boolean
+): number {
   if (wrongAnswer) {
     score -= 30;
     console.log(score);
@@ -107,7 +116,7 @@ getPointsForAnsweringQuestion(answerTime, wrongAnswer); // passing the answerTim
  *****************************************************/
 
 startButton?.addEventListener('click', () => {
-  addUserToLocaleStorage(selectedUser);
+  addUserToLocalStorage(selectedUser);
 });
 
 console.log(startButton);
