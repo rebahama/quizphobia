@@ -23,8 +23,7 @@ let score = 0;
  *****************************************************/
 
 function getRandomQuestions(jsonArray: IQuestionObject[], numQuestions: number): IQuestionObject[] {
-  const questionArray = [...jsonArray].sort(() => Math.random() - 0.5);
-  return questionArray.slice(0, numQuestions);
+  return [...jsonArray].sort(() => Math.random() - 0.5).slice(0, numQuestions);
 }
 
 function getPointsForAnsweringQuestion(
