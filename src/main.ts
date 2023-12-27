@@ -12,8 +12,11 @@ import type { IQuestionObject, IStoredUserType } from './assets/utils/types.ts';
 
 const userButtonsContainer = document.querySelector('#buttonContainer');
 const startButton = document.querySelector('#startButton');
+const nameInput = document.querySelector('#name') as HTMLInputElement;
 const startContainer = document.querySelector('.start-container');
 const highScoreContainer = document.querySelector('.center-text-highscore-container');
+const finishQuizContainer = document.querySelector('.quiz-finished');
+const quizContainer = document.querySelector('.question-section');
 
 console.log(userButtonsContainer);
 
@@ -146,10 +149,22 @@ function getPointsForAnsweringQuestion(
 console.log('score:', score);
 getPointsForAnsweringQuestion(answerTime, wrongAnswer); // passing the answerTime for each question as an argument
 
-
 function removeAndHideSections (): void {
   startContainer?.classList.add('hidden');
   highScoreContainer?.classList.add('hidden');
+  finishQuizContainer?.classList.add('hidden');
+  quizContainer?.classList.remove('hidden');
+}
+
+function hideQuizAndHighscoreFromStart (): void {
+  quizContainer?.classList.add('hidden');
+  finishQuizContainer?.classList.add('hidden');
+}
+
+function checkIfInputIsEmpty (): void {
+  const inputValue = nameInput.value;
+  // You can now use the 'inputValue' variable for real-time updates
+  console.log(inputValue);
 }
 
 /******************************************************
@@ -158,7 +173,13 @@ function removeAndHideSections (): void {
 
 document.addEventListener('DOMContentLoaded', () => {
   generateExistingUsersInHTML(userButtonsContainer);
+  hideQuizAndHighscoreFromStart();
 });
+
+nameInput.addEventListener('input', () => {
+  checkIfInputIsEmpty();
+});
+
 startButton?.addEventListener('click', () => {
   addUserToLocalStorage(selectedUser);
 });
