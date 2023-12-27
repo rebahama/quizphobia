@@ -8,6 +8,7 @@ import type { IQuestionObject, IStoredUserType } from './assets/utils/types.ts';
  *****************************************************/
 
 const startButton = document.querySelector('#startButton');
+const mainTimerContainer: HTMLElement | null = document.querySelector('#mainTimer');
 
 /******************************************************
  * ************ Variables ****************************
@@ -25,6 +26,13 @@ let storedUsers: IStoredUserType[];
 /* let selectedUser: string | null = null; use this when logic for selectedUser is in place */
 const selectedUser: string | null = 'Matthias'; // placeholder for now to handle logic
 let score = 0;
+
+let clearTime;
+let seconds = 0;
+let minutes = 0;
+let secs;
+let mins;
+
 
 console.log('originalArray: ', array);
 console.log('questionArray: ', questionArray);
@@ -85,6 +93,29 @@ function addUserToLocalStorage(userName: string | null): void {
   }
 }
 
+function setMainInterval(): void {
+  if (mainTimerContainer === null) {
+    return;
+  }
+
+  if (seconds === 60) {
+    seconds = 0;
+    minutes = minutes + 1;
+  }
+
+  secs = seconds < 10 ? `0${seconds}` : seconds;
+  mins = minutes < 10 ? `0${minutes}:` : `${minutes}+:`;
+
+  mainTimerContainer.innerHTML = mins + secs;
+  seconds ++;
+  
+  clearTime = setTimeout(setMainInterval, 1000);
+}
+
+function setQuestionInterval():void {
+
+}
+
 function getPointsForAnsweringQuestion(
   answerTime: number,
   wrongAnswer: boolean
@@ -117,6 +148,8 @@ getPointsForAnsweringQuestion(answerTime, wrongAnswer); // passing the answerTim
 
 startButton?.addEventListener('click', () => {
   addUserToLocalStorage(selectedUser);
+  setTimeout(setMainInterval, 1000);
 });
 
+setTimeout(setQuestionInterval, 1000);
 console.log(startButton);
