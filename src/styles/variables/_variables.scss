@@ -16,9 +16,11 @@ $font-bold-style: bold;
 
 //---extra color
 $medium-petrol: #144552;
-$color-white:#ffffff;
+$color-white: #ffffff;
+$color-red: #ff0000;
 
 $debugging: true;
+
 div {
   @if $debugging {
     outline: 1px solid hotpink;
