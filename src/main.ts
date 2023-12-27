@@ -1,7 +1,8 @@
 import './styles/style.scss'; // Importera huvud-SCSS-filen
 import array from './json/quiz.json'; // Importing json file to array for using to randomize questions.
-import { getArrayOfObjectsFromLocalStorage } from './assets/utils/helperfunctions.ts';
+import { getArrayOfObjectsFromLocalStorage, getRandomQuestions } from './assets/utils/helperfunctions.ts';
 import type { IQuestionObject, IStoredUserType } from './assets/utils/types.ts'; // importing interface
+
 
 /******************************************************
  * ************ Selectors ****************************
@@ -18,7 +19,6 @@ const startButton = document.querySelector('#startButton');
 const answerTime = 5; // - Variable to use for the time it takes for user to answer question
 const wrongAnswer = false; //  - Boolean to use for wrong answer
 const questionArray: IQuestionObject[] = []; // array with interface to put random questions in.
-
 /*                      let                      */
 
 let storedUsers: IStoredUserType[];
@@ -34,9 +34,6 @@ console.log('selectedUser: ', selectedUser);
  * ************ Functions ****************************
  *****************************************************/
 
-function getRandomQuestions(jsonArray: IQuestionObject[], numQuestions: number): IQuestionObject[] {
-  return [...jsonArray].sort(() => Math.random() - 0.5).slice(0, numQuestions);
-}
 
 /**
  * Function for checking if an user already exist in an array using the some array method
