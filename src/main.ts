@@ -68,7 +68,17 @@ function generateQuestion(
 ): void {
   // resetting isAnswerCorrect to false / can be placed in other places aswell
   isAnswerCorrect = false;
-  // START INDIVIDUAL TIMER HERE!
+  
+  /**
+ * Timer for questionInterval.
+ *  clear when answered clearInterval(clearTimeQuestionInterval)
+ *  - answerTime = questionSeconds;
+ *  - wrongAnswer (true/false)
+ * - call function getPointsForAnsweringQuestions(answerTime, wrongAnswer) 
+ *    - Send in parameters for answerTime and wronganswer
+ * */
+  setQuestionInterval();
+
   if (currentQuestionText !== null) {
     currentQuestionText.textContent = getFractionAsString(
       currentQuestionNumber,
@@ -218,6 +228,7 @@ function setQuestionInterval(): void {
   questionSeconds ++;
 
   clearTimeQuestionInterval = setTimeout(setQuestionInterval, 1000);
+  console.log(questionSeconds);
 }
 
 function getPointsForAnsweringQuestion(
@@ -268,14 +279,3 @@ console.log(startButton);
  *****************************************************/
 
 
-/**
- * Timer for questionInterval.
- *  - start timer witch each question, clear when answered clearInterval(clearTimeQuestionInterval)
- *  - answerTime = questionSeconds;
- *  - wrongAnswer (true/false)
- * - call function getPointsForAnsweringQuestions(answerTime, wrongAnswer) 
- *    - Send in parameters for answerTime and wronganswer
- *  
- * */
- 
-setTimeout(setQuestionInterval, 1000); 
