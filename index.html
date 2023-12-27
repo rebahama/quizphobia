@@ -56,11 +56,11 @@
     <header role="banner">
       <section class="top-banner">
         <h2>Trivia</h2>
-        <div class="question-number">1/10</div>
+        <div class="question-number" id="questionNumber">1/10</div>
         <!-- ersätt '1/10' med js -->
-        <div class="time-clock">Tiden</div>
+        <div class="time-clock" id="timerClock">00:00</div>
         <!-- ersätt 'tiden' med js -->
-        <div class="current-score">Poäng</div>
+        <div class="current-score" id="currentScore">Score</div>
         <!-- ersätt 'poängen' med js -->
         <!--           <div class="score-container"></div> Byt ut mot star.png framför score, alternativt lägg in en img bakom scorefunktionen i js -->
       </section>
@@ -130,18 +130,7 @@
       </section>
 
       <section class="question-section" id="questionSection">
-        <div class="question-container">
-          <div>
-            <h2>Question</h2>
-            <p>Amathophobia is the fear of...?</p>
-          </div>
-          <ul id="questionList">
-            <li>dust</li>
-            <li>knots</li>
-            <li>math</li>
-            <li>tangled hair</li>
-          </ul>
-        </div>
+        <div class="question-container" id="questionContainer"></div>
         <div class="progress-bar" id="progressBar"></div>
       </section>
 

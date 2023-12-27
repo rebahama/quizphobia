@@ -2,7 +2,8 @@ import './styles/style.scss'; // Importera huvud-SCSS-filen
 import array from './json/quiz.json'; // Importing json file to array for using to randomize questions.
 import {
   getArrayOfObjectsFromLocalStorage,
-  getRandomQuestions
+  getRandomQuestions,
+  getFractionAsString
 } from './assets/utils/helperfunctions.ts';
 import type { IQuestionObject, IStoredUserType } from './assets/utils/types.ts'; // importing interface
 
@@ -12,8 +13,8 @@ import type { IQuestionObject, IStoredUserType } from './assets/utils/types.ts';
 
 const userButtonsContainer = document.querySelector('#buttonContainer');
 const startButton = document.querySelector('#startButton');
-
-console.log(userButtonsContainer);
+const questionNumberText = document.querySelector('#questionNumber');
+const questionContainer = document.querySelector('#questionContainer');
 
 /******************************************************
  * ************ Variables ****************************
@@ -23,12 +24,13 @@ console.log(userButtonsContainer);
 
 const answerTime = 5; // - Variable to use for the time it takes for user to answer question
 const wrongAnswer = false; //  - Boolean to use for wrong answer
-const questionArray: IQuestionObject[] = []; // array with interface to put random questions in.
-/*                      let                      */
 
+let questionArray = getRandomQuestions(array, 10);
 let storedUsers: IStoredUserType[];
-/* let selectedUser: string | null = null; use this when logic for selectedUser is in place */
-const selectedUser: string | null = 'Matthias'; // placeholder for now to handle logic
+/* let selectedUser: string | null = null; */
+const selectedUser = 'Matthias'; // placeholder should be replaced with the above
+let currentQuestionNumber = 1;
+let isAnswerCorrect = false;
 let score = 0;
 
 console.log('originalArray: ', array);
@@ -38,6 +40,60 @@ console.log('selectedUser: ', selectedUser);
 /******************************************************
  * ************ Functions ****************************
  *****************************************************/
+
+/**
+ * Generates the question and updates question number in header
+ * @param array type IQuestionObject[]
+ * @param currentQuestionText text in the header for the current question of type Element | null
+ */
+function generateQuestion(
+  array: IQuestionObject[],
+  currentQuestionText: Element | null
+): void {
+  // resetting isAnswerCorrect to false / can be placed in other places aswell
+  isAnswerCorrect = false;
+  // START INDIVIDUAL TIMER HERE!
+  if (currentQuestionText !== null) {
+    currentQuestionText.textContent = getFractionAsString(
+      currentQuestionNumber,
+      questionArray.length
+    );
+  }
+  const currentQuestionObject = array[currentQuestionNumber - 1];
+  generateQuestionInHTML(currentQuestionObject, questionContainer);
+}
+
+/**
+ * Generates the question and answers in HTML
+ * @param currentQuestionObject type IQuestionObject
+ * @param questionContainer container for the question and answers
+ * @returns void
+ */
+function generateQuestionInHTML(
+  currentQuestionObject: IQuestionObject,
+  questionContainer: Element | null
+): void {
+  if (questionContainer === null) {
+    return;
+  }
+  // deconstruct and get values from the object to dynamically render in html
+  const { question, answers } = currentQuestionObject;
+  questionContainer.innerHTML = `
+    <div>
+      <h2>Question</h2>
+      <p>${question}</p>
+    </div>
+    <div class="question-list" id="questionList">
+    </div>
+  `;
+  const questionListContainer = document.querySelector('#questionList');
+  // iterates all the answers and appends each to the buttonlist container
+  answers.forEach((answer) => {
+    const answerButton = document.createElement('button');
+    answerButton.textContent = answer;
+    questionListContainer?.append(answerButton);
+  });
+}
 
 /**
  *
@@ -152,13 +208,12 @@ document.addEventListener('DOMContentLoaded', () => {
   generateExistingUsersInHTML(userButtonsContainer);
 });
 startButton?.addEventListener('click', () => {
+  // THESE SHOULD BE IN THE STARTGAME FUNCTION LATER
   addUserToLocalStorage(selectedUser);
+  generateQuestion(questionArray, questionNumberText);
 });
 
 console.log(startButton);
 /******************************************************
  * ************ Execution ****************************
  *****************************************************/
-
-const randomQuestions = getRandomQuestions(array, 10);
-console.log(randomQuestions);
