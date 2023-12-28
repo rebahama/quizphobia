@@ -163,8 +163,13 @@ function hideQuizAndHighscoreFromStart (): void {
 
 function checkIfInputIsEmpty (): void {
   const inputValue = nameInput.value;
-  // You can now use the 'inputValue' variable for real-time updates
-  console.log(inputValue);
+  if (inputValue === '') {
+    console.log(inputValue);
+    console.log('ss');
+  } else {
+    console.log('hello');
+  }
+
 }
 
 /******************************************************
@@ -182,9 +187,6 @@ nameInput.addEventListener('input', () => {
 
 startButton?.addEventListener('click', () => {
   addUserToLocalStorage(selectedUser);
-});
-
-startButton?.addEventListener('click', () => {
   removeAndHideSections();
 });
 
