@@ -21,6 +21,7 @@ const highScoreContainer = document.querySelector('.center-text-highscore-contai
 const finishQuizContainer = document.querySelector('.quiz-finished');
 const quizContainer = document.querySelector('.question-section');
 const introHeading = document.querySelector('.intro-heading');
+const topBannerHeading = document.querySelector('.top-banner');
 
 /******************************************************
  * ************ Variables ****************************
@@ -265,12 +266,14 @@ function removeAndHideSections (): void {
   highScoreContainer?.classList.add('hidden');
   finishQuizContainer?.classList.add('hidden');
   introHeading?.classList.add('hidden');
+  topBannerHeading?.classList.remove('hidden');
   quizContainer?.classList.remove('hidden');
 }
 
 function hideQuizAndHighscoreFromStart (): void {
   quizContainer?.classList.add('hidden');
   finishQuizContainer?.classList.add('hidden');
+  topBannerHeading?.classList.add('hidden');
 }
 
 console.log('score:', score);
