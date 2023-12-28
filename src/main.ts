@@ -73,8 +73,8 @@ function checkNextQuestion(
  *  clear when answered clearInterval(clearTimeQuestionInterval)
  *  - answerTime = questionSeconds;
  *  - wrongAnswer (true/false)
- * - call function getPointsForAnsweringQuestions(answerTime, wrongAnswer) 
- *    - Send in parameters for answerTime and wronganswer
+ * - call function getPointsForAnsweringQuestions(answerTime, isAnswerCorrect) 
+ *    - Send in parameters for answerTime and isAnswerCorrects.
  * */
   setTimeout(setQuestionInterval, 1000);
 
