@@ -1,61 +1,74 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/ZejtqupA)
-# Projektmall FED23D
-Läs instruktionerna på kurswebben för att komma igång.
+# Phobia Quiz
 
-## Betyg
-Klicka i vilka krav ni har gjort:
+## Website Screenshots
 
-- [x] Exempel på utförd/ikryssad uppgift
-- [ ] Ej utförd uppgift
+![Quiz Game Preview](./preview.PNG)
 
-### För Icke Godkänt
-- [ ] Du har inte deltagit i arbetet och/eller gjort commits (det syns tydligt i Insights-fliken på ert repo)
-- [ ] Du/ni har inte följt instruktionerna
-- [ ] Du/ni uppvisar avsaknad av kunskaper i såväl HTML, CSS som JavaScript och du/ni har ignorerat semantik och tillgänglighet
+## Tech Stack
 
-### För Godkänt
-#### Kodkvalitet
-- [ ] Koden är korrekt formaterad.
-- [ ] Koden innehåller enstaka buggar, men fungerar på det stora hela.
-- [ ] Ni har gjort åtminstone en mobilversion; om ni återanvänder samma layout i tablet/desktop så går det bra.
-- [ ] Sidan ska vara någorlunda snygg (CSS).
-- [ ] Ni har checkat av "vanliga misstag" från tidigare uppgifter, såväl HTML & CSS som JavaScript.
-- [ ] Sidan är tillgänglighetsgranskad.
-- [ ] Sidan är validerad.
-- [ ] Ni har gjort en Lighthouse-analys på live-sidan.
+- Semantic HTML5 markup
+- CSS / Sass
+- TypeScript
 
-#### Funktionsbeskrivning
-- [ ] Skapa ett quiz med minst 20 frågor
-- [ ] Varje fråga ska ha 3 svarsalternativ och endast 1 svarsalternativ ska vara korrekt
-- [ ] Frågorna ska presenteras i slumpmässig ordning, och du ska visa 10 frågor per spelomgång
-- [ ] Om användaren väljer att spela igen, så ska inte samma 10 frågor komma upp på nytt
-- [ ] Du ska få poäng för rätt svar
-- [ ] Det ska bara visas en fråga åt gången på skärmen
-- [ ] Det ska finnas en tidräkning (uppåt). Tidräkningen ska stanna när alla frågor har besvarats.
-- [ ] Det ska visas en bekräftelseruta som visar hur många frågor spelaren svarade rätt på (av totalt antal frågor), och hur lång tid det tog.
-- [ ] Varje person ska ha gjort minst två pull requests.
+## Other Technologies
 
-### För plus i kanten
-#### Kodkvalitet
-- [ ] Koden följer konventioner och praxis.
-- [ ] Projektets utförande är ambitiöst och väl genomarbetat. Ni har inte tagit på er för mycket, utan sett till att det ni har är genomarbetat.
-- [ ] Ni har tagit höjd för responsiv design (CSS) och CSS:en är välskriven.
-- [ ] Koden är korrekt formaterad med ESLint och Prettier.
-- [ ] Projektets kod är självdokumenterande. Där det är otydligt har du skrivit till kommentarer. Exempelvis heter variabler och funktioner på ett sådant sätt att det är tydligt vad de gör.
-- [ ] Ni har aktivt arbetat för att minska kodupprepning, men det är OK om det förekommer en del. Ibland kan kodupprepning t.ex. vara bra för att koden blir tydligare att läsa, så all upprepning är inte av ondo.
-- [ ] Ingen spaghettikod :spaghetti:
-- [ ] Anonyma funktioner används med omsorg.
-- [ ] Koden och projektet har en logisk struktur.
-- [ ] Ni har skrivit en ordentlig README (projektbeskrivning, skrämdumpar, deltagare i arbetet).
+### Local Storage
 
-#### Funktionsbeskrivning
-- [ ] Det ska finnas en "progess bar" som visar hur många av frågorna som hittills har besvarats
-- [ ] Flera svarsalternativ ska kunna vara korrekta
-- [ ] Du får olika poäng beroende på hur snabbt du svarar på frågan (ni får komma på själva hur det ska funka, dokumentera i README:n)
-- [ ] Du får minuspoäng om du svarar fel
-- [ ] Du ska kunna välja vem du vill spela som, eller skapa en ny användare (förutsättningen här är att man använder samma webbläsare; använd local storage). Se exempelskiss nedan.
-- [ ] Implementera ett highscore (max 10 platser) med hjälp av local storage
-- [ ] Det ska finnas med en animation för rätt svar, och en animation för fel svar. Det kan t.ex. vara en stjärna som roterar, byter färg, eller en knapp som skakar. Vad ni gör spelar ingen roll, men ni ska implementera det med hjälp av GSAP.
-- Välj ett av nedan:
-  - [ ] Man ska kunna välja att spela mellan lätta, medelsvåra och svåra frågor. Planera hur detta påverkar highscoren.
-  - [ ] Det ska vara som en julkalender: bakom varje lucka (24 st) så visas det X antal nya frågor per dag.
+Local Storage is used to store the users and the highscore list.
+
+### GSAP
+
+For making the animations we used [GSAP (GreenSock Animation Platform)](https://gsap.com/)
+
+## Code Formatting and Linting
+
+### Prettier
+
+We used Prettier for our code formatting. It helps to format the code and making it consistent throughout the whole project.
+
+### Eslint
+
+For linting we used ESlint. It helped us catch errors in the code and uphold the teams typescript standards. Our Eslint file
+follows common rules for this kind of project.
+
+## Live Demo
+
+Explore the live demo of the Phobia Quiz [here](https://medieinstitutet.github.io/fed23d-javascript-grundkurs-gruppuppgift-tangerinerna).
+
+## Status
+
+This project is marked as "In Progress."
+
+## Getting Started
+
+To run the Quiz Game on your local machine, follow these steps:
+
+1. Download or clone the repository.
+2. Install the necessary dependencies and node_moduls by running `npm install`.
+3. Start the application using `npm run dev` (Vite).
+
+## Description
+
+The Phobia Quiz is an engaging website that will challenge both your speed and knowledge of unusual phobias. It lets you either create
+a new user by writing your name or chose from existing users. Next you will have to answer 10 questions and in the end your results will be displayed to you. You will also if you made a high enough score be placed in a prestigious highscore list with other users.
+
+## Gameplay Features
+
+- When the user is selected and you arrive to the question section you can pick from four answers, where one is correct.
+- Both the individual question points and the current highscore will be visually updated through animation.
+- If the answer is right recieve plus points, if not get minus points.
+- When the user picks the right answer they will also get a greater score depending on how fast they picked.
+
+## Validations
+
+- HTML was validated using the [W3C HTML validator](https://validator.w3.org/).
+- CSS was validated using the [W3C CSS validator](https://jigsaw.w3.org/css-validator/).
+- Lighthouse was used to check Performance, Accessibility, Best Practices and SEO.
+
+## Participants
+
+- [RalfiSlask](https://github.com/RalfiSlask)
+- [CeciliaL1](https://github.com/CeciliaL1)
+- [Annika-Nyholm](https://github.com/Annika-Nyholm)
+- [rebahama](https://github.com/rebahama)
+- [Marcusey](https://github.com/Marcusey)
