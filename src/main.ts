@@ -46,8 +46,7 @@ let mainMins;
 //  variables for questionInterval
 let questionSeconds = 0;
 let questionMinutes = 0;
-let questionSecs;
-let questionMins;
+
 
 console.log('originalArray: ', array);
 console.log('questionArray: ', questionArray);
@@ -62,7 +61,7 @@ console.log('selectedUser: ', selectedUser);
  * @param array type IQuestionObject[]
  * @param currentQuestionText text in the header for the current question of type Element | null
  */
-function generateQuestion(
+function checkNextQuestion(
   array: IQuestionObject[],
   currentQuestionText: Element | null
 ): void {
@@ -269,7 +268,7 @@ document.addEventListener('DOMContentLoaded', () => {
 startButton?.addEventListener('click', () => {
   // THESE SHOULD BE IN THE STARTGAME FUNCTION LATER
   addUserToLocalStorage(selectedUser);
-  generateQuestion(questionArray, questionNumberText);
+  checkNextQuestion(questionArray, questionNumberText);
   setTimeout(setMainInterval, 1000); // mainInterval - clearInterval(clearTimeMainInterval) when quiz is done.
 });
 
