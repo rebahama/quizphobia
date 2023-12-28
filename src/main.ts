@@ -16,11 +16,11 @@ const startButton = document.querySelector('#startButton');
 const mainTimerContainer: HTMLElement | null = document.querySelector('#mainTimer');
 const questionNumberText = document.querySelector('#questionNumber');
 const questionContainer = document.querySelector('#questionContainer');
-const nameInput = document.querySelector('#name') as HTMLInputElement;
 const startContainer = document.querySelector('.start-container');
 const highScoreContainer = document.querySelector('.center-text-highscore-container');
 const finishQuizContainer = document.querySelector('.quiz-finished');
 const quizContainer = document.querySelector('.question-section');
+const introHeading = document.querySelector('.intro-heading');
 
 /******************************************************
  * ************ Variables ****************************
@@ -264,22 +264,13 @@ function removeAndHideSections (): void {
   startContainer?.classList.add('hidden');
   highScoreContainer?.classList.add('hidden');
   finishQuizContainer?.classList.add('hidden');
+  introHeading?.classList.add('hidden');
   quizContainer?.classList.remove('hidden');
 }
 
 function hideQuizAndHighscoreFromStart (): void {
   quizContainer?.classList.add('hidden');
   finishQuizContainer?.classList.add('hidden');
-}
-
-function checkIfInputIsEmpty (): void {
-  const inputValue = nameInput.value;
-  if (inputValue === '') {
-    console.log(inputValue);
-    console.log('ss');
-  } else {
-    console.log('hello');
-  }
 }
 
 console.log('score:', score);
@@ -294,21 +285,19 @@ document.addEventListener('DOMContentLoaded', () => {
   hideQuizAndHighscoreFromStart();
 });
 
-nameInput.addEventListener('input', () => {
-  checkIfInputIsEmpty();
-});
-
 startButton?.addEventListener('click', () => {
-  // THESE SHOULD BE IN THE STARTGAME FUNCTION LATER
-  addUserToLocalStorage(selectedUser);
-  removeAndHideSections();
-  checkNextQuestion(questionArray, questionNumberText);
-  setTimeout(setMainInterval, 1000); // mainInterval - clearInterval(clearTimeMainInterval) when quiz is done.
+  startGame();
 });
-
 
 console.log(startButton);
 
 /******************************************************
  * ************ Execution ****************************
  *****************************************************/
+
+function startGame(): void {
+  addUserToLocalStorage(selectedUser);
+  removeAndHideSections();
+  checkNextQuestion(questionArray, questionNumberText);
+  setTimeout(setMainInterval, 1000); // mainInterval - clearInterval(clearTimeMainInterval) when quiz is done.
+}
