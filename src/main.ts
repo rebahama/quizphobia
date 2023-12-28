@@ -77,7 +77,7 @@ function generateQuestion(
  * - call function getPointsForAnsweringQuestions(answerTime, wrongAnswer) 
  *    - Send in parameters for answerTime and wronganswer
  * */
-  setQuestionInterval();
+  setTimeout(setQuestionInterval, 1000);
 
   if (currentQuestionText !== null) {
     currentQuestionText.textContent = getFractionAsString(
@@ -87,6 +87,7 @@ function generateQuestion(
   }
   const currentQuestionObject = array[currentQuestionNumber - 1];
   generateQuestionInHTML(currentQuestionObject, questionContainer);
+  
 }
 
 /**
@@ -119,6 +120,7 @@ function generateQuestionInHTML(
     answerButton.textContent = answer;
     questionListContainer?.append(answerButton);
   });
+  
 }
 
 /**
@@ -277,5 +279,4 @@ console.log(startButton);
 /******************************************************
  * ************ Execution ****************************
  *****************************************************/
-
 
