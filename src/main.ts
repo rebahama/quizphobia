@@ -2,7 +2,8 @@ import './styles/style.scss'; // Importera huvud-SCSS-filen
 import array from './json/quiz.json'; // Importing json file to array for using to randomize questions.
 import {
   getArrayOfObjectsFromLocalStorage,
-  getRandomQuestions
+  getRandomQuestions,
+  getFractionAsString
 } from './assets/utils/helperfunctions.ts';
 import type { IQuestionObject, IStoredUserType } from './assets/utils/types.ts'; // importing interface
 
@@ -28,13 +29,28 @@ console.log(userButtonsContainer);
 
 const answerTime = 5; // - Variable to use for the time it takes for user to answer question
 const wrongAnswer = false; //  - Boolean to use for wrong answer
-const questionArray: IQuestionObject[] = []; // array with interface to put random questions in.
-/*                      let                      */
 
+const questionArray = getRandomQuestions(array, 10);
 let storedUsers: IStoredUserType[];
-/* let selectedUser: string | null = null; use this when logic for selectedUser is in place */
-const selectedUser: string | null = 'Matthias'; // placeholder for now to handle logic
+/* let selectedUser: string | null = null; */
+const selectedUser = 'Matthias'; // placeholder should be replaced with the above
+const currentQuestionNumber = 1;
+let isAnswerCorrect = false;
 let score = 0;
+
+
+//  Variables for mainInterval  
+let clearTimeMainInterval;
+let clearTimeQuestionInterval: number;
+let mainSeconds = 0;
+let mainMinutes = 0;
+let mainSecs;
+let mainMins;
+
+//  variables for questionInterval
+let questionSeconds = 0;
+let questionMinutes = 0;
+
 
 console.log('originalArray: ', array);
 console.log('questionArray: ', questionArray);
@@ -43,6 +59,72 @@ console.log('selectedUser: ', selectedUser);
 /******************************************************
  * ************ Functions ****************************
  *****************************************************/
+
+/**
+ * Generates the question and updates question number in header
+ * @param array type IQuestionObject[]
+ * @param currentQuestionText text in the header for the current question of type Element | null
+ */
+function checkNextQuestion(
+  array: IQuestionObject[],
+  currentQuestionText: Element | null
+): void {
+  // resetting isAnswerCorrect to false / can be placed in other places aswell
+  isAnswerCorrect = false;
+  
+  /**
+ * Timer for questionInterval.
+ *  clear when answered clearInterval(clearTimeQuestionInterval)
+ *  - answerTime = questionSeconds;
+ *  - wrongAnswer (true/false)
+ * - call function getPointsForAnsweringQuestions(answerTime, isAnswerCorrect) 
+ *    - Send in parameters for answerTime and isAnswerCorrects.
+ * */
+  setTimeout(setQuestionInterval, 1000);
+
+  if (currentQuestionText !== null) {
+    currentQuestionText.textContent = getFractionAsString(
+      currentQuestionNumber,
+      questionArray.length
+    );
+  }
+  const currentQuestionObject = array[currentQuestionNumber - 1];
+  generateQuestionInHTML(currentQuestionObject, questionContainer);
+  
+}
+
+/**
+ * Generates the question and answers in HTML
+ * @param currentQuestionObject type IQuestionObject
+ * @param questionContainer container for the question and answers
+ * @returns void
+ */
+function generateQuestionInHTML(
+  currentQuestionObject: IQuestionObject,
+  questionContainer: Element | null
+): void {
+  if (questionContainer === null) {
+    return;
+  }
+  // deconstruct and get values from the object to dynamically render in html
+  const { question, answers } = currentQuestionObject;
+  questionContainer.innerHTML = `
+    <div>
+      <h2>Question</h2>
+      <p>${question}</p>
+    </div>
+    <div class="question-list" id="questionList">
+    </div>
+  `;
+  const questionListContainer = document.querySelector('#questionList');
+  // iterates all the answers and appends each to the buttonlist container
+  answers.forEach((answer) => {
+    const answerButton = document.createElement('button');
+    answerButton.textContent = answer;
+    questionListContainer?.append(answerButton);
+  });
+  
+}
 
 /**
  *
@@ -123,6 +205,37 @@ function addUserToLocalStorage(userName: string | null): void {
   }
 }
 
+function setMainInterval(): void {
+  if (mainTimerContainer === null) {
+    return;
+  }
+
+  if (mainSeconds === 60) { // if seconds reach 60 - add 1 to mainMinutes
+    mainSeconds = 0;
+    mainMinutes = mainMinutes + 1;
+  }
+
+  mainSecs = mainSeconds < 10 ? `0${mainSeconds}` : mainSeconds;  
+  mainMins = mainMinutes < 10 ? `0${mainMinutes}:` : `${mainMinutes}+:`;
+
+  mainTimerContainer.innerHTML = mainMins + mainSecs;
+  mainSeconds ++;
+  
+  clearTimeMainInterval = setTimeout(setMainInterval, 1000);
+}
+
+function setQuestionInterval(): void {
+
+  if (questionSeconds === 60) {
+    questionSeconds = 0;
+    questionMinutes = questionMinutes + 1;
+  }
+  questionSeconds ++;
+
+  clearTimeQuestionInterval = setTimeout(setQuestionInterval, 1000);
+  console.log(questionSeconds);
+}
+
 function getPointsForAnsweringQuestion(
   answerTime: number,
   wrongAnswer: boolean
@@ -186,14 +299,15 @@ nameInput.addEventListener('input', () => {
 });
 
 startButton?.addEventListener('click', () => {
+  // THESE SHOULD BE IN THE STARTGAME FUNCTION LATER
   addUserToLocalStorage(selectedUser);
   removeAndHideSections();
 });
 
+
 console.log(startButton);
+
 /******************************************************
  * ************ Execution ****************************
  *****************************************************/
 
-const randomQuestions = getRandomQuestions(array, 10);
-console.log(randomQuestions);

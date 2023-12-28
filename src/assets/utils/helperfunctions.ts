@@ -17,7 +17,16 @@ export function getArrayOfObjectsFromLocalStorage(
   return arrayOfOjbects;
 }
 
-export function getRandomQuestions(jsonArray: IQuestionObject[], numQuestions: number): IQuestionObject[] {
+export function getRandomQuestions(
+  jsonArray: IQuestionObject[],
+  numQuestions: number
+): IQuestionObject[] {
   return [...jsonArray].sort(() => Math.random() - 0.5).slice(0, numQuestions);
 }
 
+export function getFractionAsString(
+  nominator: number,
+  denominator: number
+): string {
+  return `${nominator.toString()}/${denominator.toString()}`;
+}
