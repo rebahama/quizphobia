@@ -13,6 +13,7 @@ import type { IQuestionObject, IStoredUserType } from './assets/utils/types.ts';
 
 const userButtonsContainer = document.querySelector('#buttonContainer');
 const startButton = document.querySelector('#startButton');
+const mainTimerContainer: HTMLElement | null = document.querySelector('#mainTimer');
 const questionNumberText = document.querySelector('#questionNumber');
 const questionContainer = document.querySelector('#questionContainer');
 
@@ -25,13 +26,27 @@ const questionContainer = document.querySelector('#questionContainer');
 const answerTime = 5; // - Variable to use for the time it takes for user to answer question
 const wrongAnswer = false; //  - Boolean to use for wrong answer
 
-let questionArray = getRandomQuestions(array, 10);
+const questionArray = getRandomQuestions(array, 10);
 let storedUsers: IStoredUserType[];
 /* let selectedUser: string | null = null; */
 const selectedUser = 'Matthias'; // placeholder should be replaced with the above
-let currentQuestionNumber = 1;
+const currentQuestionNumber = 1;
 let isAnswerCorrect = false;
 let score = 0;
+
+
+//  Variables for mainInterval  
+let clearTimeMainInterval;
+let clearTimeQuestionInterval: number;
+let mainSeconds = 0;
+let mainMinutes = 0;
+let mainSecs;
+let mainMins;
+
+//  variables for questionInterval
+let questionSeconds = 0;
+let questionMinutes = 0;
+
 
 console.log('originalArray: ', array);
 console.log('questionArray: ', questionArray);
@@ -46,13 +61,23 @@ console.log('selectedUser: ', selectedUser);
  * @param array type IQuestionObject[]
  * @param currentQuestionText text in the header for the current question of type Element | null
  */
-function generateQuestion(
+function checkNextQuestion(
   array: IQuestionObject[],
   currentQuestionText: Element | null
 ): void {
   // resetting isAnswerCorrect to false / can be placed in other places aswell
   isAnswerCorrect = false;
-  // START INDIVIDUAL TIMER HERE!
+  
+  /**
+ * Timer for questionInterval.
+ *  clear when answered clearInterval(clearTimeQuestionInterval)
+ *  - answerTime = questionSeconds;
+ *  - wrongAnswer (true/false)
+ * - call function getPointsForAnsweringQuestions(answerTime, isAnswerCorrect) 
+ *    - Send in parameters for answerTime and isAnswerCorrects.
+ * */
+  setTimeout(setQuestionInterval, 1000);
+
   if (currentQuestionText !== null) {
     currentQuestionText.textContent = getFractionAsString(
       currentQuestionNumber,
@@ -61,6 +86,7 @@ function generateQuestion(
   }
   const currentQuestionObject = array[currentQuestionNumber - 1];
   generateQuestionInHTML(currentQuestionObject, questionContainer);
+  
 }
 
 /**
@@ -93,6 +119,7 @@ function generateQuestionInHTML(
     answerButton.textContent = answer;
     questionListContainer?.append(answerButton);
   });
+  
 }
 
 /**
@@ -174,6 +201,37 @@ function addUserToLocalStorage(userName: string | null): void {
   }
 }
 
+function setMainInterval(): void {
+  if (mainTimerContainer === null) {
+    return;
+  }
+
+  if (mainSeconds === 60) { // if seconds reach 60 - add 1 to mainMinutes
+    mainSeconds = 0;
+    mainMinutes = mainMinutes + 1;
+  }
+
+  mainSecs = mainSeconds < 10 ? `0${mainSeconds}` : mainSeconds;  
+  mainMins = mainMinutes < 10 ? `0${mainMinutes}:` : `${mainMinutes}+:`;
+
+  mainTimerContainer.innerHTML = mainMins + mainSecs;
+  mainSeconds ++;
+  
+  clearTimeMainInterval = setTimeout(setMainInterval, 1000);
+}
+
+function setQuestionInterval(): void {
+
+  if (questionSeconds === 60) {
+    questionSeconds = 0;
+    questionMinutes = questionMinutes + 1;
+  }
+  questionSeconds ++;
+
+  clearTimeQuestionInterval = setTimeout(setQuestionInterval, 1000);
+  console.log(questionSeconds);
+}
+
 function getPointsForAnsweringQuestion(
   answerTime: number,
   wrongAnswer: boolean
@@ -210,10 +268,14 @@ document.addEventListener('DOMContentLoaded', () => {
 startButton?.addEventListener('click', () => {
   // THESE SHOULD BE IN THE STARTGAME FUNCTION LATER
   addUserToLocalStorage(selectedUser);
-  generateQuestion(questionArray, questionNumberText);
+  checkNextQuestion(questionArray, questionNumberText);
+  setTimeout(setMainInterval, 1000); // mainInterval - clearInterval(clearTimeMainInterval) when quiz is done.
 });
 
+
 console.log(startButton);
+
 /******************************************************
  * ************ Execution ****************************
  *****************************************************/
+
