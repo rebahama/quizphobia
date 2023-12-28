@@ -13,13 +13,14 @@ import type { IQuestionObject, IStoredUserType } from './assets/utils/types.ts';
 
 const userButtonsContainer = document.querySelector('#buttonContainer');
 const startButton = document.querySelector('#startButton');
+const mainTimerContainer: HTMLElement | null = document.querySelector('#mainTimer');
+const questionNumberText = document.querySelector('#questionNumber');
+const questionContainer = document.querySelector('#questionContainer');
 const nameInput = document.querySelector('#name') as HTMLInputElement;
 const startContainer = document.querySelector('.start-container');
 const highScoreContainer = document.querySelector('.center-text-highscore-container');
 const finishQuizContainer = document.querySelector('.quiz-finished');
 const quizContainer = document.querySelector('.question-section');
-
-console.log(userButtonsContainer);
 
 /******************************************************
  * ************ Variables ****************************
@@ -259,9 +260,6 @@ function getPointsForAnsweringQuestion(
   return score;
 }
 
-console.log('score:', score);
-getPointsForAnsweringQuestion(answerTime, wrongAnswer); // passing the answerTime for each question as an argument
-
 function removeAndHideSections (): void {
   startContainer?.classList.add('hidden');
   highScoreContainer?.classList.add('hidden');
@@ -282,8 +280,10 @@ function checkIfInputIsEmpty (): void {
   } else {
     console.log('hello');
   }
-
 }
+
+console.log('score:', score);
+getPointsForAnsweringQuestion(answerTime, wrongAnswer); // passing the answerTime for each question as an argument
 
 /******************************************************
  * ************ Eventlisteners ****************************
@@ -302,6 +302,8 @@ startButton?.addEventListener('click', () => {
   // THESE SHOULD BE IN THE STARTGAME FUNCTION LATER
   addUserToLocalStorage(selectedUser);
   removeAndHideSections();
+  checkNextQuestion(questionArray, questionNumberText);
+  setTimeout(setMainInterval, 1000); // mainInterval - clearInterval(clearTimeMainInterval) when quiz is done.
 });
 
 
@@ -310,4 +312,3 @@ console.log(startButton);
 /******************************************************
  * ************ Execution ****************************
  *****************************************************/
-
