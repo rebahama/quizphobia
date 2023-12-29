@@ -61,11 +61,20 @@ main {
           height: 60px;
           font-weight: $font-bold-style;
           width: 200px;
-        }
+          &.button-active {
+            background-color: $background-highscore;
+          }
+          &.button-inactive {
+            background-color: gray;
+            &:hover {
+              opacity: 100%;
+            }
+          }
 
-        &:focus {
-          outline: 2px solid $color-red;
-          outline-offset: 2px;
+          &:focus {
+            outline: 2px solid $color-red;
+            outline-offset: 2px;
+          }
         }
       }
 
