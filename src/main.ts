@@ -13,9 +13,11 @@ import type { IQuestionObject, IStoredUserType } from './assets/utils/types.ts';
 
 const userButtonsContainer = document.querySelector('#buttonContainer');
 const startButton = document.querySelector('#startButton');
-const mainTimerContainer: HTMLElement | null = document.querySelector('#mainTimer');
+const mainTimerContainer: HTMLElement | null =
+  document.querySelector('#mainTimer');
 const questionNumberText = document.querySelector('#questionNumber');
 const questionContainer = document.querySelector('#questionContainer');
+const playerInput = document.querySelector('#name') as HTMLInputElement;
 
 /******************************************************
  * ************ Variables ****************************
@@ -28,14 +30,12 @@ const wrongAnswer = false; //  - Boolean to use for wrong answer
 
 const questionArray = getRandomQuestions(array, 10);
 let storedUsers: IStoredUserType[];
-/* let selectedUser: string | null = null; */
-const selectedUser = 'Matthias'; // placeholder should be replaced with the above
+let selectedUser: string | null = null;
 const currentQuestionNumber = 1;
 let isAnswerCorrect = false;
 let score = 0;
 
-
-//  Variables for mainInterval  
+//  Variables for mainInterval
 let clearTimeMainInterval;
 let clearTimeQuestionInterval: number;
 let mainSeconds = 0;
@@ -46,7 +46,6 @@ let mainMins;
 //  variables for questionInterval
 let questionSeconds = 0;
 let questionMinutes = 0;
-
 
 console.log('originalArray: ', array);
 console.log('questionArray: ', questionArray);
@@ -67,15 +66,15 @@ function checkNextQuestion(
 ): void {
   // resetting isAnswerCorrect to false / can be placed in other places aswell
   isAnswerCorrect = false;
-  
+
   /**
- * Timer for questionInterval.
- *  clear when answered clearInterval(clearTimeQuestionInterval)
- *  - answerTime = questionSeconds;
- *  - wrongAnswer (true/false)
- * - call function getPointsForAnsweringQuestions(answerTime, isAnswerCorrect) 
- *    - Send in parameters for answerTime and isAnswerCorrects.
- * */
+   * Timer for questionInterval.
+   *  clear when answered clearInterval(clearTimeQuestionInterval)
+   *  - answerTime = questionSeconds;
+   *  - wrongAnswer (true/false)
+   * - call function getPointsForAnsweringQuestions(answerTime, isAnswerCorrect)
+   *    - Send in parameters for answerTime and isAnswerCorrects.
+   * */
   setTimeout(setQuestionInterval, 1000);
 
   if (currentQuestionText !== null) {
@@ -86,7 +85,6 @@ function checkNextQuestion(
   }
   const currentQuestionObject = array[currentQuestionNumber - 1];
   generateQuestionInHTML(currentQuestionObject, questionContainer);
-  
 }
 
 /**
@@ -119,7 +117,63 @@ function generateQuestionInHTML(
     answerButton.textContent = answer;
     questionListContainer?.append(answerButton);
   });
-  
+}
+
+/**
+ * Disables user buttons and visually representing this based on if an input has a value
+ * @param input HTMLInputElement type
+ * @param userButtonsContainer Element | null
+ */
+
+/**
+ * Handles when the user clicks the existing user buttons, toggeling active classes on the target
+ * @param event click event
+ * @param input type HTMLInputElement
+ * @returns void
+ */
+function handleClickOnUser(event: Event, input: HTMLInputElement): void {
+  const target = event.target as HTMLElement;
+  const isTargetUserButton =
+    target.tagName === 'BUTTON' && target.classList.contains('intro-buttons');
+  // if input is not empty or the target is not a valid user button exit function
+  console.log(input.value.length > 0);
+  console.log(isTargetUserButton);
+  if (input === null || input.value.length > 0 || !isTargetUserButton) {
+    return;
+  }
+
+  // if target already is active toggle class change for only that button
+  if (target.classList.contains('button-active')) {
+    target.classList.toggle('button-active');
+  } else {
+    // if target is not active first remove active classes from all buttons before adding class
+    const listItems = userButtonsContainer?.querySelectorAll('.intro-buttons');
+    console.log(listItems);
+    listItems?.forEach((item) => {
+      item.classList.remove('button-active');
+    });
+    target.classList.toggle('button-active');
+  }
+  // set selected user to the text of the targeted button
+  if (target.textContent !== null) {
+    selectedUser = target.textContent;
+  }
+  console.log('selectedUser:', selectedUser);
+}
+
+function disableUserButtonsIfInputIsFilled(
+  input: HTMLInputElement,
+  userButtonsContainer: Element | null
+): void {
+  const userButtons = userButtonsContainer?.querySelectorAll('.intro-buttons');
+  const isInputFilled = input.value.length > 0;
+  // if input has value add disabled and a class to visually show this
+  userButtons?.forEach((button) => {
+    button.classList.toggle('button-inactive', isInputFilled);
+    button.classList.toggle('button-active', !isInputFilled);
+  });
+  selectedUser = input.value;
+  console.log('selectedUser: ', selectedUser);
 }
 
 /**
@@ -206,27 +260,27 @@ function setMainInterval(): void {
     return;
   }
 
-  if (mainSeconds === 60) { // if seconds reach 60 - add 1 to mainMinutes
+  if (mainSeconds === 60) {
+    // if seconds reach 60 - add 1 to mainMinutes
     mainSeconds = 0;
     mainMinutes = mainMinutes + 1;
   }
 
-  mainSecs = mainSeconds < 10 ? `0${mainSeconds}` : mainSeconds;  
+  mainSecs = mainSeconds < 10 ? `0${mainSeconds}` : mainSeconds;
   mainMins = mainMinutes < 10 ? `0${mainMinutes}:` : `${mainMinutes}+:`;
 
   mainTimerContainer.innerHTML = mainMins + mainSecs;
-  mainSeconds ++;
-  
+  mainSeconds++;
+
   clearTimeMainInterval = setTimeout(setMainInterval, 1000);
 }
 
 function setQuestionInterval(): void {
-
   if (questionSeconds === 60) {
     questionSeconds = 0;
     questionMinutes = questionMinutes + 1;
   }
-  questionSeconds ++;
+  questionSeconds++;
 
   clearTimeQuestionInterval = setTimeout(setQuestionInterval, 1000);
   console.log(questionSeconds);
@@ -271,11 +325,15 @@ startButton?.addEventListener('click', () => {
   checkNextQuestion(questionArray, questionNumberText);
   setTimeout(setMainInterval, 1000); // mainInterval - clearInterval(clearTimeMainInterval) when quiz is done.
 });
-
+userButtonsContainer?.addEventListener('click', (e) => {
+  handleClickOnUser(e, playerInput);
+});
+playerInput.addEventListener('input', () => {
+  disableUserButtonsIfInputIsFilled(playerInput, userButtonsContainer);
+});
 
 console.log(startButton);
 
 /******************************************************
  * ************ Execution ****************************
  *****************************************************/
-
