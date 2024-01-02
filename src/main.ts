@@ -17,6 +17,12 @@ const mainTimerContainer: HTMLElement | null =
   document.querySelector('#mainTimer');
 const questionNumberText = document.querySelector('#questionNumber');
 const questionContainer = document.querySelector('#questionContainer');
+const startContainer = document.querySelector('.start-container');
+const highScoreContainer = document.querySelector('.center-text-highscore-container');
+const finishQuizContainer = document.querySelector('.quiz-finished');
+const quizContainer = document.querySelector('.question-section');
+const introHeading = document.querySelector('.intro-heading');
+const topBannerHeading = document.querySelector('.top-banner');
 const playerInput = document.querySelector('#name') as HTMLInputElement;
 
 /******************************************************
@@ -315,6 +321,55 @@ function getPointsForAnsweringQuestion(
   return score;
 }
 
+/**
+ * Displays and Hides HTML containers
+ * 
+ * @param startContainer container for buttons and input
+ * @param highScoreContainer container for showing highscore when quiz is finsihed
+ * @param topBannerHeading heading that contains a timer and question number
+ * @returns void
+ */
+function startRemoveAndHideSections (startContainer: Element | null,
+  highScoreContainer: Element | null,
+  topBannerHeading: Element | null,
+): void {
+  startContainer?.classList.add('hidden');
+  highScoreContainer?.classList.add('hidden');
+  topBannerHeading?.classList.remove('hidden');
+}
+
+/**
+ * Displays and Hides HTML containers
+ * 
+ * @param finishQuizContainer container that shows highscore and restart, main menu button
+ * @param introHeading container that shows the heading when user is on homepage
+ * @param topBannerHeading heading that contains a timer and question number
+ * @returns void
+ */
+function startRemoveAndHideSectionsSecondPart (finishQuizContainer: Element | null,
+  introHeading: Element | null,
+  quizContainer: Element | null
+): void {
+  finishQuizContainer?.classList.add('hidden');
+  introHeading?.classList.add('hidden');
+  quizContainer?.classList.remove('hidden');
+}
+
+/**
+ * Displays and Hides HTML containers
+ * This function will run when the page is loadead to hide the containers
+ * @returns void
+ */
+
+function hideQuizAndHighscoreFromStart (quizContainer: Element | null,
+  finishQuizContainer: Element | null,
+  topBannerHeading: Element | null,
+): void {
+  quizContainer?.classList.add('hidden');
+  finishQuizContainer?.classList.add('hidden');
+  topBannerHeading?.classList.add('hidden');
+}
+
 console.log('score:', score);
 getPointsForAnsweringQuestion(answerTime, wrongAnswer); // passing the answerTime for each question as an argument
 
@@ -324,12 +379,11 @@ getPointsForAnsweringQuestion(answerTime, wrongAnswer); // passing the answerTim
 
 document.addEventListener('DOMContentLoaded', () => {
   generateExistingUsersInHTML(userButtonsContainer);
+  hideQuizAndHighscoreFromStart(quizContainer, finishQuizContainer, topBannerHeading);
 });
+
 startButton?.addEventListener('click', () => {
-  // THESE SHOULD BE IN THE STARTGAME FUNCTION LATER
-  addUserToLocalStorage(selectedUser);
-  checkNextQuestion(questionArray, questionNumberText);
-  setTimeout(setMainInterval, 1000); // mainInterval - clearInterval(clearTimeMainInterval) when quiz is done.
+  startGame();
 });
 userButtonsContainer?.addEventListener('click', (e) => {
   handleClickOnUser(e, playerInput);
@@ -343,3 +397,10 @@ console.log(startButton);
 /******************************************************
  * ************ Execution ****************************
  *****************************************************/
+function startGame(): void {
+  addUserToLocalStorage(selectedUser);
+  startRemoveAndHideSections(startContainer, highScoreContainer, topBannerHeading);
+  startRemoveAndHideSectionsSecondPart(finishQuizContainer, introHeading, quizContainer);
+  checkNextQuestion(questionArray, questionNumberText);
+  setTimeout(setMainInterval, 1000); // mainInterval - clearInterval(clearTimeMainInterval) when quiz is done.
+}
