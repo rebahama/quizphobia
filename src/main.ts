@@ -175,8 +175,14 @@ function disableUserButtonsIfInputIsFilled(
   const isInputFilled = input.value.length > 0;
   // if input has value add disabled and a class to visually show this
   userButtons?.forEach((button) => {
-    button.classList.toggle('button-inactive', isInputFilled);
-    button.classList.toggle('button-active', !isInputFilled);
+    if (isInputFilled) {
+      button.classList.toggle('button-inactive', true);
+      button.classList.toggle('button-active', false);
+    } else {
+      // textbox is empty, remove inactive and don´t add active 
+      button.classList.toggle('button-inactive', false);
+      button.classList.toggle('button-active', false);
+    }
   });
   selectedUser = input.value;
   console.log('selectedUser: ', selectedUser);
