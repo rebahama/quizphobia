@@ -337,3 +337,26 @@ console.log(startButton);
 /******************************************************
  * ************ Execution ****************************
  *****************************************************/
+
+document.addEventListener('DOMContentLoaded', () => {
+  const totalQuestions: number = 10;
+  let currentQuestion: number = 1;
+
+  const progressBar: HTMLElement | null = document.getElementById('progress-bar');
+
+  if (progressBar) {
+    function updateProgressBar(): void {
+      const progressPercentage: number = (currentQuestion / totalQuestions) * 100;
+      progressBar.style.width = `${progressPercentage}%`;
+    }
+
+    function goToNextQuestion(): void {
+      if (currentQuestion < totalQuestions) {
+        currentQuestion++;
+        updateProgressBar();
+      }
+    }
+
+    updateProgressBar();
+  }
+});
