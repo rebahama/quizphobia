@@ -8,6 +8,10 @@ import {
 } from './assets/utils/helperfunctions.ts';
 import type { IQuestionObject, IStoredUserType } from './assets/utils/types.ts'; // importing interface
 
+import { gsap } from "gsap"; // animation med gsap
+import { Flip } from "gsap/Flip";
+gsap.registerPlugin(Flip);
+
 /******************************************************
  * ************ Selectors ****************************
  *****************************************************/
