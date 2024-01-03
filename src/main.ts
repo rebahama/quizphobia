@@ -283,14 +283,31 @@ function handleLogicBasedOnAnswer(answer: HTMLElement, isTargetTheRightAnswer: b
   if (isTargetTheRightAnswer) {
     isAnswerCorrect = true;
     // handle how many points we get based on time
-    answer.classList.add('right'); // green placeholder
+    //answer.classList.add('right'); // green placeholder
+
     // maybe have animation for right answer gsap, 1-2 sec
+    gsap.to(answer, { 
+      duration: 1, 
+      backgroundColor: '#207d73',
+      scale: 1.5,
+      ease: 'elastic'
+    });
+
     rightCount += 1;
     console.log('right count: ', rightCount);
   } else {
     isAnswerCorrect = false;
     // maybe have animation for wrong answer, gsap 1-2
-    answer.classList.add('wrong'); // red placeholder
+    gsap.fromTo(answer, {
+      scale: 1,
+    },
+    {
+      ease: 'bounce.out',
+      scale: 0.8,
+      duration: 1,
+      backgroundColor: '#67073d',
+    });
+    //answer.classList.add('wrong'); // red placeholder
     // questionScore -= 15; // 
   }
 }
