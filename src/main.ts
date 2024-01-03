@@ -270,7 +270,7 @@ function handleClickOnAnswers(event: Event, questionArray: IQuestionObject[]): v
   // animate score update //
   updateDisplayForNextQuestion();
   // clear interval individual
-  clearInterval(clearTimeQuestionInterval);
+  clearInterval(clearTimeQuestionInterval); // hej
 }
 
 // GSAP ANIMATION FOR BUTTONS HERE! //
