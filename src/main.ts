@@ -4,6 +4,7 @@ import {
   getArrayOfObjectsFromLocalStorage,
   getRandomQuestions,
   getFractionAsString,
+  getLinearGradienceLeftToRightAsString,
 } from './assets/utils/helperfunctions.ts';
 import type { IQuestionObject, IStoredUserType } from './assets/utils/types.ts'; // importing interface
 
@@ -23,6 +24,7 @@ const quizContainer = document.querySelector('.question-section');
 const introHeading = document.querySelector('.intro-heading');
 const topBannerHeading = document.querySelector('.top-banner');
 const playerInput = document.querySelector('#name') as HTMLInputElement;
+const progressBar = document.querySelector('#progressBar') as HTMLElement;
 
 /******************************************************
  * ************ Variables ****************************
@@ -69,7 +71,11 @@ console.log('score:', score);
 function checkNextQuestion(array: IQuestionObject[], currentQuestionText: Element | null): void {
   // resetting isAnswerCorrect to false / can be placed in other places aswell
   isAnswerCorrect = false;
-
+  if (progressBar === null) {
+    return;
+  }
+  // taking question number as percentage in the progressbar to get linear gradient
+  progressBar.style.background = getLinearGradienceLeftToRightAsString(currentQuestionNumber * 10);
   /**
    * Timer for questionInterval.
    *  clear when answered clearInterval(clearTimeQuestionInterval)
@@ -359,3 +365,5 @@ userButtonsContainer?.addEventListener('click', e => {
 playerInput.addEventListener('input', () => {
   disableUserButtonsIfInputIsFilled(playerInput, userButtonsContainer);
 });
+
+console.log(startButton);

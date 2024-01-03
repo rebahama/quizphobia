@@ -30,3 +30,7 @@ export function getFractionAsString(
 ): string {
   return `${nominator.toString()}/${denominator.toString()}`;
 }
+
+export function getLinearGradienceLeftToRightAsString(percentage: number): string {
+  return `linear-gradient(to right, #212f45 ${percentage}%, #d9d9d9 ${percentage}%)`;
+}
