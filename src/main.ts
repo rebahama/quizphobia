@@ -4,6 +4,7 @@ import {
   getArrayOfObjectsFromLocalStorage,
   getRandomQuestions,
   getFractionAsString,
+  getLinearGradienceLeftToRightAsString,
 } from './assets/utils/helperfunctions.ts';
 import type { IQuestionObject, IStoredUserType } from './assets/utils/types.ts'; // importing interface
 
@@ -23,6 +24,7 @@ const quizContainer = document.querySelector('.question-section');
 const introHeading = document.querySelector('.intro-heading');
 const topBannerHeading = document.querySelector('.top-banner');
 const playerInput = document.querySelector('#name') as HTMLInputElement;
+const progressBar = document.querySelector('#progressBar') as HTMLElement;
 
 /******************************************************
  * ************ Variables ****************************
@@ -69,7 +71,11 @@ console.log('score:', score);
 function checkNextQuestion(array: IQuestionObject[], currentQuestionText: Element | null): void {
   // resetting isAnswerCorrect to false / can be placed in other places aswell
   isAnswerCorrect = false;
-
+  if (progressBar === null) {
+    return;
+  }
+  // taking question number as percentage in the progressbar to get linear gradient
+  progressBar.style.background = getLinearGradienceLeftToRightAsString(currentQuestionNumber * 10);
   /**
    * Timer for questionInterval.
    *  clear when answered clearInterval(clearTimeQuestionInterval)
@@ -361,83 +367,3 @@ playerInput.addEventListener('input', () => {
 });
 
 console.log(startButton);
-
-/******************************************************
- * ************ Execution ****************************
- *****************************************************/
-
-document.addEventListener('DOMContentLoaded', () => {
-  const totalQuestions: number = 10;
-  let currentQuestion: number = 1;
-
-  const progressBar: HTMLElement | null = document.querySelector('#progressBar');
-
-  if (progressBar) {
-    function updateProgressBar(): void {
-      const progressPercentage: number = (currentQuestion / totalQuestions) * 100;
-      progressBar.style.width = `${progressPercentage}%`;
-    }
-
-    function goToNextQuestion(): void {
-      if (currentQuestion < totalQuestions) {
-        currentQuestion++;
-        updateProgressBar();
-      }
-    }
-
-    updateProgressBar();
-  }
-});
-
-/* ------------------------
------en till variant ------
------------------------- */
-
-document.addEventListener('DOMContentLoaded', function() {
-  // Här kan du lägga till dina frågor och svarsalternativ
-  const totalQuestions: number = 10;
-  let currentQuestion: number = 0;
-
-  // Hämta progressbar-elementet med querySelector
-  const progressBar: HTMLElement | null = document.querySelector('#progressBar');
-
-  if (progressBar) {
-    // Visa progressbaren när användaren börjar quizet
-    function showProgressbar(): void {
-      progressBar.style.display = 'block';
-    }
-
-    // Uppdatera progressbaren baserat på antalet besvarade frågor
-    function updateProgress(): void {
-      const progress: number = (currentQuestion / totalQuestions) * 100;
-      progressBar.style.width = progress + '%';
-    }
-
-    // Funktion för att hantera när användaren svarar på en fråga
-    function answerQuestion(): void {
-      // Här kan du lägga till kod för att hantera användarens svar
-
-      // Uppdatera den aktuella frågan
-      currentQuestion++;
-
-      // Uppdatera progressbaren
-      updateProgress();
-    }
-
-    // Lägg till en lyssnare för att visa progressbaren när användaren börjar quizet
-    document.addEventListener('click', function(event: Event) {
-      // Anta att användaren klickar på en startknapp för att börja quizet
-      // Du kan justera detta baserat på din användarinteraktion
-      if (event.target && (event.target as HTMLElement).id === 'startButton') {
-        showProgressbar();
-        // Starta quizet genom att ställa den första frågan eller göra andra åtgärder
-        // Beroende på hur du vill designa din quiz-app
-      }
-    });
-  }
-});
-
-/*  1. Progressbaren är hidden i html
-    2. När man trycker på start visas den
-    3. Räknar procent efter gjorda eller kommande frågor
-    4. Linear-gradient för the looks */
