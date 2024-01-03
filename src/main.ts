@@ -333,11 +333,19 @@ function hideQuizAndHighscoreFromStart(
 }
 
 const highScoreListContainer = document.querySelector('.list-split-one');
-function displayHighScoreList(highScoreListContainer: Element | null): void {
+const secondHighScoreListContainer = document.querySelector('.list-split-two');
+
+function displayHighScoreList(highScoreListContainer: Element | null,
+  secondHighScoreListContainer: Element | null
+): void {
   const userArray = getArrayOfObjectsFromLocalStorage(storedUsers, 'users');
   const firstUserArray = userArray.splice(0, 5);
+  const secondUserArray = userArray.splice(0, 6, ...userArray.splice(5));
+  
+  
   if (highScoreListContainer !== null) {
     const userListElement = document.createElement('ul'); // Create an unordered list
+    const secondListElement = document.createElement('ul');
     let counter = 1;
     firstUserArray.forEach((user) => {
       console.log(user.user);
@@ -350,8 +358,22 @@ function displayHighScoreList(highScoreListContainer: Element | null): void {
         counter++;
       }
     });
+    if (secondHighScoreListContainer !== null) {
+      secondUserArray.forEach((user) => {
+        console.log(user.user);
+        const userInArray = user.user;
+        // Check if userInArray is not null before adding it to the list
+        if (userInArray !== null) {
+          const listItemElement = document.createElement('li'); // Create a list item
+          listItemElement.textContent = `${counter}. ${userInArray}`;
+          secondListElement.appendChild(listItemElement);
+          counter++;
+        }
+      });
+    }
     // Append the created list to the container
     highScoreListContainer.appendChild(userListElement);
+    secondHighScoreListContainer?.appendChild(secondListElement);
   }
 }
 
@@ -372,7 +394,7 @@ getPointsForAnsweringQuestion(answerTime, wrongAnswer); // passing the answerTim
 document.addEventListener('DOMContentLoaded', () => {
   generateExistingUsersInHTML(userButtonsContainer);
   hideQuizAndHighscoreFromStart(quizContainer, finishQuizContainer, topBannerHeading);
-  displayHighScoreList(highScoreListContainer);
+  displayHighScoreList(highScoreListContainer, secondHighScoreListContainer);
 });
 startButton?.addEventListener('click', () => {
   startGame();
