@@ -37,9 +37,10 @@ const wrongAnswer = false; //  - Boolean to use for wrong answer
 const questionArray = getRandomQuestions(array, 10);
 let storedUsers: IStoredUserType[];
 let selectedUser: string | null = null;
-const currentQuestionNumber = 1;
+let currentQuestionNumber = 1;
 let isAnswerCorrect = false;
 let score = 0;
+let rightCount = 0;
 
 //  Variables for mainInterval
 let clearTimeMainInterval;
@@ -267,6 +268,70 @@ function addUserToLocalStorage(userName: string | null): void {
   }
 }
 
+/**
+ * Handles logic for clicking on answers with event delegation
+ * @param event clickEvent
+ * @param questionArray array of objects for the question with interface IQuestionObject[]
+ * @returns void
+ */
+function handleClickOnAnswers(event: Event, questionArray: IQuestionObject[]): void {
+  const buttons = document.querySelectorAll('#questionList button');
+  const isAnyButtonTaken = Array.from(buttons).some(button => button.classList.contains('taken'));
+  console.log(isAnyButtonTaken);
+  const target = event.target as HTMLElement;
+  // if target is not a li element or if a button already is taken exist the function
+  if (target === null || target.tagName !== 'BUTTON' || isAnyButtonTaken) {
+    return;
+  }
+  // set what the current question is
+  const currentQuestionObject = questionArray[currentQuestionNumber - 1];
+  // checking if the answer clicked is the right answer
+  const isTargetTheRightAnswer =
+    target.textContent?.toLowerCase() === currentQuestionObject.correct_answer.toLowerCase();
+  // adding class taken for keeping track if any answer is already clicked
+  target.classList.add('taken');
+  handleLogicBasedOnAnswer(target, isTargetTheRightAnswer);
+  // totalHighscore += Math.floor(questionScore); //
+  // animate score update //
+  updateDisplayForNextQuestion();
+  // clear interval individual
+  clearInterval(clearTimeQuestionInterval);
+}
+
+function handleLogicBasedOnAnswer(answer: HTMLElement, isTargetTheRightAnswer: boolean): void {
+  if (isTargetTheRightAnswer) {
+    isAnswerCorrect = true;
+    // handle how many points we get based on time
+    answer.classList.add('right');
+    rightCount += 1;
+    console.log('right count: ', rightCount);
+  } else {
+    answer.classList.add('wrong');
+    // questionScore -= 15; // 
+  }
+}
+
+function updateDisplayForNextQuestion(): void {
+  if (currentQuestionNumber <= questionArray.length) {
+    currentQuestionNumber += 1;
+  }
+  setTimeout(() => {
+    if (currentQuestionNumber <= questionArray.length) {
+      checkNextQuestion(questionArray, questionNumberText);
+      /*
+      if (!progressBar) {
+        return;
+      }
+      progressBar.style.background = getLinearGradientLeftToRight(currentQuestionNumber * 10);
+      */
+    } else if (currentQuestionNumber > questionArray.length) {
+      console.log(currentQuestionNumber);
+      // display End screen
+      alert('end screen');
+    }
+  }, 1500);
+}
+
 function setMainInterval(): void {
   if (mainTimerContainer === null) {
     return;
@@ -390,6 +455,9 @@ userButtonsContainer?.addEventListener('click', (e) => {
 });
 playerInput.addEventListener('input', () => {
   disableUserButtonsIfInputIsFilled(playerInput, userButtonsContainer);
+});
+questionContainer?.addEventListener('click', e => {
+  handleClickOnAnswers(e, questionArray);
 });
 
 console.log(startButton);
