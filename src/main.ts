@@ -32,8 +32,6 @@ const progressBar = document.querySelector('#progressBar') as HTMLElement;
 
 /*                      const                    */
 
-const answerTime = 5; // - Variable to use for the time it takes for user to answer question
-const wrongAnswer = false; //  - Boolean to use for wrong answer
 const questionArray = getRandomQuestions(array, 10);
 
 /*                      let                   */
@@ -42,9 +40,10 @@ let storedUsers: IStoredUserType[];
 let selectedUser: string | null = null;
 let currentQuestionNumber = 1;
 let isAnswerCorrect = false;
-let score = 0;
+let questionScore = 0;
+let highscore = 0;
 let rightCount = 0;
-let clearTimeMainInterval; // main interval
+let clearTimeMainInterval: number; // main interval
 let clearTimeQuestionInterval: number; // question interval
 // main timer
 let mainSeconds = 0;
@@ -54,11 +53,11 @@ let mainMins;
 // question timer
 let questionSeconds = 0;
 let questionMinutes = 0;
+let elapsedTime = 0;
 
 console.log('originalArray: ', array);
 console.log('questionArray: ', questionArray);
 console.log('selectedUser: ', selectedUser);
-console.log('score:', score);
 
 /******************************************************
  * ************ Functions ****************************
@@ -86,6 +85,7 @@ function checkNextQuestion(array: IQuestionObject[], currentQuestionText: Elemen
    *    - Send in parameters for answerTime and isAnswerCorrects.
    * */
   setTimeout(setQuestionInterval, 1000);
+  clearInterval(clearTimeQuestionInterval);
 
   if (currentQuestionText !== null) {
     currentQuestionText.textContent = getFractionAsString(currentQuestionNumber, questionArray.length);
@@ -273,15 +273,20 @@ function handleClickOnAnswers(event: Event, questionArray: IQuestionObject[]): v
   clearInterval(clearTimeQuestionInterval);
 }
 
+// GSAP ANIMATION FOR BUTTONS HERE! //
+
 function handleLogicBasedOnAnswer(answer: HTMLElement, isTargetTheRightAnswer: boolean): void {
   if (isTargetTheRightAnswer) {
     isAnswerCorrect = true;
     // handle how many points we get based on time
-    answer.classList.add('right');
+    answer.classList.add('right'); // green placeholder
+    // maybe have animation for right answer gsap, 1-2 sec
     rightCount += 1;
     console.log('right count: ', rightCount);
   } else {
-    answer.classList.add('wrong');
+    isAnswerCorrect = false;
+    // maybe have animation for wrong answer, gsap 1-2
+    answer.classList.add('wrong'); // red placeholder
     // questionScore -= 15; // 
   }
 }
@@ -293,17 +298,13 @@ function updateDisplayForNextQuestion(): void {
   setTimeout(() => {
     if (currentQuestionNumber <= questionArray.length) {
       checkNextQuestion(questionArray, questionNumberText);
-      /*
-      if (!progressBar) {
-        return;
-      }
-      progressBar.style.background = getLinearGradientLeftToRight(currentQuestionNumber * 10);
-      */
     } else if (currentQuestionNumber > questionArray.length) {
       console.log(currentQuestionNumber);
       // display End screen
       alert('end screen');
+      clearInterval(clearTimeMainInterval);
     }
+    // highscore = // 
   }, 1500);
 }
 
@@ -338,7 +339,7 @@ function setQuestionInterval(): void {
   console.log(questionSeconds);
 }
 
-function getPointsForAnsweringQuestion(answerTime: number, wrongAnswer: boolean): number {
+function getPointsForAnsweringQuestion(answerTime: number, wrongAnswer: boolean, score: number): number {
   if (wrongAnswer) {
     score -= 30;
   } else if (answerTime < 5) {
@@ -411,7 +412,6 @@ function startGame(): void {
   setTimeout(setMainInterval, 1000); // mainInterval - clearInterval(clearTimeMainInterval) when quiz is done.
 }
 
-getPointsForAnsweringQuestion(answerTime, wrongAnswer); // passing the answerTime for each question as an argument
 
 /******************************************************
  * ************ Eventlisteners ****************************
