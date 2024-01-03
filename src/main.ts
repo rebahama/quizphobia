@@ -332,6 +332,29 @@ function hideQuizAndHighscoreFromStart(
   topBannerHeading?.classList.add('hidden');
 }
 
+const highScoreListContainer = document.querySelector('.list-split-one');
+function displayHighScoreList(highScoreListContainer: Element | null): void {
+  const userArray = getArrayOfObjectsFromLocalStorage(storedUsers, 'users');
+  const firstUserArray = userArray.splice(0, 5);
+  if (highScoreListContainer !== null) {
+    const userListElement = document.createElement('ul'); // Create an unordered list
+    let counter = 1;
+    firstUserArray.forEach((user) => {
+      console.log(user.user);
+      const userInArray = user.user;
+      // Check if userInArray is not null before adding it to the list
+      if (userInArray !== null) {
+        const listItemElement = document.createElement('li'); // Create a list item
+        listItemElement.textContent = `${counter}. ${userInArray}`;
+        userListElement.appendChild(listItemElement);
+        counter++;
+      }
+    });
+    // Append the created list to the container
+    highScoreListContainer.appendChild(userListElement);
+  }
+}
+
 function startGame(): void {
   addUserToLocalStorage(selectedUser);
   startRemoveAndHideSections(startContainer, highScoreContainer, topBannerHeading);
@@ -349,6 +372,7 @@ getPointsForAnsweringQuestion(answerTime, wrongAnswer); // passing the answerTim
 document.addEventListener('DOMContentLoaded', () => {
   generateExistingUsersInHTML(userButtonsContainer);
   hideQuizAndHighscoreFromStart(quizContainer, finishQuizContainer, topBannerHeading);
+  displayHighScoreList(highScoreListContainer);
 });
 startButton?.addEventListener('click', () => {
   startGame();
