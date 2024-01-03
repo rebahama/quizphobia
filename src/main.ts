@@ -6,7 +6,8 @@ import {
   getFractionAsString,
   getLinearGradienceLeftToRightAsString,
 } from './assets/utils/helperfunctions.ts';
-import type { IQuestionObject, IStoredUserType } from './assets/utils/types.ts'; // importing interface
+import type { IQuestionObject, IStoredUserType,
+  IHighScoreObject } from './assets/utils/types.ts'; // importing interface
 
 /******************************************************
  * ************ Selectors ****************************
@@ -33,6 +34,7 @@ const progressBar = document.querySelector('#progressBar') as HTMLElement;
 /*                      const                    */
 
 const questionArray = getRandomQuestions(array, 10);
+const highScoreArray: IHighScoreObject[] = [];
 
 /*                      let                   */
 
@@ -282,6 +284,8 @@ function handleLogicBasedOnAnswer(answer: HTMLElement, isTargetTheRightAnswer: b
   }
   questionScore = getPointsForAnsweringQuestion(questionSeconds, isAnswerCorrect, questionScore);
   highscore += Math.floor(questionScore);
+
+  console.log('selectedUser:', selectedUser, 'Higscore', highscore);
   const highscoreBanner = document.querySelector('#currentScore');
   if (highscoreBanner !== null) {
     highscoreBanner.textContent = highscore.toString();
@@ -299,9 +303,45 @@ function updateDisplayForNextQuestion(): void {
       console.log(currentQuestionNumber);
       // display End screen
       alert('end screen');
+      updateHighScoreArray(highScoreArray);
+      updateUserPositionInHighScore(highScoreArray);
       clearInterval(clearTimeMainInterval);
+      console.log(highScoreArray);
     }
   }, 1500);
+}
+
+/**
+ * Handles logic for sending the highscore and user to an array and displaying
+ * @param highScoreArray array of objects for the highscore and user with interface IHighScoreObject[]
+ * @returns void
+ */
+
+function updateHighScoreArray(highScoreArray:IHighScoreObject[]):void {
+  if (highScoreArray.length < 10) {
+    const highScoreObject = { user: selectedUser,
+      highscore
+    };
+    highScoreArray.push(highScoreObject);
+  }
+}
+
+/**
+ * Handles logic for sending the highscore and user to an array and displaying
+ * Sort the highscore from high to low.
+ * @param highScoreArray array of objects for the highscore and user with interface IHighScoreObject[]
+ * @returns void
+ */
+function updateUserPositionInHighScore(highScoreArray:IHighScoreObject[]):void {
+  const listScoreOutput = document.querySelectorAll('.list-score-output li');
+  if (highScoreArray.length <= 0) {
+    
+    return;
+  }
+  highScoreArray.sort((a, b) => b.highscore - a.highscore);
+  highScoreArray.forEach((highscore, index) => {
+    listScoreOutput[index].textContent = `${index + 1}. ${highscore.user} ${highscore.highscore}`;
+  });
 }
 
 function setMainInterval(): void {

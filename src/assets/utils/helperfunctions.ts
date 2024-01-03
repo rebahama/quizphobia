@@ -1,4 +1,4 @@
-import type { IQuestionObject, IStoredUserType } from './types';
+import type { IQuestionObject, IStoredUserType} from './types';
 
 /**
  * getter function that returns an array of objects from localStorage after parsing the stored data
