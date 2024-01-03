@@ -334,11 +334,21 @@ function hideQuizAndHighscoreFromStart(
 
 const highScoreListContainer = document.querySelector('.list-split-one');
 const secondHighScoreListContainer = document.querySelector('.list-split-two');
-
+/**
+ * Displays saved players in localstorage to the html code. A counter with numbers will be created
+ * everytime a player is rendered, the original array is used with split method do display the correct
+ * index foreach list.
+ * This function will run when the page is loadead
+ * @param highScoreListContainer is container for 1 to 5 player list
+ * @param secondHighScoreListContainer is container for 6 to 10 player list
+ * @returns void
+ */
 function displayHighScoreList(highScoreListContainer: Element | null,
   secondHighScoreListContainer: Element | null
 ): void {
+  //  Local storage
   const userArray = getArrayOfObjectsFromLocalStorage(storedUsers, 'users');
+  // Create two arrays
   const firstUserArray = userArray.splice(0, 5);
   const secondUserArray = userArray.splice(0, 6, ...userArray.splice(5));
   
