@@ -3,7 +3,8 @@ import array from './json/quiz.json'; // Importing json file to array for using 
 import {
   getArrayOfObjectsFromLocalStorage,
   getRandomQuestions,
-  getFractionAsString
+  getFractionAsString,
+  getLinearGradienceLeftToRightAsString,
 } from './assets/utils/helperfunctions.ts';
 import type { IQuestionObject, IStoredUserType } from './assets/utils/types.ts'; // importing interface
 
@@ -13,8 +14,7 @@ import type { IQuestionObject, IStoredUserType } from './assets/utils/types.ts';
 
 const userButtonsContainer = document.querySelector('#buttonContainer');
 const startButton = document.querySelector('#startButton');
-const mainTimerContainer: HTMLElement | null =
-  document.querySelector('#mainTimer');
+const mainTimerContainer: HTMLElement | null = document.querySelector('#mainTimer');
 const questionNumberText = document.querySelector('#questionNumber');
 const questionContainer = document.querySelector('#questionContainer');
 const startContainer = document.querySelector('.start-container');
@@ -24,6 +24,7 @@ const quizContainer = document.querySelector('.question-section');
 const introHeading = document.querySelector('.intro-heading');
 const topBannerHeading = document.querySelector('.top-banner');
 const playerInput = document.querySelector('#name') as HTMLInputElement;
+const progressBar = document.querySelector('#progressBar') as HTMLElement;
 
 /******************************************************
  * ************ Variables ****************************
@@ -33,30 +34,31 @@ const playerInput = document.querySelector('#name') as HTMLInputElement;
 
 const answerTime = 5; // - Variable to use for the time it takes for user to answer question
 const wrongAnswer = false; //  - Boolean to use for wrong answer
-
 const questionArray = getRandomQuestions(array, 10);
+
+/*                      let                   */
+
 let storedUsers: IStoredUserType[];
 let selectedUser: string | null = null;
 let currentQuestionNumber = 1;
 let isAnswerCorrect = false;
 let score = 0;
 let rightCount = 0;
-
-//  Variables for mainInterval
-let clearTimeMainInterval;
-let clearTimeQuestionInterval: number;
+let clearTimeMainInterval; // main interval
+let clearTimeQuestionInterval: number; // question interval
+// main timer
 let mainSeconds = 0;
 let mainMinutes = 0;
 let mainSecs;
 let mainMins;
-
-//  variables for questionInterval
+// question timer
 let questionSeconds = 0;
 let questionMinutes = 0;
 
 console.log('originalArray: ', array);
 console.log('questionArray: ', questionArray);
 console.log('selectedUser: ', selectedUser);
+console.log('score:', score);
 
 /******************************************************
  * ************ Functions ****************************
@@ -67,13 +69,14 @@ console.log('selectedUser: ', selectedUser);
  * @param array type IQuestionObject[]
  * @param currentQuestionText text in the header for the current question of type Element | null
  */
-function checkNextQuestion(
-  array: IQuestionObject[],
-  currentQuestionText: Element | null
-): void {
+function checkNextQuestion(array: IQuestionObject[], currentQuestionText: Element | null): void {
   // resetting isAnswerCorrect to false / can be placed in other places aswell
   isAnswerCorrect = false;
-
+  if (progressBar === null) {
+    return;
+  }
+  // taking question number as percentage in the progressbar to get linear gradient
+  progressBar.style.background = getLinearGradienceLeftToRightAsString(currentQuestionNumber * 10);
   /**
    * Timer for questionInterval.
    *  clear when answered clearInterval(clearTimeQuestionInterval)
@@ -85,10 +88,7 @@ function checkNextQuestion(
   setTimeout(setQuestionInterval, 1000);
 
   if (currentQuestionText !== null) {
-    currentQuestionText.textContent = getFractionAsString(
-      currentQuestionNumber,
-      questionArray.length
-    );
+    currentQuestionText.textContent = getFractionAsString(currentQuestionNumber, questionArray.length);
   }
   const currentQuestionObject = array[currentQuestionNumber - 1];
   generateQuestionInHTML(currentQuestionObject, questionContainer);
@@ -100,10 +100,7 @@ function checkNextQuestion(
  * @param questionContainer container for the question and answers
  * @returns void
  */
-function generateQuestionInHTML(
-  currentQuestionObject: IQuestionObject,
-  questionContainer: Element | null
-): void {
+function generateQuestionInHTML(currentQuestionObject: IQuestionObject, questionContainer: Element | null): void {
   if (questionContainer === null) {
     return;
   }
@@ -119,18 +116,12 @@ function generateQuestionInHTML(
   `;
   const questionListContainer = document.querySelector('#questionList');
   // iterates all the answers and appends each to the buttonlist container
-  answers.forEach((answer) => {
+  answers.forEach(answer => {
     const answerButton = document.createElement('button');
     answerButton.textContent = answer;
     questionListContainer?.append(answerButton);
   });
 }
-
-/**
- * Disables user buttons and visually representing this based on if an input has a value
- * @param input HTMLInputElement type
- * @param userButtonsContainer Element | null
- */
 
 /**
  * Handles when the user clicks the existing user buttons, toggeling active classes on the target
@@ -140,11 +131,8 @@ function generateQuestionInHTML(
  */
 function handleClickOnUser(event: Event, input: HTMLInputElement): void {
   const target = event.target as HTMLElement;
-  const isTargetUserButton =
-    target.tagName === 'BUTTON' && target.classList.contains('intro-buttons');
+  const isTargetUserButton = target.tagName === 'BUTTON' && target.classList.contains('intro-buttons');
   // if input is not empty or the target is not a valid user button exit function
-  console.log(input.value.length > 0);
-  console.log(isTargetUserButton);
   if (input === null || input.value.length > 0 || !isTargetUserButton) {
     return;
   }
@@ -155,8 +143,7 @@ function handleClickOnUser(event: Event, input: HTMLInputElement): void {
   } else {
     // if target is not active first remove active classes from all buttons before adding class
     const listItems = userButtonsContainer?.querySelectorAll('.intro-buttons');
-    console.log(listItems);
-    listItems?.forEach((item) => {
+    listItems?.forEach(item => {
       item.classList.remove('button-active');
     });
     target.classList.toggle('button-active');
@@ -168,19 +155,21 @@ function handleClickOnUser(event: Event, input: HTMLInputElement): void {
   console.log('selectedUser:', selectedUser);
 }
 
-function disableUserButtonsIfInputIsFilled(
-  input: HTMLInputElement,
-  userButtonsContainer: Element | null
-): void {
+/**
+ * Disables user buttons and visually representing this based on if an input has a value
+ * @param input HTMLInputElement type
+ * @param userButtonsContainer Element | null
+ */
+function disableUserButtonsIfInputIsFilled(input: HTMLInputElement, userButtonsContainer: Element | null): void {
   const userButtons = userButtonsContainer?.querySelectorAll('.intro-buttons');
   const isInputFilled = input.value.length > 0;
   // if input has value add disabled and a class to visually show this
-  userButtons?.forEach((button) => {
+  userButtons?.forEach(button => {
     if (isInputFilled) {
       button.classList.toggle('button-inactive', true);
       button.classList.toggle('button-active', false);
     } else {
-      // textbox is empty, remove inactive and don´t add active 
+      // textbox is empty, remove inactive and don´t add active
       button.classList.toggle('button-inactive', false);
       button.classList.toggle('button-active', false);
     }
@@ -190,26 +179,20 @@ function disableUserButtonsIfInputIsFilled(
 }
 
 /**
- *
  * Generating existing users from local storage as HTML
  * @param userButtonsContainer button container for users of type Element | null
  * @returns void
  */
-function generateExistingUsersInHTML(
-  userButtonsContainer: Element | null
-): void {
+function generateExistingUsersInHTML(userButtonsContainer: Element | null): void {
   // get an array of existing users from localstorage with a helperfunction
-  const existingUsersArray = getArrayOfObjectsFromLocalStorage(
-    storedUsers,
-    'users'
-  );
+  const existingUsersArray = getArrayOfObjectsFromLocalStorage(storedUsers, 'users');
   // if there are not existing users in the array from localstorage exit the function
   if (userButtonsContainer === null || !(existingUsersArray.length > 0)) {
     return;
   }
   userButtonsContainer.innerHTML = '';
   // creating and appending the existing users
-  existingUsersArray.forEach((user) => {
+  existingUsersArray.forEach(user => {
     const userButton = document.createElement('button');
     userButton.classList.add('intro-buttons');
     userButton.textContent = user.user;
@@ -223,11 +206,8 @@ function generateExistingUsersInHTML(
  * @param userName userName of type string
  * @returns boolean if the userName string is the same as the string in the stored users
  */
-function doesUserExistInArray(
-  users: IStoredUserType[],
-  userName: string | null
-): boolean {
-  return users.some((userObject) => {
+function doesUserExistInArray(users: IStoredUserType[], userName: string | null): boolean {
+  return users.some(userObject => {
     // if userObject.user does not exist in this array return false
     if (userObject.user === null) {
       return false;
@@ -243,10 +223,7 @@ function doesUserExistInArray(
  * @returns void
  */
 function addUserToLocalStorage(userName: string | null): void {
-  const currentUsersArray = getArrayOfObjectsFromLocalStorage(
-    storedUsers,
-    'users'
-  );
+  const currentUsersArray = getArrayOfObjectsFromLocalStorage(storedUsers, 'users');
   // type checking if userName is null or if the user already exists in array, if so return
   if (userName === null || doesUserExistInArray(currentUsersArray, userName)) {
     return;
@@ -254,15 +231,13 @@ function addUserToLocalStorage(userName: string | null): void {
   // create an object for the newUser
   const newUser = {
     id: currentUsersArray.length,
-    user: userName
+    user: userName,
   };
   // if currentUsersArray array is empty, then create an array with the newly create user and stringify it
   if (currentUsersArray.length === 0) {
-    console.log('new user!');
     localStorage.setItem('users', JSON.stringify([newUser]));
   } else {
     // if the currentUsersArray array already is in localStorage, push the new User to that array
-    console.log('user already exist!');
     currentUsersArray.push(newUser);
     localStorage.setItem('users', JSON.stringify(currentUsersArray));
   }
@@ -347,7 +322,7 @@ function setMainInterval(): void {
   mainMins = mainMinutes < 10 ? `0${mainMinutes}:` : `${mainMinutes}+:`;
 
   mainTimerContainer.innerHTML = mainMins + mainSecs;
-  mainSeconds++;
+  mainSeconds += 1;
 
   clearTimeMainInterval = setTimeout(setMainInterval, 1000);
 }
@@ -357,46 +332,39 @@ function setQuestionInterval(): void {
     questionSeconds = 0;
     questionMinutes = questionMinutes + 1;
   }
-  questionSeconds++;
+  questionSeconds += 1;
 
   clearTimeQuestionInterval = setTimeout(setQuestionInterval, 1000);
   console.log(questionSeconds);
 }
 
-function getPointsForAnsweringQuestion(
-  answerTime: number,
-  wrongAnswer: boolean
-): number {
+function getPointsForAnsweringQuestion(answerTime: number, wrongAnswer: boolean): number {
   if (wrongAnswer) {
     score -= 30;
-    console.log(score);
   } else if (answerTime < 5) {
     score = score + 150;
-    console.log('under five');
   } else if (answerTime < 10) {
     score += 125;
-    console.log('under ten');
   } else if (answerTime < 15) {
     score += 100;
-    console.log('under 15');
   } else {
     score += 50;
-    console.log('to slow');
   }
+  console.log(score);
   return score;
 }
 
 /**
  * Displays and Hides HTML containers
- * 
  * @param startContainer container for buttons and input
  * @param highScoreContainer container for showing highscore when quiz is finsihed
  * @param topBannerHeading heading that contains a timer and question number
  * @returns void
  */
-function startRemoveAndHideSections (startContainer: Element | null,
+function startRemoveAndHideSections(
+  startContainer: Element | null,
   highScoreContainer: Element | null,
-  topBannerHeading: Element | null,
+  topBannerHeading: Element | null
 ): void {
   startContainer?.classList.add('hidden');
   highScoreContainer?.classList.add('hidden');
@@ -405,13 +373,13 @@ function startRemoveAndHideSections (startContainer: Element | null,
 
 /**
  * Displays and Hides HTML containers
- * 
  * @param finishQuizContainer container that shows highscore and restart, main menu button
  * @param introHeading container that shows the heading when user is on homepage
  * @param topBannerHeading heading that contains a timer and question number
  * @returns void
  */
-function startRemoveAndHideSectionsSecondPart (finishQuizContainer: Element | null,
+function startRemoveAndHideSectionsSecondPart(
+  finishQuizContainer: Element | null,
   introHeading: Element | null,
   quizContainer: Element | null
 ): void {
@@ -425,17 +393,24 @@ function startRemoveAndHideSectionsSecondPart (finishQuizContainer: Element | nu
  * This function will run when the page is loadead to hide the containers
  * @returns void
  */
-
-function hideQuizAndHighscoreFromStart (quizContainer: Element | null,
+function hideQuizAndHighscoreFromStart(
+  quizContainer: Element | null,
   finishQuizContainer: Element | null,
-  topBannerHeading: Element | null,
+  topBannerHeading: Element | null
 ): void {
   quizContainer?.classList.add('hidden');
   finishQuizContainer?.classList.add('hidden');
   topBannerHeading?.classList.add('hidden');
 }
 
-console.log('score:', score);
+function startGame(): void {
+  addUserToLocalStorage(selectedUser);
+  startRemoveAndHideSections(startContainer, highScoreContainer, topBannerHeading);
+  startRemoveAndHideSectionsSecondPart(finishQuizContainer, introHeading, quizContainer);
+  checkNextQuestion(questionArray, questionNumberText);
+  setTimeout(setMainInterval, 1000); // mainInterval - clearInterval(clearTimeMainInterval) when quiz is done.
+}
+
 getPointsForAnsweringQuestion(answerTime, wrongAnswer); // passing the answerTime for each question as an argument
 
 /******************************************************
@@ -446,11 +421,10 @@ document.addEventListener('DOMContentLoaded', () => {
   generateExistingUsersInHTML(userButtonsContainer);
   hideQuizAndHighscoreFromStart(quizContainer, finishQuizContainer, topBannerHeading);
 });
-
 startButton?.addEventListener('click', () => {
   startGame();
 });
-userButtonsContainer?.addEventListener('click', (e) => {
+userButtonsContainer?.addEventListener('click', e => {
   handleClickOnUser(e, playerInput);
 });
 playerInput.addEventListener('input', () => {
@@ -461,14 +435,3 @@ questionContainer?.addEventListener('click', e => {
 });
 
 console.log(startButton);
-
-/******************************************************
- * ************ Execution ****************************
- *****************************************************/
-function startGame(): void {
-  addUserToLocalStorage(selectedUser);
-  startRemoveAndHideSections(startContainer, highScoreContainer, topBannerHeading);
-  startRemoveAndHideSectionsSecondPart(finishQuizContainer, introHeading, quizContainer);
-  checkNextQuestion(questionArray, questionNumberText);
-  setTimeout(setMainInterval, 1000); // mainInterval - clearInterval(clearTimeMainInterval) when quiz is done.
-}
