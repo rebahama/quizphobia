@@ -57,7 +57,6 @@ let mainMins;
 // question timer
 let questionSeconds = 0;
 let questionMinutes = 0;
-let elapsedTime = 0;
 
 console.log('originalArray: ', array);
 console.log('questionArray: ', questionArray);
@@ -80,16 +79,10 @@ function checkNextQuestion(array: IQuestionObject[], currentQuestionText: Elemen
   }
   // taking question number as percentage in the progressbar to get linear gradient
   progressBar.style.background = getLinearGradienceLeftToRightAsString(currentQuestionNumber * 10);
-  /**
-   * Timer for questionInterval.
-   *  clear when answered clearInterval(clearTimeQuestionInterval)
-   *  - answerTime = questionSeconds;
-   *  - wrongAnswer (true/false)
-   * - call function getPointsForAnsweringQuestions(answerTime, isAnswerCorrect)
-   *    - Send in parameters for answerTime and isAnswerCorrects.
-   * */
-  setTimeout(setQuestionInterval, 1000);
+  questionScore = 0;
+  questionSeconds = 0;
   clearInterval(clearTimeQuestionInterval);
+  setTimeout(setQuestionInterval, 1000);
 
   if (currentQuestionText !== null) {
     currentQuestionText.textContent = getFractionAsString(currentQuestionNumber, questionArray.length);
@@ -270,7 +263,6 @@ function handleClickOnAnswers(event: Event, questionArray: IQuestionObject[]): v
   // adding class taken for keeping track if any answer is already clicked
   target.classList.add('taken');
   handleLogicBasedOnAnswer(target, isTargetTheRightAnswer);
-  // totalHighscore += Math.floor(questionScore); //
   // animate score update //
   updateDisplayForNextQuestion();
   // clear interval individual
@@ -294,7 +286,6 @@ function handleLogicBasedOnAnswer(answer: HTMLElement, isTargetTheRightAnswer: b
     });
 
     rightCount += 1;
-    console.log('right count: ', rightCount);
   } else {
     isAnswerCorrect = false;
     // maybe have animation for wrong answer, gsap 1-2
@@ -309,6 +300,12 @@ function handleLogicBasedOnAnswer(answer: HTMLElement, isTargetTheRightAnswer: b
     });
     //answer.classList.add('wrong'); // red placeholder
     // questionScore -= 15; // 
+  }
+  questionScore = getPointsForAnsweringQuestion(questionSeconds, isAnswerCorrect, questionScore);
+  highscore += Math.floor(questionScore);
+  const highscoreBanner = document.querySelector('#currentScore');
+  if (highscoreBanner !== null) {
+    highscoreBanner.textContent = highscore.toString();
   }
 }
 
@@ -325,7 +322,6 @@ function updateDisplayForNextQuestion(): void {
       alert('end screen');
       clearInterval(clearTimeMainInterval);
     }
-    // highscore = // 
   }, 1500);
 }
 
@@ -346,6 +342,7 @@ function setMainInterval(): void {
   mainTimerContainer.innerHTML = mainMins + mainSecs;
   mainSeconds += 1;
 
+  console.log('mainSeconds: ', mainSeconds);
   clearTimeMainInterval = setTimeout(setMainInterval, 1000);
 }
 
@@ -357,11 +354,11 @@ function setQuestionInterval(): void {
   questionSeconds += 1;
 
   clearTimeQuestionInterval = setTimeout(setQuestionInterval, 1000);
-  console.log(questionSeconds);
+  console.log('questionSeconds:', questionSeconds);
 }
 
-function getPointsForAnsweringQuestion(answerTime: number, wrongAnswer: boolean, score: number): number {
-  if (wrongAnswer) {
+function getPointsForAnsweringQuestion(answerTime: number, rightAnswer: boolean, score: number): number {
+  if (!rightAnswer) {
     score -= 30;
   } else if (answerTime < 5) {
     score = score + 150;
@@ -372,7 +369,6 @@ function getPointsForAnsweringQuestion(answerTime: number, wrongAnswer: boolean,
   } else {
     score += 50;
   }
-  console.log(score);
   return score;
 }
 
@@ -432,7 +428,6 @@ function startGame(): void {
   checkNextQuestion(questionArray, questionNumberText);
   setTimeout(setMainInterval, 1000); // mainInterval - clearInterval(clearTimeMainInterval) when quiz is done.
 }
-
 
 /******************************************************
  * ************ Eventlisteners ****************************
