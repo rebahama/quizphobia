@@ -36,8 +36,6 @@ const progressBar = document.querySelector('#progressBar') as HTMLElement;
 
 /*                      const                    */
 
-const answerTime = 5; // - Variable to use for the time it takes for user to answer question
-const wrongAnswer = false; //  - Boolean to use for wrong answer
 const questionArray = getRandomQuestions(array, 10);
 
 /*                      let                   */
@@ -46,8 +44,10 @@ let storedUsers: IStoredUserType[];
 let selectedUser: string | null = null;
 let currentQuestionNumber = 1;
 let isAnswerCorrect = false;
-let score = 0;
-let clearTimeMainInterval; // main interval
+let questionScore = 0;
+let highscore = 0;
+let rightCount = 0;
+let clearTimeMainInterval: number; // main interval
 let clearTimeQuestionInterval: number; // question interval
 // main timer
 let mainSeconds = 0;
@@ -57,11 +57,11 @@ let mainMins;
 // question timer
 let questionSeconds = 0;
 let questionMinutes = 0;
+let elapsedTime = 0;
 
 console.log('originalArray: ', array);
 console.log('questionArray: ', questionArray);
 console.log('selectedUser: ', selectedUser);
-console.log('score:', score);
 
 /******************************************************
  * ************ Functions ****************************
@@ -89,6 +89,7 @@ function checkNextQuestion(array: IQuestionObject[], currentQuestionText: Elemen
    *    - Send in parameters for answerTime and isAnswerCorrects.
    * */
   setTimeout(setQuestionInterval, 1000);
+  clearInterval(clearTimeQuestionInterval);
 
   if (currentQuestionText !== null) {
     currentQuestionText.textContent = getFractionAsString(currentQuestionNumber, questionArray.length);
@@ -246,6 +247,71 @@ function addUserToLocalStorage(userName: string | null): void {
   }
 }
 
+/**
+ * Handles logic for clicking on answers with event delegation
+ * @param event clickEvent
+ * @param questionArray array of objects for the question with interface IQuestionObject[]
+ * @returns void
+ */
+function handleClickOnAnswers(event: Event, questionArray: IQuestionObject[]): void {
+  const buttons = document.querySelectorAll('#questionList button');
+  const isAnyButtonTaken = Array.from(buttons).some(button => button.classList.contains('taken'));
+  console.log(isAnyButtonTaken);
+  const target = event.target as HTMLElement;
+  // if target is not a li element or if a button already is taken exist the function
+  if (target === null || target.tagName !== 'BUTTON' || isAnyButtonTaken) {
+    return;
+  }
+  // set what the current question is
+  const currentQuestionObject = questionArray[currentQuestionNumber - 1];
+  // checking if the answer clicked is the right answer
+  const isTargetTheRightAnswer =
+    target.textContent?.toLowerCase() === currentQuestionObject.correct_answer.toLowerCase();
+  // adding class taken for keeping track if any answer is already clicked
+  target.classList.add('taken');
+  handleLogicBasedOnAnswer(target, isTargetTheRightAnswer);
+  // totalHighscore += Math.floor(questionScore); //
+  // animate score update //
+  updateDisplayForNextQuestion();
+  // clear interval individual
+  clearInterval(clearTimeQuestionInterval);
+}
+
+// GSAP ANIMATION FOR BUTTONS HERE! //
+
+function handleLogicBasedOnAnswer(answer: HTMLElement, isTargetTheRightAnswer: boolean): void {
+  if (isTargetTheRightAnswer) {
+    isAnswerCorrect = true;
+    // handle how many points we get based on time
+    answer.classList.add('right'); // green placeholder
+    // maybe have animation for right answer gsap, 1-2 sec
+    rightCount += 1;
+    console.log('right count: ', rightCount);
+  } else {
+    isAnswerCorrect = false;
+    // maybe have animation for wrong answer, gsap 1-2
+    answer.classList.add('wrong'); // red placeholder
+    // questionScore -= 15; // 
+  }
+}
+
+function updateDisplayForNextQuestion(): void {
+  if (currentQuestionNumber <= questionArray.length) {
+    currentQuestionNumber += 1;
+  }
+  setTimeout(() => {
+    if (currentQuestionNumber <= questionArray.length) {
+      checkNextQuestion(questionArray, questionNumberText);
+    } else if (currentQuestionNumber > questionArray.length) {
+      console.log(currentQuestionNumber);
+      // display End screen
+      alert('end screen');
+      clearInterval(clearTimeMainInterval);
+    }
+    // highscore = // 
+  }, 1500);
+}
+
 function setMainInterval(): void {
   if (mainTimerContainer === null) {
     return;
@@ -277,7 +343,7 @@ function setQuestionInterval(): void {
   console.log(questionSeconds);
 }
 
-function getPointsForAnsweringQuestion(answerTime: number, wrongAnswer: boolean): number {
+function getPointsForAnsweringQuestion(answerTime: number, wrongAnswer: boolean, score: number): number {
   if (wrongAnswer) {
     score -= 30;
   } else if (answerTime < 5) {
@@ -350,7 +416,6 @@ function startGame(): void {
   setTimeout(setMainInterval, 1000); // mainInterval - clearInterval(clearTimeMainInterval) when quiz is done.
 }
 
-getPointsForAnsweringQuestion(answerTime, wrongAnswer); // passing the answerTime for each question as an argument
 
 /******************************************************
  * ************ Eventlisteners ****************************
@@ -368,6 +433,9 @@ userButtonsContainer?.addEventListener('click', e => {
 });
 playerInput.addEventListener('input', () => {
   disableUserButtonsIfInputIsFilled(playerInput, userButtonsContainer);
+});
+questionContainer?.addEventListener('click', e => {
+  handleClickOnAnswers(e, questionArray);
 });
 
 console.log(startButton);
