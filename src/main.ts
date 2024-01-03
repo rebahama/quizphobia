@@ -6,7 +6,8 @@ import {
   getFractionAsString,
   getLinearGradienceLeftToRightAsString,
 } from './assets/utils/helperfunctions.ts';
-import type { IQuestionObject, IStoredUserType } from './assets/utils/types.ts'; // importing interface
+import type { IQuestionObject, IStoredUserType,
+  IHighScoreObject } from './assets/utils/types.ts'; // importing interface
 
 /******************************************************
  * ************ Selectors ****************************
@@ -33,6 +34,7 @@ const progressBar = document.querySelector('#progressBar') as HTMLElement;
 /*                      const                    */
 
 const questionArray = getRandomQuestions(array, 10);
+const highScoreArray: IHighScoreObject[] = [];
 
 /*                      let                   */
 
@@ -282,6 +284,8 @@ function handleLogicBasedOnAnswer(answer: HTMLElement, isTargetTheRightAnswer: b
   }
   questionScore = getPointsForAnsweringQuestion(questionSeconds, isAnswerCorrect, questionScore);
   highscore += Math.floor(questionScore);
+
+  console.log('selectedUser:', selectedUser, 'Higscore', highscore);
   const highscoreBanner = document.querySelector('#currentScore');
   if (highscoreBanner !== null) {
     highscoreBanner.textContent = highscore.toString();
@@ -299,9 +303,45 @@ function updateDisplayForNextQuestion(): void {
       console.log(currentQuestionNumber);
       // display End screen
       alert('end screen');
+      updateHighScoreArray(highScoreArray);
+      updateUserPositionInHighScore(highScoreArray);
       clearInterval(clearTimeMainInterval);
+      console.log(highScoreArray);
     }
   }, 1500);
+}
+
+/**
+ * Handles logic for sending the highscore and user to an array and displaying
+ * @param highScoreArray array of objects for the highscore and user with interface IHighScoreObject[]
+ * @returns void
+ */
+
+function updateHighScoreArray(highScoreArray:IHighScoreObject[]):void {
+  if (highScoreArray.length < 10) {
+    const highScoreObject = { user: selectedUser,
+      highscore
+    };
+    highScoreArray.push(highScoreObject);
+  }
+}
+
+/**
+ * Handles logic for sending the highscore and user to an array and displaying
+ * Sort the highscore from high to low.
+ * @param highScoreArray array of objects for the highscore and user with interface IHighScoreObject[]
+ * @returns void
+ */
+function updateUserPositionInHighScore(highScoreArray:IHighScoreObject[]):void {
+  const listScoreOutput = document.querySelectorAll('.list-score-output li');
+  if (highScoreArray.length <= 0) {
+    
+    return;
+  }
+  highScoreArray.sort((a, b) => b.highscore - a.highscore);
+  highScoreArray.forEach((highscore, index) => {
+    listScoreOutput[index].textContent = `${index + 1}. ${highscore.user} ${highscore.highscore}`;
+  });
 }
 
 function setMainInterval(): void {
@@ -400,61 +440,6 @@ function hideQuizAndHighscoreFromStart(
   topBannerHeading?.classList.add('hidden');
 }
 
-const highScoreListContainer = document.querySelector('.list-split-one');
-const secondHighScoreListContainer = document.querySelector('.list-split-two');
-/**
- * Displays saved players in localstorage to the html code. A counter with numbers will be created
- * everytime a player is rendered, the original array is used with split method do display the correct
- * index foreach list.
- * This function will run when the page is loadead
- * @param highScoreListContainer is container for 1 to 5 player list
- * @param secondHighScoreListContainer is container for 6 to 10 player list
- * @returns void
- */
-function displayHighScoreList(highScoreListContainer: Element | null,
-  secondHighScoreListContainer: Element | null
-): void {
-  //  Local storage
-  const userArray = getArrayOfObjectsFromLocalStorage(storedUsers, 'users');
-  // Create two arrays
-  const firstUserArray = userArray.splice(0, 5);
-  const secondUserArray = userArray.splice(0, 6, ...userArray.splice(5));
-  
-  
-  if (highScoreListContainer !== null) {
-    const userListElement = document.createElement('ul'); // Create an unordered list
-    const secondListElement = document.createElement('ul');
-    let counter = 1;
-    firstUserArray.forEach((user) => {
-      console.log(user.user);
-      const userInArray = user.user;
-      // Check if userInArray is not null before adding it to the list
-      if (userInArray !== null) {
-        const listItemElement = document.createElement('li'); // Create a list item
-        listItemElement.textContent = `${counter}. ${userInArray}`;
-        userListElement.appendChild(listItemElement);
-        counter++;
-      }
-    });
-    if (secondHighScoreListContainer !== null) {
-      secondUserArray.forEach((user) => {
-        console.log(user.user);
-        const userInArray = user.user;
-        // Check if userInArray is not null before adding it to the list
-        if (userInArray !== null) {
-          const listItemElement = document.createElement('li'); // Create a list item
-          listItemElement.textContent = `${counter}. ${userInArray}`;
-          secondListElement.appendChild(listItemElement);
-          counter++;
-        }
-      });
-    }
-    // Append the created list to the container
-    highScoreListContainer.appendChild(userListElement);
-    secondHighScoreListContainer?.appendChild(secondListElement);
-  }
-}
-
 function startGame(): void {
   addUserToLocalStorage(selectedUser);
   startRemoveAndHideSections(startContainer, highScoreContainer, topBannerHeading);
@@ -470,7 +455,6 @@ function startGame(): void {
 document.addEventListener('DOMContentLoaded', () => {
   generateExistingUsersInHTML(userButtonsContainer);
   hideQuizAndHighscoreFromStart(quizContainer, finishQuizContainer, topBannerHeading);
-  displayHighScoreList(highScoreListContainer, secondHighScoreListContainer);
 });
 startButton?.addEventListener('click', () => {
   startGame();
