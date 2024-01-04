@@ -481,7 +481,7 @@ function hideQuizAndHighscoreFromStart(
   finishQuizContainer: Element | null,
 ): void {
   quizContainer?.classList.add('hidden');
-  //finishQuizContainer?.classList.add('hidden');
+  finishQuizContainer?.classList.add('hidden');
 }
 
 function startGame(selectedUser: string | null): void {
