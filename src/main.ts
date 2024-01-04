@@ -17,7 +17,8 @@ gsap.registerPlugin(Flip);
  * ************ Selectors ****************************
  *****************************************************/
 
-const userButtonsContainer = document.querySelector('#buttonContainer');
+const endScreenButtonsContainer = document.querySelector('#finishedButtonsBox')
+let userButtonsContainer = document.querySelector('#buttonContainer');
 const startButton = document.querySelector('#startButton');
 const mainTimerContainer: HTMLElement | null = document.querySelector('#mainTimer');
 const questionNumberText = document.querySelector('#questionNumber');
@@ -40,7 +41,7 @@ const progressBar = document.querySelector('#progressBar') as HTMLElement;
 
 /*                      const                    */
 
-const questionArray = getRandomQuestions(array, 10);
+let questionArray = getRandomQuestions(array, 10);
 const highScoreArray: IHighScoreObject[] = [];
 
 /*                      let                   */
@@ -70,6 +71,34 @@ console.log('selectedUser: ', selectedUser);
 /******************************************************
  * ************ Functions ****************************
  *****************************************************/
+
+/**
+ * menubutton - go to first page and clear selected user.
+ * eventlistener on da buttoncontainer. eventbubbles.
+ * target button ids (check ids on buttons)
+ * if menubutton - go to start page, clear selected user, 
+ * else play again - start quiz again function startgame
+ * generate new questions
+ * reset currentquestion, main interval, elapsed time (check bugs to see) 
+ */
+function handleClickOnEndButtons(event: Event) {
+  const target = event.target as HTMLElement;
+  if (target.tagName !== 'BUTTON') {
+      return;
+  }
+  if (target.id === 'mainMenuButton') {
+      selectedUser = null;
+      startContainer?.classList.remove('hidden');
+      highScoreContainer?.classList.remove('hidden');
+      userButtonsContainer = document.querySelector('#buttonContainer'); // might be unnecessary
+      generateExistingUsersInHTML(userButtonsContainer);
+  } else if (target.id === 'restartQuizButton') {
+      startGame(selectedUser);
+  }
+  questionArray = getRandomQuestions(array, 10);
+  finishQuizContainer?.classList.add('hidden');
+}
+
 
 /**
  * Generates the question and updates question number in header
@@ -276,8 +305,6 @@ function handleClickOnAnswers(event: Event, questionArray: IQuestionObject[]): v
   clearInterval(clearTimeQuestionInterval); // hej
 }
 
-// GSAP ANIMATION FOR BUTTONS HERE! //
-
 function handleLogicBasedOnAnswer(answer: HTMLElement, isTargetTheRightAnswer: boolean): void {
   if (isTargetTheRightAnswer) {
     isAnswerCorrect = true;
@@ -291,11 +318,11 @@ function handleLogicBasedOnAnswer(answer: HTMLElement, isTargetTheRightAnswer: b
       scale: 1.5,
       ease: 'elastic'
     });
-
     rightCount += 1;
+
   } else {
     isAnswerCorrect = false;
-    // maybe have animation for wrong answer, gsap 1-2
+    
     gsap.fromTo(answer, {
       scale: 1,
     },
@@ -335,6 +362,9 @@ function updateDisplayForNextQuestion(): void {
       updateHighScoreArray(highScoreArray);
       updateUserPositionInHighScore(highScoreArray);
       clearInterval(clearTimeMainInterval);
+      currentQuestionNumber = 1;
+      rightCount = 0;
+      highscore = 0;
       console.log(highScoreArray);
     }
   }, 1500);
@@ -519,7 +549,7 @@ document.addEventListener('DOMContentLoaded', () => {
   hideScoreTimeAndQuestionInHeadingFromStart(questionNumberText, mainTimerContainer, questionScoreHeading);
 });
 startButton?.addEventListener('click', () => {
-  startGame();
+  startGame(selectedUser);
 });
 userButtonsContainer?.addEventListener('click', e => {
   handleClickOnUser(e, playerInput);
@@ -530,5 +560,6 @@ playerInput.addEventListener('input', () => {
 questionContainer?.addEventListener('click', e => {
   handleClickOnAnswers(e, questionArray);
 });
+endScreenButtonsContainer?.addEventListener('click', handleClickOnEndButtons);
 
 console.log(startButton);
