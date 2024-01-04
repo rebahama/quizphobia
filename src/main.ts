@@ -337,7 +337,7 @@ function updateDisplayForNextQuestion(): void {
       alert('end screen');
       updateHighScoreArray(highScoreArray);
       updateUserPositionInHighScore(highScoreArray);
-      addHighscoreToLocalStorage(highScoreArray, selectedUser);
+      addHighscoreToLocalStorage(highScoreArray);
       clearInterval(clearTimeMainInterval);
       console.log(highScoreArray);
     }
