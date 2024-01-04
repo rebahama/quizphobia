@@ -19,7 +19,7 @@ gsap.registerPlugin(Flip);
  * ************ Selectors ****************************
  *****************************************************/
 
-const endScreenButtonsContainer = document.querySelector('#finishedButtonsBox')
+const endScreenButtonsContainer = document.querySelector('#finishedButtonsBox');
 let userButtonsContainer = document.querySelector('#buttonContainer');
 const startButton = document.querySelector('#startButton');
 const mainTimerContainer: HTMLElement | null = document.querySelector('#mainTimer');
@@ -51,6 +51,7 @@ const highScoreArray: IHighScoreObject[] = [];
 let storedHighScore: IHighScoreObject[];
 let storedUsers: IStoredUserType[];
 let selectedUser: string | null = null;
+
 let currentQuestionNumber = 1;
 let isAnswerCorrect = false;
 let questionScore = 0;
@@ -87,16 +88,16 @@ console.log('selectedUser: ', selectedUser);
 function handleClickOnEndButtons(event: Event) {
   const target = event.target as HTMLElement;
   if (target.tagName !== 'BUTTON') {
-      return;
+    return;
   }
   if (target.id === 'mainMenuButton') {
-      selectedUser = null;
-      startContainer?.classList.remove('hidden');
-      highScoreContainer?.classList.remove('hidden');
-      userButtonsContainer = document.querySelector('#buttonContainer'); // might be unnecessary
-      generateExistingUsersInHTML(userButtonsContainer);
+    selectedUser = null;
+    startContainer?.classList.remove('hidden');
+    highScoreContainer?.classList.remove('hidden');
+    userButtonsContainer = document.querySelector('#buttonContainer'); // might be unnecessary
+    generateExistingUsersInHTML(userButtonsContainer);
   } else if (target.id === 'restartQuizButton') {
-      startGame(selectedUser);
+    startGame(selectedUser);
   }
   questionArray = getRandomQuestions(array, 10);
   finishQuizContainer?.classList.add('hidden');
@@ -296,7 +297,7 @@ function addHighscoreToLocalStorage(highScoreArray: IHighScoreObject[], selected
     console.log(storedHighScoreArray);
     localStorage.setItem('highscores', JSON.stringify(storedHighScoreArray));
   }
-
+  displayHighScoreAfterQuizFinished(finishQuizContainer, questionAndProgressBarContainer);
 }
 
 /**
@@ -381,7 +382,6 @@ function updateDisplayForNextQuestion(): void {
       alert('end screen');
       // Call functions after finishing quiz
       hideScoreTimeAndQuestionInHeadingFromStart(questionNumberText, mainTimerContainer, questionScoreHeading);
-      displayHighScoreAfterQuizFinished(finishQuizContainer, questionAndProgressBarContainer);
       updateHighScoreArray(highScoreArray);
       updateUserPositionInHighScore(highScoreArray);
       addHighscoreToLocalStorage(highScoreArray, selectedUser);
@@ -419,20 +419,12 @@ function updateHighScoreArray(highScoreArray:IHighScoreObject[]):void {
  * @returns void
  */
 function updateUserPositionInHighScore(highScoreArray:IHighScoreObject[]):void {
-  const listScoreOutput = document.querySelectorAll('.list-score-output li');
-  const yourScoreBox = document.querySelector('#yourScore');
-  const highScoreListOutputFinish = document.querySelectorAll('.high-score-list li');
+
   if (highScoreArray.length <= 0) {
     return;
   }
-  highScoreArray.sort((a, b) => b.highscore - a.highscore);
-  highScoreArray.forEach((highscore, index) => {
-    listScoreOutput[index].textContent = `${index + 1}. ${highscore.user} ${highscore.highscore}`;
-    highScoreListOutputFinish[index].textContent = `${index + 1}. ${highscore.user} ${highscore.highscore}`;
-    if (yourScoreBox !== null) {
-      yourScoreBox.textContent = `Your score: ${highscore.highscore}`;
-    }
-  });
+  highScoreArray.sort((a, b) => b.playedHighscore - a.playedHighscore);
+ 
 }
 
 
@@ -556,9 +548,22 @@ function displayHighScoreAfterQuizFinished(finishQuizContainer: Element | null,
 ): void {
   finishQuizContainer?.classList.remove('hidden');
   questionAndProgressBarContainer?.classList.add('hidden');
+  const listScoreOutput = document.querySelectorAll('.list-score-output li');
+  const yourScoreBox = document.querySelector('#yourScore');
+  const highScoreListOutputFinish = document.querySelectorAll('.high-score-list li');
+  const storedHighScoreArray = getHighScoreFromLocalStorage(storedHighScore, 'highscores');
+
+  storedHighScoreArray.sort((a, b) => b.playedHighscore - a.playedHighscore);
+  storedHighScoreArray.forEach((highscore, index) => {
+    listScoreOutput[index].textContent = `${index + 1}. ${highscore.user} ${highscore.playedHighscore}`;
+    highScoreListOutputFinish[index].textContent = `${index + 1}. ${highscore.user} ${highscore.playedHighscore}`;
+    if (yourScoreBox !== null) {
+      yourScoreBox.textContent = `Your score: ${highscore.playedHighscore}`;
+    }
+  });
 }
 
-function startGame(): void {
+function startGame(selectedUser: string | null): void {
   addUserToLocalStorage(selectedUser);
   startRemoveAndHideSections(startContainer, highScoreContainer, topBannerHeading);
   startRemoveAndHideSectionsSecondPart(finishQuizContainer, introHeading, quizContainer);
