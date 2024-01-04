@@ -44,7 +44,7 @@ const highScoreArray: IHighScoreObject[] = [];
 
 
 /*                      let                   */
-let storedHighScore: IStoredHighScoreObject[];
+let storedHighScore: IHighScoreObject[];
 let storedUsers: IStoredUserType[];
 let selectedUser: string | null = null;
 let currentQuestionNumber = 1;
@@ -247,9 +247,23 @@ function addUserToLocalStorage(userName: string | null): void {
   }
 }
 
-function addHighscoreToLocalStorage(highScoreArray: IHighScoreObject[]): void {
+function addHighscoreToLocalStorage(highScoreArray: IHighScoreObject[], selectedUser: string | null): void {
   const storedHighScoreArray = getHighScoreFromLocalStorage(storedHighScore, 'highscores');
-  localStorage.setItem('highscores', JSON.stringify([highScoreArray]));
+  console.log(storedHighScoreArray);
+
+  const newHighscore = {
+    user: selectedUser,
+    playedHighscore: highscore,
+  };
+
+  if (storedHighScoreArray.length === 0) {
+    localStorage.setItem('highscores', JSON.stringify(highScoreArray));
+  } else {
+    console.log('finns redan en i listan');
+    storedHighScoreArray.push(newHighscore);
+    console.log(storedHighScoreArray);
+    localStorage.setItem('highscores', JSON.stringify(storedHighScoreArray));
+  }
 
 }
 
@@ -337,7 +351,7 @@ function updateDisplayForNextQuestion(): void {
       alert('end screen');
       updateHighScoreArray(highScoreArray);
       updateUserPositionInHighScore(highScoreArray);
-      addHighscoreToLocalStorage(highScoreArray);
+      addHighscoreToLocalStorage(highScoreArray, selectedUser);
       clearInterval(clearTimeMainInterval);
       console.log(highScoreArray);
     }
@@ -352,8 +366,9 @@ function updateDisplayForNextQuestion(): void {
 
 function updateHighScoreArray(highScoreArray:IHighScoreObject[]):void {
   if (highScoreArray.length < 10) {
-    const highScoreObject = { user: selectedUser,
-      highscore
+    const highScoreObject = { 
+      user: selectedUser,
+      playedHighscore: highscore,
     };
     highScoreArray.push(highScoreObject);
   }
@@ -506,4 +521,5 @@ questionContainer?.addEventListener('click', e => {
 });
 
 console.log(startButton);
+
 
