@@ -5,12 +5,14 @@ import {
   getRandomQuestions,
   getFractionAsString,
   getLinearGradienceLeftToRightAsString,
+  getHighScoreFromLocalStorage,
 } from './assets/utils/helperfunctions.ts';
 import type { IQuestionObject, IStoredUserType,
-  IHighScoreObject } from './assets/utils/types.ts'; // importing interface
+  IHighScoreObject, 
+  IStoredHighScoreObject } from './assets/utils/types.ts'; // importing interface
 
-import { gsap } from "gsap"; // animation med gsap
-import { Flip } from "gsap/Flip";
+import { gsap } from 'gsap'; // animation med gsap
+import { Flip } from 'gsap/Flip';
 gsap.registerPlugin(Flip);
 
 /******************************************************
@@ -40,8 +42,9 @@ const progressBar = document.querySelector('#progressBar') as HTMLElement;
 const questionArray = getRandomQuestions(array, 10);
 const highScoreArray: IHighScoreObject[] = [];
 
-/*                      let                   */
 
+/*                      let                   */
+let storedHighScore: IStoredHighScoreObject[];
 let storedUsers: IStoredUserType[];
 let selectedUser: string | null = null;
 let currentQuestionNumber = 1;
@@ -244,6 +247,12 @@ function addUserToLocalStorage(userName: string | null): void {
   }
 }
 
+function addHighscoreToLocalStorage(highScoreArray: IHighScoreObject[]): void {
+  const storedHighScoreArray = getHighScoreFromLocalStorage(storedHighScore, 'highscores');
+  localStorage.setItem('highscores', JSON.stringify([highScoreArray]));
+
+}
+
 /**
  * Handles logic for clicking on answers with event delegation
  * @param event clickEvent
@@ -279,7 +288,7 @@ function handleLogicBasedOnAnswer(answer: HTMLElement, isTargetTheRightAnswer: b
   if (isTargetTheRightAnswer) {
     isAnswerCorrect = true;
     // handle how many points we get based on time
-    //answer.classList.add('right'); // green placeholder
+    // answer.classList.add('right'); // green placeholder
 
     // maybe have animation for right answer gsap, 1-2 sec
     gsap.to(answer, { 
@@ -302,7 +311,7 @@ function handleLogicBasedOnAnswer(answer: HTMLElement, isTargetTheRightAnswer: b
       duration: 1,
       backgroundColor: '#67073d',
     });
-    //answer.classList.add('wrong'); // red placeholder
+    // answer.classList.add('wrong'); // red placeholder
     // questionScore -= 15; // 
   }
   questionScore = getPointsForAnsweringQuestion(questionSeconds, isAnswerCorrect, questionScore);
@@ -328,6 +337,7 @@ function updateDisplayForNextQuestion(): void {
       alert('end screen');
       updateHighScoreArray(highScoreArray);
       updateUserPositionInHighScore(highScoreArray);
+      addHighscoreToLocalStorage(highScoreArray, selectedUser);
       clearInterval(clearTimeMainInterval);
       console.log(highScoreArray);
     }
@@ -347,6 +357,7 @@ function updateHighScoreArray(highScoreArray:IHighScoreObject[]):void {
     };
     highScoreArray.push(highScoreObject);
   }
+  
 }
 
 /**
@@ -367,6 +378,8 @@ function updateUserPositionInHighScore(highScoreArray:IHighScoreObject[]):void {
   });
 }
 
+
+
 function setMainInterval(): void {
   if (mainTimerContainer === null) {
     return;
@@ -384,7 +397,7 @@ function setMainInterval(): void {
   mainTimerContainer.innerHTML = mainMins + mainSecs;
   mainSeconds += 1;
 
-  console.log('mainSeconds: ', mainSeconds);
+  // console.log('mainSeconds: ', mainSeconds);
   clearTimeMainInterval = setTimeout(setMainInterval, 1000);
 }
 
@@ -396,7 +409,7 @@ function setQuestionInterval(): void {
   questionSeconds += 1;
 
   clearTimeQuestionInterval = setTimeout(setQuestionInterval, 1000);
-  console.log('questionSeconds:', questionSeconds);
+  // console.log('questionSeconds:', questionSeconds);
 }
 
 function getPointsForAnsweringQuestion(answerTime: number, rightAnswer: boolean, score: number): number {
@@ -493,3 +506,4 @@ questionContainer?.addEventListener('click', e => {
 });
 
 console.log(startButton);
+
