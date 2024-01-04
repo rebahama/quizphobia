@@ -28,8 +28,6 @@ const finishQuizContainer = document.querySelector('.quiz-finished');
 const quizContainer = document.querySelector('.question-section');
 const introHeading = document.querySelector('.intro-heading');
 const topBannerHeading = document.querySelector('.top-banner');
-const questionNumberHeading = document.querySelector('#questionNumber');
-const questionTimerHeading = document.querySelector('#mainTimer');
 const questionScoreHeading = document.querySelector('#currentScore');
 const questionAndProgressBarContainer = document.querySelector('#questionSection');
 const playerInput = document.querySelector('#name') as HTMLInputElement;
@@ -330,6 +328,8 @@ function updateDisplayForNextQuestion(): void {
       console.log(currentQuestionNumber);
       // display End screen
       alert('end screen');
+      // Call functions after finishing quiz
+      hideScoreTimeAndQuestionInHeadingFromStart(questionNumberText, mainTimerContainer, questionScoreHeading);
       displayHighScoreAfterQuizFinished(finishQuizContainer, questionAndProgressBarContainer);
       updateHighScoreArray(highScoreArray);
       updateUserPositionInHighScore(highScoreArray);
@@ -466,21 +466,21 @@ function hideQuizAndHighscoreFromStart(
   finishQuizContainer?.classList.add('hidden');
 }
 
-function hideScoreTimeAndQuestionInHeadingFromStart(questionNumberHeading: Element | null,
-  questionTimerHeading: Element | null,
+function hideScoreTimeAndQuestionInHeadingFromStart(questionNumberText: Element | null,
+  mainTimerContainer: Element | null,
   questionScoreHeading: Element | null,
 ): void {
-  questionNumberHeading?.classList.add('hidden');
-  questionTimerHeading?.classList.add('hidden');
+  questionNumberText?.classList.add('hidden');
+  mainTimerContainer?.classList.add('hidden');
   questionScoreHeading?.classList.add('hidden');
 }
 
-function displayScoreTimeAndQuestionInHeadingFromStart(questionNumberHeading: Element | null,
-  questionTimerHeading: Element | null,
+function displayScoreTimeAndQuestionInHeadingFromStart(questionNumberText: Element | null,
+  mainTimerContainer: Element | null,
   questionScoreHeading: Element | null,
 ): void {
-  questionNumberHeading?.classList.remove('hidden');
-  questionTimerHeading?.classList.remove('hidden');
+  questionNumberText?.classList.remove('hidden');
+  mainTimerContainer?.classList.remove('hidden');
   questionScoreHeading?.classList.remove('hidden');
 }
 
@@ -495,7 +495,7 @@ function startGame(): void {
   addUserToLocalStorage(selectedUser);
   startRemoveAndHideSections(startContainer, highScoreContainer, topBannerHeading);
   startRemoveAndHideSectionsSecondPart(finishQuizContainer, introHeading, quizContainer);
-  displayScoreTimeAndQuestionInHeadingFromStart(questionNumberHeading, questionTimerHeading, questionScoreHeading);
+  displayScoreTimeAndQuestionInHeadingFromStart(questionNumberText, mainTimerContainer, questionScoreHeading);
   checkNextQuestion(questionArray, questionNumberText);
   setTimeout(setMainInterval, 1000); // mainInterval - clearInterval(clearTimeMainInterval) when quiz is done.
 }
@@ -507,7 +507,7 @@ function startGame(): void {
 document.addEventListener('DOMContentLoaded', () => {
   generateExistingUsersInHTML(userButtonsContainer);
   hideQuizAndHighscoreFromStart(quizContainer, finishQuizContainer);
-  hideScoreTimeAndQuestionInHeadingFromStart(questionNumberHeading, questionTimerHeading, questionScoreHeading);
+  hideScoreTimeAndQuestionInHeadingFromStart(questionNumberText, mainTimerContainer, questionScoreHeading);
 });
 startButton?.addEventListener('click', () => {
   startGame();
