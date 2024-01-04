@@ -17,7 +17,8 @@ gsap.registerPlugin(Flip);
  * ************ Selectors ****************************
  *****************************************************/
 
-const userButtonsContainer = document.querySelector('#buttonContainer');
+const endScreenButtonsContainer = document.querySelector('#finishedButtonsBox')
+let userButtonsContainer = document.querySelector('#buttonContainer');
 const startButton = document.querySelector('#startButton');
 const mainTimerContainer: HTMLElement | null = document.querySelector('#mainTimer');
 const questionNumberText = document.querySelector('#questionNumber');
@@ -37,7 +38,7 @@ const progressBar = document.querySelector('#progressBar') as HTMLElement;
 
 /*                      const                    */
 
-const questionArray = getRandomQuestions(array, 10);
+let questionArray = getRandomQuestions(array, 10);
 const highScoreArray: IHighScoreObject[] = [];
 
 /*                      let                   */
@@ -67,6 +68,34 @@ console.log('selectedUser: ', selectedUser);
 /******************************************************
  * ************ Functions ****************************
  *****************************************************/
+
+/**
+ * menubutton - go to first page and clear selected user.
+ * eventlistener on da buttoncontainer. eventbubbles.
+ * target button ids (check ids on buttons)
+ * if menubutton - go to start page, clear selected user, 
+ * else play again - start quiz again function startgame
+ * generate new questions
+ * reset currentquestion, main interval, elapsed time (check bugs to see) 
+ */
+function handleClickOnEndButtons(event: Event) {
+  const target = event.target as HTMLElement;
+  if (target.tagName !== 'BUTTON') {
+      return;
+  }
+  if (target.id === 'mainMenuButton') {
+      selectedUser = null;
+      startContainer?.classList.remove('hidden');
+      highScoreContainer?.classList.remove('hidden');
+      userButtonsContainer = document.querySelector('#buttonContainer'); // might be unnecessary
+      generateExistingUsersInHTML(userButtonsContainer);
+  } else if (target.id === 'restartQuizButton') {
+      startGame(selectedUser);
+  }
+  questionArray = getRandomQuestions(array, 10);
+  finishQuizContainer?.classList.add('hidden');
+}
+
 
 /**
  * Generates the question and updates question number in header
@@ -273,26 +302,21 @@ function handleClickOnAnswers(event: Event, questionArray: IQuestionObject[]): v
   clearInterval(clearTimeQuestionInterval); // hej
 }
 
-// GSAP ANIMATION FOR BUTTONS HERE! //
-
 function handleLogicBasedOnAnswer(answer: HTMLElement, isTargetTheRightAnswer: boolean): void {
   if (isTargetTheRightAnswer) {
     isAnswerCorrect = true;
     // handle how many points we get based on time
-    //answer.classList.add('right'); // green placeholder
-
-    // maybe have animation for right answer gsap, 1-2 sec
     gsap.to(answer, { 
       duration: 1, 
       backgroundColor: '#207d73',
       scale: 1.5,
       ease: 'elastic'
     });
-
     rightCount += 1;
+
   } else {
     isAnswerCorrect = false;
-    // maybe have animation for wrong answer, gsap 1-2
+    
     gsap.fromTo(answer, {
       scale: 1,
     },
@@ -302,7 +326,6 @@ function handleLogicBasedOnAnswer(answer: HTMLElement, isTargetTheRightAnswer: b
       duration: 1,
       backgroundColor: '#67073d',
     });
-    //answer.classList.add('wrong'); // red placeholder
     // questionScore -= 15; // 
   }
   questionScore = getPointsForAnsweringQuestion(questionSeconds, isAnswerCorrect, questionScore);
@@ -323,12 +346,12 @@ function updateDisplayForNextQuestion(): void {
     if (currentQuestionNumber <= questionArray.length) {
       checkNextQuestion(questionArray, questionNumberText);
     } else if (currentQuestionNumber > questionArray.length) {
-      console.log(currentQuestionNumber);
-      // display End screen
-      alert('end screen');
       updateHighScoreArray(highScoreArray);
       updateUserPositionInHighScore(highScoreArray);
       clearInterval(clearTimeMainInterval);
+      currentQuestionNumber = 1;
+      rightCount = 0;
+      highscore = 0;
       console.log(highScoreArray);
     }
   }, 1500);
@@ -456,19 +479,19 @@ function startRemoveAndHideSectionsSecondPart(
 function hideQuizAndHighscoreFromStart(
   quizContainer: Element | null,
   finishQuizContainer: Element | null,
-  topBannerHeading: Element | null
 ): void {
   quizContainer?.classList.add('hidden');
-  finishQuizContainer?.classList.add('hidden');
-  topBannerHeading?.classList.add('hidden');
+  //finishQuizContainer?.classList.add('hidden');
 }
 
-function startGame(): void {
-  addUserToLocalStorage(selectedUser);
-  startRemoveAndHideSections(startContainer, highScoreContainer, topBannerHeading);
-  startRemoveAndHideSectionsSecondPart(finishQuizContainer, introHeading, quizContainer);
-  checkNextQuestion(questionArray, questionNumberText);
-  setTimeout(setMainInterval, 1000); // mainInterval - clearInterval(clearTimeMainInterval) when quiz is done.
+function startGame(selectedUser: string | null): void {
+  if (selectedUser !== null) {
+    addUserToLocalStorage(selectedUser);
+    startRemoveAndHideSections(startContainer, highScoreContainer, topBannerHeading);
+    startRemoveAndHideSectionsSecondPart(finishQuizContainer, introHeading, quizContainer);
+    checkNextQuestion(questionArray, questionNumberText);
+    setTimeout(setMainInterval, 1000); // mainInterval - clearInterval(clearTimeMainInterval) when quiz is done.
+  }
 }
 
 /******************************************************
@@ -477,10 +500,10 @@ function startGame(): void {
 
 document.addEventListener('DOMContentLoaded', () => {
   generateExistingUsersInHTML(userButtonsContainer);
-  hideQuizAndHighscoreFromStart(quizContainer, finishQuizContainer, topBannerHeading);
+  hideQuizAndHighscoreFromStart(quizContainer, finishQuizContainer);
 });
 startButton?.addEventListener('click', () => {
-  startGame();
+  startGame(selectedUser);
 });
 userButtonsContainer?.addEventListener('click', e => {
   handleClickOnUser(e, playerInput);
@@ -491,5 +514,6 @@ playerInput.addEventListener('input', () => {
 questionContainer?.addEventListener('click', e => {
   handleClickOnAnswers(e, questionArray);
 });
+endScreenButtonsContainer?.addEventListener('click', handleClickOnEndButtons);
 
 console.log(startButton);
