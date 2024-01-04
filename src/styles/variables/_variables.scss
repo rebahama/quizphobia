@@ -18,11 +18,13 @@ $font-bold-style: bold;
 $medium-petrol: #144552;
 $color-white: #ffffff;
 $color-red: #ff0000;
+$color-wrong: #67073d;
+$color-right: #207d73;
 
 $debugging: true;
 
 div {
   @if $debugging {
-    outline: 1px solid hotpink;
+    outline: 1px solid #ff69b4;
   }
 }
