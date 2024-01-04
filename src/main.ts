@@ -9,8 +9,8 @@ import {
 import type { IQuestionObject, IStoredUserType,
   IHighScoreObject } from './assets/utils/types.ts'; // importing interface
 
-import { gsap } from "gsap"; // animation med gsap
-import { Flip } from "gsap/Flip";
+import { gsap } from 'gsap'; // animation med gsap
+import { Flip } from 'gsap/Flip';
 gsap.registerPlugin(Flip);
 
 /******************************************************
@@ -28,6 +28,7 @@ const finishQuizContainer = document.querySelector('.quiz-finished');
 const quizContainer = document.querySelector('.question-section');
 const introHeading = document.querySelector('.intro-heading');
 const topBannerHeading = document.querySelector('.top-banner');
+const questionAndProgressBarContainer = document.querySelector('#questionSection');
 const playerInput = document.querySelector('#name') as HTMLInputElement;
 const progressBar = document.querySelector('#progressBar') as HTMLElement;
 
@@ -279,7 +280,7 @@ function handleLogicBasedOnAnswer(answer: HTMLElement, isTargetTheRightAnswer: b
   if (isTargetTheRightAnswer) {
     isAnswerCorrect = true;
     // handle how many points we get based on time
-    //answer.classList.add('right'); // green placeholder
+    // answer.classList.add('right'); // green placeholder
 
     // maybe have animation for right answer gsap, 1-2 sec
     gsap.to(answer, { 
@@ -302,7 +303,7 @@ function handleLogicBasedOnAnswer(answer: HTMLElement, isTargetTheRightAnswer: b
       duration: 1,
       backgroundColor: '#67073d',
     });
-    //answer.classList.add('wrong'); // red placeholder
+    // answer.classList.add('wrong'); // red placeholder
     // questionScore -= 15; // 
   }
   questionScore = getPointsForAnsweringQuestion(questionSeconds, isAnswerCorrect, questionScore);
@@ -326,6 +327,7 @@ function updateDisplayForNextQuestion(): void {
       console.log(currentQuestionNumber);
       // display End screen
       alert('end screen');
+      displayHighScoreAfterQuizFinished(finishQuizContainer, questionAndProgressBarContainer);
       updateHighScoreArray(highScoreArray);
       updateUserPositionInHighScore(highScoreArray);
       clearInterval(clearTimeMainInterval);
@@ -461,6 +463,13 @@ function hideQuizAndHighscoreFromStart(
   quizContainer?.classList.add('hidden');
   finishQuizContainer?.classList.add('hidden');
   topBannerHeading?.classList.add('hidden');
+}
+
+function displayHighScoreAfterQuizFinished(finishQuizContainer: Element | null,
+  questionAndProgressBarContainer:Element | null,
+): void {
+  finishQuizContainer?.classList.remove('hidden');
+  questionAndProgressBarContainer?.classList.add('hidden');
 }
 
 function startGame(): void {
