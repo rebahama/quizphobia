@@ -9,8 +9,8 @@ import {
 import type { IQuestionObject, IStoredUserType,
   IHighScoreObject } from './assets/utils/types.ts'; // importing interface
 
-import { gsap } from "gsap"; // animation med gsap
-import { Flip } from "gsap/Flip";
+import { gsap } from 'gsap'; // animation med gsap
+import { Flip } from 'gsap/Flip';
 gsap.registerPlugin(Flip);
 
 /******************************************************
@@ -29,6 +29,9 @@ const finishQuizContainer = document.querySelector('.quiz-finished');
 const quizContainer = document.querySelector('.question-section');
 const introHeading = document.querySelector('.intro-heading');
 const topBannerHeading = document.querySelector('.top-banner');
+const questionScoreHeading = document.querySelector('#currentScore');
+const timerFinishPage = document.querySelector('#finishTime');
+const questionAndProgressBarContainer = document.querySelector('#questionSection');
 const playerInput = document.querySelector('#name') as HTMLInputElement;
 const progressBar = document.querySelector('#progressBar') as HTMLElement;
 
@@ -306,6 +309,9 @@ function handleLogicBasedOnAnswer(answer: HTMLElement, isTargetTheRightAnswer: b
   if (isTargetTheRightAnswer) {
     isAnswerCorrect = true;
     // handle how many points we get based on time
+    // answer.classList.add('right'); // green placeholder
+
+    // maybe have animation for right answer gsap, 1-2 sec
     gsap.to(answer, { 
       duration: 1, 
       backgroundColor: '#207d73',
@@ -326,6 +332,7 @@ function handleLogicBasedOnAnswer(answer: HTMLElement, isTargetTheRightAnswer: b
       duration: 1,
       backgroundColor: '#67073d',
     });
+    // answer.classList.add('wrong'); // red placeholder
     // questionScore -= 15; // 
   }
   questionScore = getPointsForAnsweringQuestion(questionSeconds, isAnswerCorrect, questionScore);
@@ -346,6 +353,12 @@ function updateDisplayForNextQuestion(): void {
     if (currentQuestionNumber <= questionArray.length) {
       checkNextQuestion(questionArray, questionNumberText);
     } else if (currentQuestionNumber > questionArray.length) {
+      console.log(currentQuestionNumber);
+      // display End screen
+      alert('end screen');
+      // Call functions after finishing quiz
+      hideScoreTimeAndQuestionInHeadingFromStart(questionNumberText, mainTimerContainer, questionScoreHeading);
+      displayHighScoreAfterQuizFinished(finishQuizContainer, questionAndProgressBarContainer);
       updateHighScoreArray(highScoreArray);
       updateUserPositionInHighScore(highScoreArray);
       clearInterval(clearTimeMainInterval);
@@ -375,23 +388,29 @@ function updateHighScoreArray(highScoreArray:IHighScoreObject[]):void {
 /**
  * Handles logic for sending the highscore and user to an array and displaying
  * Sort the highscore from high to low.
+ * Add score to finish score list.
  * @param highScoreArray array of objects for the highscore and user with interface IHighScoreObject[]
  * @returns void
  */
 function updateUserPositionInHighScore(highScoreArray:IHighScoreObject[]):void {
   const listScoreOutput = document.querySelectorAll('.list-score-output li');
+  const yourScoreBox = document.querySelector('#yourScore');
+  const highScoreListOutputFinish = document.querySelectorAll('.high-score-list li');
   if (highScoreArray.length <= 0) {
-    
     return;
   }
   highScoreArray.sort((a, b) => b.highscore - a.highscore);
   highScoreArray.forEach((highscore, index) => {
     listScoreOutput[index].textContent = `${index + 1}. ${highscore.user} ${highscore.highscore}`;
+    highScoreListOutputFinish[index].textContent = `${index + 1}. ${highscore.user} ${highscore.highscore}`;
+    if (yourScoreBox !== null) {
+      yourScoreBox.textContent = `Your score: ${highscore.highscore}`;
+    }
   });
 }
 
 function setMainInterval(): void {
-  if (mainTimerContainer === null) {
+  if (mainTimerContainer === null || timerFinishPage === null) {
     return;
   }
 
@@ -405,6 +424,8 @@ function setMainInterval(): void {
   mainMins = mainMinutes < 10 ? `0${mainMinutes}:` : `${mainMinutes}+:`;
 
   mainTimerContainer.innerHTML = mainMins + mainSecs;
+  timerFinishPage.innerHTML = `Your time: ${mainMins + mainSecs}`;
+   
   mainSeconds += 1;
 
   console.log('mainSeconds: ', mainSeconds);
@@ -484,14 +505,38 @@ function hideQuizAndHighscoreFromStart(
   finishQuizContainer?.classList.add('hidden');
 }
 
-function startGame(selectedUser: string | null): void {
-  if (selectedUser !== null) {
-    addUserToLocalStorage(selectedUser);
-    startRemoveAndHideSections(startContainer, highScoreContainer, topBannerHeading);
-    startRemoveAndHideSectionsSecondPart(finishQuizContainer, introHeading, quizContainer);
-    checkNextQuestion(questionArray, questionNumberText);
-    setTimeout(setMainInterval, 1000); // mainInterval - clearInterval(clearTimeMainInterval) when quiz is done.
-  }
+function hideScoreTimeAndQuestionInHeadingFromStart(questionNumberText: Element | null,
+  mainTimerContainer: Element | null,
+  questionScoreHeading: Element | null,
+): void {
+  questionNumberText?.classList.add('hidden');
+  mainTimerContainer?.classList.add('hidden');
+  questionScoreHeading?.classList.add('hidden');
+}
+
+function displayScoreTimeAndQuestionInHeadingFromStart(questionNumberText: Element | null,
+  mainTimerContainer: Element | null,
+  questionScoreHeading: Element | null,
+): void {
+  questionNumberText?.classList.remove('hidden');
+  mainTimerContainer?.classList.remove('hidden');
+  questionScoreHeading?.classList.remove('hidden');
+}
+
+function displayHighScoreAfterQuizFinished(finishQuizContainer: Element | null,
+  questionAndProgressBarContainer:Element | null,
+): void {
+  finishQuizContainer?.classList.remove('hidden');
+  questionAndProgressBarContainer?.classList.add('hidden');
+}
+
+function startGame(): void {
+  addUserToLocalStorage(selectedUser);
+  startRemoveAndHideSections(startContainer, highScoreContainer, topBannerHeading);
+  startRemoveAndHideSectionsSecondPart(finishQuizContainer, introHeading, quizContainer);
+  displayScoreTimeAndQuestionInHeadingFromStart(questionNumberText, mainTimerContainer, questionScoreHeading);
+  checkNextQuestion(questionArray, questionNumberText);
+  setTimeout(setMainInterval, 1000); // mainInterval - clearInterval(clearTimeMainInterval) when quiz is done.
 }
 
 /******************************************************
@@ -501,6 +546,7 @@ function startGame(selectedUser: string | null): void {
 document.addEventListener('DOMContentLoaded', () => {
   generateExistingUsersInHTML(userButtonsContainer);
   hideQuizAndHighscoreFromStart(quizContainer, finishQuizContainer);
+  hideScoreTimeAndQuestionInHeadingFromStart(questionNumberText, mainTimerContainer, questionScoreHeading);
 });
 startButton?.addEventListener('click', () => {
   startGame(selectedUser);
