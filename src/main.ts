@@ -29,6 +29,7 @@ const quizContainer = document.querySelector('.question-section');
 const introHeading = document.querySelector('.intro-heading');
 const topBannerHeading = document.querySelector('.top-banner');
 const questionScoreHeading = document.querySelector('#currentScore');
+const timerFinishPage = document.querySelector('#finishTime');
 const questionAndProgressBarContainer = document.querySelector('#questionSection');
 const playerInput = document.querySelector('#name') as HTMLInputElement;
 const progressBar = document.querySelector('#progressBar') as HTMLElement;
@@ -357,23 +358,29 @@ function updateHighScoreArray(highScoreArray:IHighScoreObject[]):void {
 /**
  * Handles logic for sending the highscore and user to an array and displaying
  * Sort the highscore from high to low.
+ * Add score to finish score list.
  * @param highScoreArray array of objects for the highscore and user with interface IHighScoreObject[]
  * @returns void
  */
 function updateUserPositionInHighScore(highScoreArray:IHighScoreObject[]):void {
   const listScoreOutput = document.querySelectorAll('.list-score-output li');
+  const yourScoreBox = document.querySelector('#yourScore');
+  const highScoreListOutputFinish = document.querySelectorAll('.high-score-list li');
   if (highScoreArray.length <= 0) {
-    
     return;
   }
   highScoreArray.sort((a, b) => b.highscore - a.highscore);
   highScoreArray.forEach((highscore, index) => {
     listScoreOutput[index].textContent = `${index + 1}. ${highscore.user} ${highscore.highscore}`;
+    highScoreListOutputFinish[index].textContent = `${index + 1}. ${highscore.user} ${highscore.highscore}`;
+    if (yourScoreBox !== null) {
+      yourScoreBox.textContent = `Your score: ${highscore.highscore}`;
+    }
   });
 }
 
 function setMainInterval(): void {
-  if (mainTimerContainer === null) {
+  if (mainTimerContainer === null || timerFinishPage === null) {
     return;
   }
 
@@ -387,6 +394,8 @@ function setMainInterval(): void {
   mainMins = mainMinutes < 10 ? `0${mainMinutes}:` : `${mainMinutes}+:`;
 
   mainTimerContainer.innerHTML = mainMins + mainSecs;
+  timerFinishPage.innerHTML = `Your time: ${mainMins + mainSecs}`;
+   
   mainSeconds += 1;
 
   console.log('mainSeconds: ', mainSeconds);
