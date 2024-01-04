@@ -55,6 +55,7 @@ main {
 
       .button-container {
         .intro-buttons {
+          @include button;
           padding: 20px;
           color: $color-white;
           border-radius: 50px;
@@ -71,6 +72,10 @@ main {
               background-color: gray;
             }
           }
+          
+          &:hover {
+            background-color: $button-hover;
+          }
 
           &:focus {
             outline: 2px solid $color-red;
@@ -114,6 +119,10 @@ main {
           height: 60px;
           font-weight: $font-bold-style;
           width: 300px;
+
+          &:hover {
+            background-color: $button-hover;
+          }
         }
 
         .start-button-info {
@@ -127,92 +136,6 @@ main {
         }
       }
     }
-  }
-
-  .start-section {
-    /* Heading and rules*/
-    .intro-heading {
-      font-family: $font-secondary;
-      font-size: 1.5rem;
-      letter-spacing: 3px;
-      text-align: center;
-    }
-
-    .start-container {
-      .button-container,
-      .flex-container-intro {
-        @include flex-center;
-        flex-direction: column;
-        padding: 20px;
-        gap: 20px;
-      }
-
-      .button-container {
-        /*Button styling*/
-        .intro-buttons {
-          @include button;
-          color: $color-white;
-          border-radius: 50px;
-          height: 60px;
-          font-weight: $font-bold-style;
-          width: 200px;
-
-          &:hover {
-            background-color: $button-hover;
-          }
-
-          &:focus {
-            outline: 2px solid $color-red;
-            outline-offset: 2px;
-          }
-        }
-      }
-
-      .flex-container-intro {
-        input {
-          /* Input field intro*/
-          &.name-input {
-            @include button;
-            border-radius: 50px;
-            height: 60px;
-            font-weight: $font-bold-style;
-            width: 300px;
-          }
-
-          &.name-input-text {
-            width: 300px;
-            padding: 10px;
-            font-size: 1rem;
-            text-align: center;
-            color: $color-white;
-          }
-
-          &::placeholder {
-            color: $color-white;
-            /* White placeholder text color */
-          }
-        }
-
-        .name-input {
-          height: 40px;
-        }
-
-        .start-button {
-          @include button;
-          border-radius: 50px;
-          color: $color-white;
-          height: 40px;
-          font-weight: $font-bold-style;
-          width: 300px;
-
-          &:hover {
-            background-color: $button-hover;
-          }
-        }
-      }
-    }
-
-    /*Rules and highscore container*/
     .center-text-highscore-container {
       @include flex-center;
       flex-direction: column;
