@@ -105,6 +105,8 @@ function generateQuestionInHTML(currentQuestionObject: IQuestionObject, question
   }
   // deconstruct and get values from the object to dynamically render in html
   const { question, answers } = currentQuestionObject;
+  // randomize the answers are positioned
+  const randomAnswersArray = [...answers].sort(() => Math.random() - 0.5).slice(0, answers.length);
   questionContainer.innerHTML = `
     <div>
       <h2>Question</h2>
@@ -115,7 +117,7 @@ function generateQuestionInHTML(currentQuestionObject: IQuestionObject, question
   `;
   const questionListContainer = document.querySelector('#questionList');
   // iterates all the answers and appends each to the buttonlist container
-  answers.forEach(answer => {
+  randomAnswersArray.forEach(answer => {
     const answerButton = document.createElement('button');
     answerButton.textContent = answer;
     questionListContainer?.append(answerButton);
