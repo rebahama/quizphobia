@@ -44,3 +44,11 @@ export function getFractionAsString(
 export function getLinearGradienceLeftToRightAsString(percentage: number): string {
   return `linear-gradient(to right, #212f45 ${percentage}%, #d9d9d9 ${percentage}%)`;
 }
+
+export function toggleAddClassNameOnElement(headerResultsPanel: Element | null, className: string, add: boolean) {
+  if (add) {
+    headerResultsPanel?.classList.add(className);
+  } else {
+    headerResultsPanel?.classList.remove(className);
+  }
+}
