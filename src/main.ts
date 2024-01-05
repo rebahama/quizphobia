@@ -389,7 +389,7 @@ function updateDisplayForNextQuestion(): void {
     } else if (currentQuestionNumber > questionArray.length) {
       console.log(currentQuestionNumber);
       // display End screen
-      toggleAddClassNameOnElement(headerResultsPanel, 'hidden', true)
+      toggleAddClassNameOnElement(headerResultsPanel, 'hidden', true);
       updateHighScoreArray(highScoreArray);
       updateUserPositionInHighScore(highScoreArray);
       displayResults();
@@ -411,7 +411,7 @@ function updateDisplayForNextQuestion(): void {
 function updateHighScoreArray(highScoreArray: IHighScoreObject[]): void {
   if (highScoreArray.length < 10) {
     const highScoreObject = { 
-      user: selectedUser, playedHighscore: highscore, };
+      user: selectedUser, playedHighscore: highscore };
     highScoreArray.push(highScoreObject);
   }
 }
@@ -433,19 +433,18 @@ function displayResults(): void {
 function updateUserPositionInHighScore(highScoreArray: IHighScoreObject[]): void {
   const listScoreOutput = document.querySelectorAll('.list-score-output li');
   const highScoreListOutputFinish = document.querySelectorAll('.high-score-list li');
+  const storedHighScoreArray = getHighScoreFromLocalStorage(storedHighScore, 'highscores');
   if (highScoreArray.length <= 0) {
     console.log('hej');
     return;
   }
   highScoreArray.sort((a, b) => b.playedHighscore - a.playedHighscore);
- 
-}
 
 
-  highScoreArray.sort((a, b) => b.highscore - a.highscore);
-  highScoreArray.forEach((highscore, index) => {
-    listScoreOutput[index].textContent = `${index + 1}. ${highscore.user} ${highscore.highscore}`;
-    highScoreListOutputFinish[index].textContent = `${index + 1}. ${highscore.user} ${highscore.highscore}`;
+  storedHighScoreArray.forEach((highscore, index) => {
+    const { user, playedHighscore } = highscore;
+    listScoreOutput[index].textContent = `${index + 1}. ${user} ${playedHighscore}`;
+    highScoreListOutputFinish[index].textContent = `${index + 1}. ${user} ${playedHighscore}`;
   });
 }
 
@@ -562,7 +561,7 @@ function displayHighScoreAfterQuizFinished(
   });
 }
 
-function startGame(selectedUser: string | nullselectedUser: string | null): void {
+function startGame(selectedUser: string | null): void {
   if (selectedUser !== null) {
     addUserToLocalStorage(selectedUser);
     startRemoveAndHideSections(startContainer, highScoreContainer, topBannerHeading);
@@ -595,6 +594,6 @@ questionContainer?.addEventListener('click', e => {
 });
 endScreenButtonsContainer?.addEventListener('click', handleClickOnEndButtons);
 
-displayHighscoreStartGame();
+displayHighscoreStartGame(); // Will generate highscorelist on highscore container on start game
 
 
