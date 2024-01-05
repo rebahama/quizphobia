@@ -102,6 +102,7 @@ function handleClickOnEndButtons(event: Event) {
   }
   questionArray = getRandomQuestions(array, 10);
   finishQuizContainer?.classList.add('hidden');
+  clearInterval(clearTimeMainInterval);
 }
 
 
