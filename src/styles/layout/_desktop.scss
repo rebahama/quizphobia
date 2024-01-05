@@ -27,7 +27,8 @@ main {
       .rules-text {
         font-size: 1.2rem;
         width: 50%;
-
+        gap: 30px;
+        text-align: left;
         span {
           font-size: 1.5rem;
         }
@@ -59,15 +60,10 @@ main {
     gap: 100px;
 
     .question-container {
-      gap: 80px;
+      gap: 60px;
 
       div {
-        h2 {
-          font-size: 3rem;
-        }
-
         p {
-          font-size: 2rem;
           line-height: 125%;
         }
       }
@@ -97,10 +93,6 @@ main {
     .your-score-box {
       width: 500px;
       height: 550px;
-
-      p {
-        padding-top: 150px;
-      }
     }
 
     .high-score-box {

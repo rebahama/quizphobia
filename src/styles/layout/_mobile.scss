@@ -27,10 +27,10 @@ body {
   .results-panel {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
     .score-panel {
-      display: flex;
-      align-items: center;
+      width: 40px;
+      @include flex-between;
       gap: 5px;
     }
   }
@@ -69,6 +69,9 @@ main {
           width: 200px;
           &.button-active {
             background-color: $background-highscore;
+            &:hover {
+              background-color: $button-active-hover;
+            }
           }
           &.button-inactive {
             background-color: gray;
@@ -91,16 +94,18 @@ main {
 
       .flex-container-intro {
         input {
+          cursor: pointer;
           &.name-input {
-            @include button;
-            border-radius: 50px;
+            background-color: $background-highscore;
+            border: none;
+            border-radius: 10px;
             height: 60px;
             font-weight: $font-bold-style;
-            width: 300px;
+            width: 250px;
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
           }
 
           &.name-input-text {
-            width: 300px;
             padding: 10px;
             font-size: 1rem;
             text-align: center;
@@ -109,24 +114,31 @@ main {
 
           &::placeholder {
             color: $color-white;
+            opacity: 70%;
           }
 
           &:focus {
             outline: 2px solid $color-red;
             outline-offset: 2px;
           }
+          &:hover {
+            background-color: $input-hover;
+          }
         }
 
         .start-button {
-          @include button;
+          border: none;
+          background: $background-header;
           border-radius: 50px;
           color: $color-white;
           height: 60px;
+          cursor: pointer;
           font-weight: $font-bold-style;
           width: 300px;
+          box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 
           &:hover {
-            background-color: $button-hover;
+            background: $button-hover;
           }
         }
 
@@ -150,7 +162,11 @@ main {
       .rules-text {
         color: $color-white;
         font-size: 1rem;
+        max-width: 350px;
+        gap: 10px;
         text-align: center;
+        display: flex;
+        flex-direction: column;
 
         span {
           font-size: 1.2rem;
@@ -192,6 +208,7 @@ main {
   }
 
   .question-section {
+    margin-top: 20px;
     width: 100%;
     @include flex-column-center;
     gap: 30px;
@@ -281,25 +298,28 @@ main {
     color: white;
     padding-top: 30px;
     gap: 30px;
+    margin-bottom: 20px;
 
     .your-score-box {
       background-color: $background-highscore;
       width: 300px;
       height: 250px;
-      text-align: center;
+      gap: 10px;
+      @include flex-column-center;
+      justify-content: center;
+      align-items: center;
       box-shadow:
         0 8px 16px 0 rgba(0, 0, 0, 0.2),
         0 6px 20px 0 rgba(0, 0, 0, 0.19);
-
-      p {
-        padding-top: 70px;
-      }
     }
 
     .high-score-box {
       background-color: $background-highscore;
       width: 300px;
       height: 250px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
       text-align: center;
       box-shadow:
         0 8px 16px 0 rgba(0, 0, 0, 0.2),

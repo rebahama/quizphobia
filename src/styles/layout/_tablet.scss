@@ -2,7 +2,6 @@
   padding: 10px 20px;
 }
 
-
 main {
   max-width: 800px;
   .start-section {
@@ -10,13 +9,20 @@ main {
       font-size: 1.5rem;
     }
     .center-text-highscore-container {
+      .rules-text {
+        gap: 20px;
+        span {
+          font-size: 1.5rem;
+        }
+      }
       .list-highscore-container {
         width: 50%;
       }
     }
   }
   .question-section {
-    gap: 85px;
+    margin-top: 50px;
+    gap: 60px;
     .question-container {
       gap: 60px;
       div {
@@ -54,12 +60,10 @@ main {
     justify-content: space-around;
     flex-direction: row;
     font-size: 1.5rem;
+    margin-bottom: 50px;
     .your-score-box {
       width: 350px;
       height: 400px;
-      p {
-        padding-top: 100px;
-      }
     }
     .high-score-box {
       width: 350px;
