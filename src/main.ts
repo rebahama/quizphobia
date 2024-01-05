@@ -1,4 +1,4 @@
-import './styles/style.scss'; 
+import './styles/style.scss';
 import array from './json/quiz.json'; // Importing json file to array for using to randomize questions.
 import {
   getArrayOfObjectsFromLocalStorage,
@@ -6,10 +6,9 @@ import {
   getFractionAsString,
   getLinearGradienceLeftToRightAsString,
   getHighScoreFromLocalStorage,
-  toggleAddClassNameOnElement
+  toggleAddClassNameOnElement,
 } from './assets/utils/helperfunctions.ts';
-import type { IQuestionObject, IStoredUserType, IHighScoreObject
-} from './assets/utils/types.ts';
+import type { IQuestionObject, IStoredUserType, IHighScoreObject } from './assets/utils/types.ts';
 
 import { gsap } from 'gsap';
 import { Flip } from 'gsap/Flip';
@@ -20,7 +19,7 @@ gsap.registerPlugin(Flip);
  *****************************************************/
 
 const headerResultsPanel = document.querySelector('#resultsPanel');
-const endScreenButtonsContainer = document.querySelector('#finishedButtonsBox');;
+const endScreenButtonsContainer = document.querySelector('#finishedButtonsBox');
 const startButton = document.querySelector('#startButton');
 const mainTimerContainer: HTMLElement | null = document.querySelector('#mainTimer');
 const questionNumberText = document.querySelector('#questionNumber');
@@ -44,7 +43,6 @@ let userButtonsContainer = document.querySelector('#buttonContainer');
 
 let questionArray = getRandomQuestions(array, 10);
 const highScoreArray: IHighScoreObject[] = [];
-
 
 /*                      let                   */
 let storedHighScore: IHighScoreObject[];
@@ -330,23 +328,20 @@ function handleClickOnAnswers(event: Event, questionArray: IQuestionObject[]): v
     target.textContent?.toLowerCase() === currentQuestionObject.correct_answer.toLowerCase();
   // adding class taken for keeping track if any answer is already clicked
   target.classList.add('taken');
-  buttons.forEach((button) => {
-    button.style.pointerEvents = 'none'; 
-  });
-  
-  
-  handleLogicBasedOnAnswer(target, isTargetTheRightAnswer);
+  handleLogicBasedOnAnswer(target, isTargetTheRightAnswer, buttons);
   // animate score update //
   updateDisplayForNextQuestion();
   // clear interval individual
   clearInterval(clearTimeQuestionInterval);
 }
 
-function handleLogicBasedOnAnswer(answer: HTMLElement, isTargetTheRightAnswer: boolean): void {
+function handleLogicBasedOnAnswer(
+  answer: HTMLElement,
+  isTargetTheRightAnswer: boolean,
+  buttons: HTMLButtonElement[]
+): void {
   if (isTargetTheRightAnswer) {
     isAnswerCorrect = true;
-    
-
     gsap.to(answer, {
       duration: 1,
       backgroundColor: '#207d73',
@@ -356,7 +351,12 @@ function handleLogicBasedOnAnswer(answer: HTMLElement, isTargetTheRightAnswer: b
     rightCount += 1;
   } else {
     isAnswerCorrect = false;
-
+    buttons.forEach(button => {
+      const htmlButton = button as HTMLElement;
+      if (htmlButton.textContent?.toLowerCase() === questionArray[currentQuestionNumber - 1].correct_answer) {
+        htmlButton.style.border = '3px solid #207d73';
+      }
+    });
     gsap.fromTo(
       answer,
       {
@@ -412,8 +412,10 @@ function updateDisplayForNextQuestion(): void {
 
 function updateHighScoreArray(highScoreArray: IHighScoreObject[]): void {
   if (highScoreArray.length < 10) {
-    const highScoreObject = { 
-      user: selectedUser, playedHighscore: highscore };
+    const highScoreObject = {
+      user: selectedUser,
+      playedHighscore: highscore,
+    };
     highScoreArray.push(highScoreObject);
   }
 }
@@ -441,7 +443,6 @@ function updateUserPositionInHighScore(highScoreArray: IHighScoreObject[]): void
     return;
   }
   highScoreArray.sort((a, b) => b.playedHighscore - a.playedHighscore);
-
 
   storedHighScoreArray.forEach((highscore, index) => {
     const { user, playedHighscore } = highscore;
@@ -547,12 +548,11 @@ function displayHighScoreAfterQuizFinished(
 ): void {
   finishQuizContainer?.classList.remove('hidden');
   questionAndProgressBarContainer?.classList.add('hidden');
-  
+
   const yourScoreBox = document.querySelector('#yourScore');
   const highScoreListOutputFinish = document.querySelectorAll('.high-score-list li');
   const storedHighScoreArray = getHighScoreFromLocalStorage(storedHighScore, 'highscores');
 
-  
   storedHighScoreArray.sort((a, b) => b.playedHighscore - a.playedHighscore);
   storedHighScoreArray.forEach((highscore, index) => {
     const { user, playedHighscore } = highscore;
@@ -597,5 +597,3 @@ questionContainer?.addEventListener('click', e => {
 endScreenButtonsContainer?.addEventListener('click', handleClickOnEndButtons);
 
 displayHighscoreStartGame(); // Will generate highscorelist on highscore container on start game
-
-
