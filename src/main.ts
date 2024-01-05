@@ -318,7 +318,7 @@ function addHighscoreToLocalStorage(highScoreArray: IHighScoreObject[], selected
  * @returns void
  */
 function handleClickOnAnswers(event: Event, questionArray: IQuestionObject[]): void {
-  const buttons = document.querySelectorAll('#questionList button');
+  const buttons: HTMLButtonElement[] = Array.from(document.querySelectorAll('#questionList button'));
   const isAnyButtonTaken = Array.from(buttons).some(button => button.classList.contains('taken'));
   console.log(isAnyButtonTaken);
   const target = event.target as HTMLElement;
@@ -333,6 +333,10 @@ function handleClickOnAnswers(event: Event, questionArray: IQuestionObject[]): v
     target.textContent?.toLowerCase() === currentQuestionObject.correct_answer.toLowerCase();
   // adding class taken for keeping track if any answer is already clicked
   target.classList.add('taken');
+  buttons.forEach((button) => {
+    button.style.pointerEvents = 'none'; 
+  });
+  
   
   handleLogicBasedOnAnswer(target, isTargetTheRightAnswer);
   // animate score update //
