@@ -54,24 +54,25 @@
 
   <body>
     <header role="banner">
-      <section class="top-banner">
+      <section class="top-banner" id="topBanner">
         <h2>Trivia</h2>
-        <div class="question-number" id="questionNumber">1/10</div>
-        <!-- ersätt '1/10' med js -->
-        <div class="time-clock" id="mainTimer">Tiden</div>
-        <!-- ersätt 'tiden' med js -->
-        <div class="current-score" id="currentScore">0</div>
-        <!-- ersätt 'poängen' med js -->
-        <!--           <div class="score-container"></div> Byt ut mot star.png framför score, alternativt lägg in en img bakom scorefunktionen i js -->
+        <div class="results-panel">
+          <div class="question-number" id="questionNumber">1/10</div>
+          <div class="time-clock" id="mainTimer">00:00</div>
+          <div class="score-panel" id="scorePanel">
+            <img src="src/assets/icons/star.svg" width="20" height="20" alt="star icon for highscore">
+            <div class="current-score" id="currentScore">0</div>
+          </div>
+        </div>
       </section>
     </header>
 
     <main role="main">
       <section class="start-section" id="startSection">
-        <h1 class="intro-heading">
+        <h1 class="intro-heading" id="introHeading">
           Welcome to the quiz about scary and unusual phobias
         </h1>
-        <div class="start-container">
+        <div class="start-container" id="startContainer">
           <div class="button-container" id="buttonContainer"></div>
           <div class="flex-container-intro">
             <input
@@ -97,7 +98,7 @@
             >
           </div>
         </div>
-        <div class="center-text-highscore-container">
+        <div class="center-text-highscore-container" id="centerTextHighscoreContainer">
           <p class="rules-text">
             <span>Rules to play: <br /></span>
             You'll get one question and four answers. <br />
@@ -138,6 +139,7 @@
         <div class="your-score-box">
         <p id="yourScore"> </p>
         <p id="finishTime"> </p>
+        <p id="userCorrect"></p>
         </div>
         <div class="high-score-box">
           <h2>Highscore</h2>
