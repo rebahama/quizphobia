@@ -95,6 +95,7 @@ function handleClickOnEndButtons(event: Event): void {
     highScoreContainer?.classList.remove('hidden');
     userButtonsContainer = document.querySelector('#buttonContainer'); // might be unnecessary
     generateExistingUsersInHTML(userButtonsContainer);
+    displayHighscoreStartGame();
   } else if (target.id === 'restartQuizButton') {
     startGame(selectedUser);
   }
