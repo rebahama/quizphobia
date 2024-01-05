@@ -8,8 +8,8 @@ import {
   getHighScoreFromLocalStorage,
 } from './assets/utils/helperfunctions.ts';
 import type { IQuestionObject, IStoredUserType,
-  IHighScoreObject, 
-  IStoredHighScoreObject } from './assets/utils/types.ts'; // importing interface
+  IHighScoreObject
+} from './assets/utils/types.ts'; // importing interface
 
 import { gsap } from 'gsap'; // animation med gsap
 import { Flip } from 'gsap/Flip';
@@ -36,6 +36,7 @@ const timerFinishPage = document.querySelector('#finishTime');
 const questionAndProgressBarContainer = document.querySelector('#questionSection');
 const playerInput = document.querySelector('#name') as HTMLInputElement;
 const progressBar = document.querySelector('#progressBar') as HTMLElement;
+
 
 /******************************************************
  * ************ Variables ****************************
@@ -160,6 +161,16 @@ function generateQuestionInHTML(currentQuestionObject: IQuestionObject, question
   });
 }
 
+function displayHighscoreStartGame(): void {
+  const storedHighScoreArray = getHighScoreFromLocalStorage(storedHighScore, 'highscores');
+  const listScoreOutput = document.querySelectorAll('.list-score-output li');
+
+  storedHighScoreArray.sort((a, b) => b.playedHighscore - a.playedHighscore);
+  storedHighScoreArray.forEach((highscore, index) => {
+    const { user, playedHighscore } = highscore;
+    listScoreOutput[index].textContent = `${index + 1}. ${user} ${playedHighscore}`;
+  });
+}
 /**
  * Handles when the user clicks the existing user buttons, toggeling active classes on the target
  * @param event click event
@@ -548,17 +559,18 @@ function displayHighScoreAfterQuizFinished(finishQuizContainer: Element | null,
 ): void {
   finishQuizContainer?.classList.remove('hidden');
   questionAndProgressBarContainer?.classList.add('hidden');
-  const listScoreOutput = document.querySelectorAll('.list-score-output li');
+  
   const yourScoreBox = document.querySelector('#yourScore');
   const highScoreListOutputFinish = document.querySelectorAll('.high-score-list li');
   const storedHighScoreArray = getHighScoreFromLocalStorage(storedHighScore, 'highscores');
 
+  
   storedHighScoreArray.sort((a, b) => b.playedHighscore - a.playedHighscore);
   storedHighScoreArray.forEach((highscore, index) => {
-    listScoreOutput[index].textContent = `${index + 1}. ${highscore.user} ${highscore.playedHighscore}`;
-    highScoreListOutputFinish[index].textContent = `${index + 1}. ${highscore.user} ${highscore.playedHighscore}`;
+    const { user, playedHighscore } = highscore;
+    highScoreListOutputFinish[index].textContent = `${index + 1}. ${user} ${playedHighscore}`;
     if (yourScoreBox !== null) {
-      yourScoreBox.textContent = `Your score: ${highscore.playedHighscore}`;
+      yourScoreBox.textContent = `Your score: ${playedHighscore}`;
     }
   });
 }
@@ -595,6 +607,6 @@ questionContainer?.addEventListener('click', e => {
 });
 endScreenButtonsContainer?.addEventListener('click', handleClickOnEndButtons);
 
-console.log(startButton);
+displayHighscoreStartGame();
 
 
