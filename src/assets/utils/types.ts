@@ -9,7 +9,8 @@ export interface IStoredUserType {
   user: string | null;
 }
 
+
 export interface IHighScoreObject {
   user: string | null;
-  highscore: number;
+  playedHighscore: number;
 }

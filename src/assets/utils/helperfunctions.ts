@@ -1,4 +1,4 @@
-import type { IQuestionObject, IStoredUserType } from './types';
+import type { IQuestionObject, IHighScoreObject, IStoredUserType } from './types';
 
 /**
  * getter function that returns an array of objects from localStorage after parsing the stored data
@@ -15,6 +15,16 @@ export function getArrayOfObjectsFromLocalStorage(
   // if there is not storedData arrayOfObjects should be empty, else parse the JSON string
   arrayOfOjbects = storedData === null ? [] : JSON.parse(storedData);
   return arrayOfOjbects;
+}
+
+export function getHighScoreFromLocalStorage(
+  storedHighScore: IHighScoreObject[], 
+  highScores: string
+):IHighScoreObject[] {
+  const storedHighscoreData = localStorage.getItem(highScores);
+
+  storedHighScore = storedHighscoreData === null ? [] : JSON.parse(storedHighscoreData);
+  return storedHighScore;
 }
 
 export function getRandomQuestions(
