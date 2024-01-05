@@ -351,7 +351,7 @@ function updateDisplayForNextQuestion(): void {
     } else if (currentQuestionNumber > questionArray.length) {
       console.log(currentQuestionNumber);
       // display End screen
-      toggleAddClassNameOnElement(headerResultsPanel, 'hidden', true)
+      toggleAddClassNameOnElement(headerResultsPanel, 'hidden', true);
       displayHighScoreAfterQuizFinished(finishQuizContainer, questionAndProgressBarContainer);
       updateHighScoreArray(highScoreArray);
       updateUserPositionInHighScore(highScoreArray);

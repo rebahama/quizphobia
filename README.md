@@ -65,6 +65,18 @@ a new user by writing your name or chose from existing users. Next you will have
 - CSS was validated using the [W3C CSS validator](https://jigsaw.w3.org/css-validator/).
 - Lighthouse was used to check Performance, Accessibility, Best Practices and SEO.
 
+### Lighthouse
+
+![Lighthouse-Preview](./validation/lighthouse.jpg)
+
+### HTML
+
+![HTML-Preview](./validation/html-validation.jpg)
+
+### CSS
+
+![CSS-Preview](./validation/css-validation.jpg)
+
 ## Participants
 
 - [RalfiSlask](https://github.com/RalfiSlask)
