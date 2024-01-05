@@ -5,9 +5,11 @@ import {
   getRandomQuestions,
   getFractionAsString,
   getLinearGradienceLeftToRightAsString,
-  toggleAddClassNameOnElement,
+  getHighScoreFromLocalStorage,
+  toggleAddClassNameOnElement
 } from './assets/utils/helperfunctions.ts';
-import type { IQuestionObject, IStoredUserType, IHighScoreObject } from './assets/utils/types.ts';
+import type { IQuestionObject, IStoredUserType, IHighScoreObject
+} from './assets/utils/types.ts';
 
 import { gsap } from 'gsap';
 import { Flip } from 'gsap/Flip';
@@ -18,7 +20,7 @@ gsap.registerPlugin(Flip);
  *****************************************************/
 
 const headerResultsPanel = document.querySelector('#resultsPanel');
-const endScreenButtonsContainer = document.querySelector('#finishedButtonsBox');
+const endScreenButtonsContainer = document.querySelector('#finishedButtonsBox');;
 const startButton = document.querySelector('#startButton');
 const mainTimerContainer: HTMLElement | null = document.querySelector('#mainTimer');
 const questionNumberText = document.querySelector('#questionNumber');
@@ -43,10 +45,12 @@ let userButtonsContainer = document.querySelector('#buttonContainer');
 let questionArray = getRandomQuestions(array, 10);
 const highScoreArray: IHighScoreObject[] = [];
 
-/*                      let                   */
 
+/*                      let                   */
+let storedHighScore: IHighScoreObject[];
 let storedUsers: IStoredUserType[];
 let selectedUser: string | null = null;
+
 let currentQuestionNumber = 1;
 let isAnswerCorrect = false;
 let questionScore = 0;
@@ -91,11 +95,13 @@ function handleClickOnEndButtons(event: Event): void {
     highScoreContainer?.classList.remove('hidden');
     userButtonsContainer = document.querySelector('#buttonContainer'); // might be unnecessary
     generateExistingUsersInHTML(userButtonsContainer);
+    displayHighscoreStartGame();
   } else if (target.id === 'restartQuizButton') {
     startGame(selectedUser);
   }
   questionArray = getRandomQuestions(array, 10);
   finishQuizContainer?.classList.add('hidden');
+  clearInterval(clearTimeMainInterval);
 }
 
 /**
@@ -154,6 +160,16 @@ function generateQuestionInHTML(currentQuestionObject: IQuestionObject, question
   });
 }
 
+function displayHighscoreStartGame(): void {
+  const storedHighScoreArray = getHighScoreFromLocalStorage(storedHighScore, 'highscores');
+  const listScoreOutput = document.querySelectorAll('.list-score-output li');
+
+  storedHighScoreArray.sort((a, b) => b.playedHighscore - a.playedHighscore);
+  storedHighScoreArray.forEach((highscore, index) => {
+    const { user, playedHighscore } = highscore;
+    listScoreOutput[index].textContent = `${index + 1}. ${user} ${playedHighscore}`;
+  });
+}
 /**
  * Handles when the user clicks the existing user buttons, toggeling active classes on the target
  * @param event click event
@@ -272,6 +288,26 @@ function addUserToLocalStorage(userName: string | null): void {
   }
 }
 
+function addHighscoreToLocalStorage(highScoreArray: IHighScoreObject[], selectedUser: string | null): void {
+  const storedHighScoreArray = getHighScoreFromLocalStorage(storedHighScore, 'highscores');
+  console.log(storedHighScoreArray);
+
+  const newHighscore = {
+    user: selectedUser,
+    playedHighscore: highscore,
+  };
+
+  if (storedHighScoreArray.length === 0) {
+    localStorage.setItem('highscores', JSON.stringify(highScoreArray));
+  } else {
+    console.log('finns redan en i listan');
+    storedHighScoreArray.push(newHighscore);
+    console.log(storedHighScoreArray);
+    localStorage.setItem('highscores', JSON.stringify(storedHighScoreArray));
+  }
+  displayHighScoreAfterQuizFinished(finishQuizContainer, questionAndProgressBarContainer);
+}
+
 /**
  * Handles logic for clicking on answers with event delegation
  * @param event clickEvent
@@ -279,7 +315,7 @@ function addUserToLocalStorage(userName: string | null): void {
  * @returns void
  */
 function handleClickOnAnswers(event: Event, questionArray: IQuestionObject[]): void {
-  const buttons = document.querySelectorAll('#questionList button');
+  const buttons: HTMLButtonElement[] = Array.from(document.querySelectorAll('#questionList button'));
   const isAnyButtonTaken = Array.from(buttons).some(button => button.classList.contains('taken'));
   console.log(isAnyButtonTaken);
   const target = event.target as HTMLElement;
@@ -294,21 +330,16 @@ function handleClickOnAnswers(event: Event, questionArray: IQuestionObject[]): v
     target.textContent?.toLowerCase() === currentQuestionObject.correct_answer.toLowerCase();
   // adding class taken for keeping track if any answer is already clicked
   target.classList.add('taken');
-  handleLogicBasedOnAnswer(target, isTargetTheRightAnswer, buttons);
+  handleLogicBasedOnAnswer(target, isTargetTheRightAnswer);
   // animate score update //
   updateDisplayForNextQuestion();
   // clear interval individual
-  clearInterval(clearTimeQuestionInterval); // hej
+  clearInterval(clearTimeQuestionInterval);
 }
 
-function handleLogicBasedOnAnswer(
-  answer: HTMLElement,
-  isTargetTheRightAnswer: boolean,
-  buttons: NodeListOf<Element>
-): void {
+function handleLogicBasedOnAnswer(answer: HTMLElement, isTargetTheRightAnswer: boolean): void {
   if (isTargetTheRightAnswer) {
     isAnswerCorrect = true;
-    // handle how many points we get based on time
     gsap.to(answer, {
       duration: 1,
       backgroundColor: '#207d73',
@@ -362,6 +393,7 @@ function updateDisplayForNextQuestion(): void {
       updateHighScoreArray(highScoreArray);
       updateUserPositionInHighScore(highScoreArray);
       displayResults();
+      addHighscoreToLocalStorage(highScoreArray, selectedUser);
       clearInterval(clearTimeMainInterval);
       currentQuestionNumber = 1;
       rightCount = 0;
@@ -378,7 +410,8 @@ function updateDisplayForNextQuestion(): void {
 
 function updateHighScoreArray(highScoreArray: IHighScoreObject[]): void {
   if (highScoreArray.length < 10) {
-    const highScoreObject = { user: selectedUser, highscore };
+    const highScoreObject = { 
+      user: selectedUser, playedHighscore: highscore };
     highScoreArray.push(highScoreObject);
   }
 }
@@ -400,14 +433,18 @@ function displayResults(): void {
 function updateUserPositionInHighScore(highScoreArray: IHighScoreObject[]): void {
   const listScoreOutput = document.querySelectorAll('.list-score-output li');
   const highScoreListOutputFinish = document.querySelectorAll('.high-score-list li');
+  const storedHighScoreArray = getHighScoreFromLocalStorage(storedHighScore, 'highscores');
   if (highScoreArray.length <= 0) {
     console.log('hej');
     return;
   }
-  highScoreArray.sort((a, b) => b.highscore - a.highscore);
-  highScoreArray.forEach((highscore, index) => {
-    listScoreOutput[index].textContent = `${index + 1}. ${highscore.user} ${highscore.highscore}`;
-    highScoreListOutputFinish[index].textContent = `${index + 1}. ${highscore.user} ${highscore.highscore}`;
+  highScoreArray.sort((a, b) => b.playedHighscore - a.playedHighscore);
+
+
+  storedHighScoreArray.forEach((highscore, index) => {
+    const { user, playedHighscore } = highscore;
+    listScoreOutput[index].textContent = `${index + 1}. ${user} ${playedHighscore}`;
+    highScoreListOutputFinish[index].textContent = `${index + 1}. ${user} ${playedHighscore}`;
   });
 }
 
@@ -508,6 +545,20 @@ function displayHighScoreAfterQuizFinished(
 ): void {
   finishQuizContainer?.classList.remove('hidden');
   questionAndProgressBarContainer?.classList.add('hidden');
+  
+  const yourScoreBox = document.querySelector('#yourScore');
+  const highScoreListOutputFinish = document.querySelectorAll('.high-score-list li');
+  const storedHighScoreArray = getHighScoreFromLocalStorage(storedHighScore, 'highscores');
+
+  
+  storedHighScoreArray.sort((a, b) => b.playedHighscore - a.playedHighscore);
+  storedHighScoreArray.forEach((highscore, index) => {
+    const { user, playedHighscore } = highscore;
+    highScoreListOutputFinish[index].textContent = `${index + 1}. ${user} ${playedHighscore}`;
+    if (yourScoreBox !== null) {
+      yourScoreBox.textContent = `Your score: ${playedHighscore}`;
+    }
+  });
 }
 
 function startGame(selectedUser: string | null): void {
@@ -543,4 +594,6 @@ questionContainer?.addEventListener('click', e => {
 });
 endScreenButtonsContainer?.addEventListener('click', handleClickOnEndButtons);
 
-console.log(startButton);
+displayHighscoreStartGame(); // Will generate highscorelist on highscore container on start game
+
+
