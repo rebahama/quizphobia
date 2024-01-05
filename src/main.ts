@@ -1,11 +1,11 @@
-import './styles/style.scss'; 
+import './styles/style.scss';
 import array from './json/quiz.json'; // Importing json file to array for using to randomize questions.
 import {
   getArrayOfObjectsFromLocalStorage,
   getRandomQuestions,
   getFractionAsString,
   getLinearGradienceLeftToRightAsString,
-  toggleAddClassNameOnElement
+  toggleAddClassNameOnElement,
 } from './assets/utils/helperfunctions.ts';
 import type { IQuestionObject, IStoredUserType, IHighScoreObject } from './assets/utils/types.ts';
 
@@ -294,20 +294,21 @@ function handleClickOnAnswers(event: Event, questionArray: IQuestionObject[]): v
     target.textContent?.toLowerCase() === currentQuestionObject.correct_answer.toLowerCase();
   // adding class taken for keeping track if any answer is already clicked
   target.classList.add('taken');
-  handleLogicBasedOnAnswer(target, isTargetTheRightAnswer);
+  handleLogicBasedOnAnswer(target, isTargetTheRightAnswer, buttons);
   // animate score update //
   updateDisplayForNextQuestion();
   // clear interval individual
   clearInterval(clearTimeQuestionInterval); // hej
 }
 
-function handleLogicBasedOnAnswer(answer: HTMLElement, isTargetTheRightAnswer: boolean): void {
+function handleLogicBasedOnAnswer(
+  answer: HTMLElement,
+  isTargetTheRightAnswer: boolean,
+  buttons: NodeListOf<Element>
+): void {
   if (isTargetTheRightAnswer) {
     isAnswerCorrect = true;
     // handle how many points we get based on time
-    // answer.classList.add('right'); // green placeholder
-
-    // maybe have animation for right answer gsap, 1-2 sec
     gsap.to(answer, {
       duration: 1,
       backgroundColor: '#207d73',
@@ -317,7 +318,12 @@ function handleLogicBasedOnAnswer(answer: HTMLElement, isTargetTheRightAnswer: b
     rightCount += 1;
   } else {
     isAnswerCorrect = false;
-
+    buttons.forEach(button => {
+      const htmlButton = button as HTMLElement;
+      if (htmlButton.textContent?.toLowerCase() === questionArray[currentQuestionNumber - 1].correct_answer) {
+        htmlButton.style.border = '3px solid #207d73';
+      }
+    });
     gsap.fromTo(
       answer,
       {
@@ -351,7 +357,7 @@ function updateDisplayForNextQuestion(): void {
     } else if (currentQuestionNumber > questionArray.length) {
       console.log(currentQuestionNumber);
       // display End screen
-      toggleAddClassNameOnElement(headerResultsPanel, 'hidden', true)
+      toggleAddClassNameOnElement(headerResultsPanel, 'hidden', true);
       displayHighScoreAfterQuizFinished(finishQuizContainer, questionAndProgressBarContainer);
       updateHighScoreArray(highScoreArray);
       updateUserPositionInHighScore(highScoreArray);
