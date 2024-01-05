@@ -1,10 +1,11 @@
-import './styles/style.scss'; // Importera huvud-SCSS-filen
+import './styles/style.scss'; 
 import array from './json/quiz.json'; // Importing json file to array for using to randomize questions.
 import {
   getArrayOfObjectsFromLocalStorage,
   getRandomQuestions,
   getFractionAsString,
   getLinearGradienceLeftToRightAsString,
+  toggleAddClassNameOnElement
 } from './assets/utils/helperfunctions.ts';
 import type { IQuestionObject, IStoredUserType, IHighScoreObject } from './assets/utils/types.ts';
 
@@ -16,6 +17,7 @@ gsap.registerPlugin(Flip);
  * ************ Selectors ****************************
  *****************************************************/
 
+const headerResultsPanel = document.querySelector('#resultsPanel');
 const endScreenButtonsContainer = document.querySelector('#finishedButtonsBox');
 const startButton = document.querySelector('#startButton');
 const mainTimerContainer: HTMLElement | null = document.querySelector('#mainTimer');
@@ -27,7 +29,6 @@ const finishQuizContainer = document.querySelector('#quizFinished');
 const quizContainer = document.querySelector('#questionSection');
 const introHeading = document.querySelector('#introHeading');
 const topBannerHeading = document.querySelector('#topBanner');
-const questionScorePanel = document.querySelector('#scorePanel');
 const questionAndProgressBarContainer = document.querySelector('#questionSection');
 const playerInput = document.querySelector('#name') as HTMLInputElement;
 const progressBar = document.querySelector('#progressBar') as HTMLElement;
@@ -350,7 +351,7 @@ function updateDisplayForNextQuestion(): void {
     } else if (currentQuestionNumber > questionArray.length) {
       console.log(currentQuestionNumber);
       // display End screen
-      hideScoreTimeAndQuestionInHeadingFromStart(questionNumberText, mainTimerContainer, questionScorePanel);
+      toggleAddClassNameOnElement(headerResultsPanel, 'hidden', true)
       displayHighScoreAfterQuizFinished(finishQuizContainer, questionAndProgressBarContainer);
       updateHighScoreArray(highScoreArray);
       updateUserPositionInHighScore(highScoreArray);
@@ -495,26 +496,6 @@ function hideQuizAndHighscoreFromStart(quizContainer: Element | null, finishQuiz
   finishQuizContainer?.classList.add('hidden');
 }
 
-function hideScoreTimeAndQuestionInHeadingFromStart(
-  questionNumberText: Element | null,
-  mainTimerContainer: Element | null,
-  questionScoreHeading: Element | null
-): void {
-  questionNumberText?.classList.add('hidden');
-  mainTimerContainer?.classList.add('hidden');
-  questionScoreHeading?.classList.add('hidden');
-}
-
-function displayScoreTimeAndQuestionInHeadingFromStart(
-  questionNumberText: Element | null,
-  mainTimerContainer: Element | null,
-  questionScoreHeading: Element | null
-): void {
-  questionNumberText?.classList.remove('hidden');
-  mainTimerContainer?.classList.remove('hidden');
-  questionScoreHeading?.classList.remove('hidden');
-}
-
 function displayHighScoreAfterQuizFinished(
   finishQuizContainer: Element | null,
   questionAndProgressBarContainer: Element | null
@@ -528,7 +509,7 @@ function startGame(selectedUser: string | null): void {
     addUserToLocalStorage(selectedUser);
     startRemoveAndHideSections(startContainer, highScoreContainer, topBannerHeading);
     startRemoveAndHideSectionsSecondPart(finishQuizContainer, introHeading, quizContainer);
-    displayScoreTimeAndQuestionInHeadingFromStart(questionNumberText, mainTimerContainer, questionScorePanel);
+    toggleAddClassNameOnElement(headerResultsPanel, 'hidden', false);
     checkNextQuestion(questionArray, questionNumberText);
     setTimeout(setMainInterval, 1000); // mainInterval - clearInterval(clearTimeMainInterval) when quiz is done.
   }
@@ -541,7 +522,6 @@ function startGame(selectedUser: string | null): void {
 document.addEventListener('DOMContentLoaded', () => {
   generateExistingUsersInHTML(userButtonsContainer);
   hideQuizAndHighscoreFromStart(quizContainer, finishQuizContainer);
-  hideScoreTimeAndQuestionInHeadingFromStart(questionNumberText, mainTimerContainer, questionScorePanel);
 });
 startButton?.addEventListener('click', () => {
   startGame(selectedUser);
