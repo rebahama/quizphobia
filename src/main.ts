@@ -333,20 +333,19 @@ function handleClickOnAnswers(event: Event, questionArray: IQuestionObject[]): v
     target.textContent?.toLowerCase() === currentQuestionObject.correct_answer.toLowerCase();
   // adding class taken for keeping track if any answer is already clicked
   target.classList.add('taken');
+  
   handleLogicBasedOnAnswer(target, isTargetTheRightAnswer);
   // animate score update //
   updateDisplayForNextQuestion();
   // clear interval individual
-  clearInterval(clearTimeQuestionInterval); // hej
+  clearInterval(clearTimeQuestionInterval);
 }
 
 function handleLogicBasedOnAnswer(answer: HTMLElement, isTargetTheRightAnswer: boolean): void {
   if (isTargetTheRightAnswer) {
     isAnswerCorrect = true;
-    // handle how many points we get based on time
-    // answer.classList.add('right'); // green placeholder
+    
 
-    // maybe have animation for right answer gsap, 1-2 sec
     gsap.to(answer, { 
       duration: 1, 
       backgroundColor: '#207d73',
