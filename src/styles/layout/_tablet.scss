@@ -16,7 +16,15 @@ main {
         }
       }
       .list-highscore-container {
-        width: 50%;
+        width: 100%;
+        .flex-highscore{
+          .list-split-one,
+          .list-split-two {
+            li {
+              font-size: 1.5rem;
+            }
+          }
+        }
       }
     }
   }
