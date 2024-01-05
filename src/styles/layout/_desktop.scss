@@ -49,9 +49,15 @@ main {
 
       .flex-container-intro {
         flex-direction: row;
-
         .start-button {
           height: 60px;
+          width: 300px;
+        }
+        input {
+          &.name-input {
+            width: 250px;
+          }
+
         }
       }
     }

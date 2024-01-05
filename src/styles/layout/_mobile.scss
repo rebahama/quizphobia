@@ -101,7 +101,7 @@ main {
             border-radius: 10px;
             height: 60px;
             font-weight: $font-bold-style;
-            width: 250px;
+            width: 200px;
             box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
           }
 
@@ -134,7 +134,7 @@ main {
           height: 60px;
           cursor: pointer;
           font-weight: $font-bold-style;
-          width: 300px;
+          width: 200px;
           box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 
           &:hover {
@@ -144,6 +144,7 @@ main {
 
         .start-button-info {
           color: $color-white;
+          text-align: center;
         }
 
         button:focus,
@@ -161,7 +162,7 @@ main {
 
       .rules-text {
         color: $color-white;
-        font-size: 1rem;
+        font-size: 1.3rem;
         max-width: 350px;
         gap: 10px;
         text-align: center;
