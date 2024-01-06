@@ -67,15 +67,61 @@ a new user by writing your name or chose from existing users. Next you will have
 
 ### Lighthouse
 
-![Lighthouse-Preview](./validation/lighthouse.jpg)
+![Lighthouse-Preview](./docs/validation/lighthouse.jpg)
 
 ### HTML
 
-![HTML-Preview](./validation/html-validation.jpg)
+![HTML-Preview](./docs/validation/html-validation.jpg)
 
 ### CSS
 
-![CSS-Preview](./validation/css-validation.jpg)
+![CSS-Preview](./docs/validation/css-validation.jpg)
+
+## Supported screens
+The phopbia quiz have been tested on diffrent screens, we have set the breakpoints for tablet screens 768 px. And for desktop screens 1280px.
+
+### Homepage
+
+
+#### Desktop
+This is the homepage on desktop
+
+![Homepagescreendesktop](./docs/website-screenshots/homepage-big-screen.png)
+
+
+#### Mobile and tablet
+This is the homepage on tablet and mobile screens.
+
+![Homepagescreenbottom](./docs/website-screenshots/homepage-small-screen-bottom.png)
+
+![Homepagescreen](./docs/website-screenshots/homepage-small-screen.png)
+
+### Main quizpage
+
+#### Desktop
+This is the quizpage on desktop.
+
+![Quizpagescreendesktop](./docs/website-screenshots/quizpage-big-screen.png)
+
+
+#### Mobile and tablet
+This is the quizpage on tablet and mobile screens.
+
+![Quizpagesmallscreens](./docs/website-screenshots/quizpage-small-screen.png)
+
+### Finish page
+This is the finished page on desktop.
+
+#### Desktop
+![Finishpagedesktop](./docs/website-screenshots/finishedpage-big-screen.png)
+
+#### Mobile and tablet
+This is the finished page on mobile and tablet.
+
+![Finishpage](./docs/website-screenshots/finishedpage-small-screen.png)
+
+
+
 
 ## Participants
 
