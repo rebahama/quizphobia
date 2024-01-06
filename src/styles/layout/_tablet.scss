@@ -83,6 +83,13 @@ main {
         margin-left: 40px;
         flex-direction: column;
         flex-wrap: nowrap;
+        .list-left,
+        .list-right {
+          li {
+            font-size: 1.3rem;
+          }
+        }
+        
       }
     }
     .finished-buttons-box {

@@ -242,6 +242,7 @@ main {
 
       .question-list {
         @include flex-column-center;
+        padding: 25px;
         gap: 15px;
         width: 80%;
 
@@ -305,6 +306,7 @@ main {
       background-color: $background-highscore;
       width: 300px;
       height: 250px;
+      font-size: 1.3rem;
       gap: 10px;
       @include flex-column-center;
       justify-content: center;
@@ -316,6 +318,7 @@ main {
 
     .high-score-box {
       background-color: $background-highscore;
+      letter-spacing: 1px;
       width: 300px;
       height: 250px;
       display: flex;
@@ -340,7 +343,7 @@ main {
           li {
             list-style-type: none;
             line-height: 30px;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             text-align: left;
           }
         }
@@ -354,8 +357,9 @@ main {
 
       .button {
         @include button;
+        width: 200px;
         color: white;
-
+        
         &:hover {
           background-color: $button-hover;
         }

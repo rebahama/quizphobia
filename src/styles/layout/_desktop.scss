@@ -98,12 +98,13 @@ main {
     font-size: 2rem;
 
     .your-score-box {
-      width: 500px;
+      font-size: 1.5rem;
+      width: 450px;
       height: 550px;
     }
 
     .high-score-box {
-      width: 500px;
+      width: 450px;
       height: 550px;
 
       h2 {
@@ -112,6 +113,12 @@ main {
 
       .high-score-list {
         margin: 50px;
+        .list-left,
+        .list-right {
+          li {
+            font-size: 1.5rem;
+          }
+        }
       }
     }
 
