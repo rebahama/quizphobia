@@ -80,47 +80,37 @@ a new user by writing your name or chose from existing users. Next you will have
 ## Supported screens
 The phopbia quiz have been tested on diffrent screens, we have set the breakpoints for tablet screens 768 px. And for desktop screens 1280px.
 
+
+## Desktop
 ### Homepage
-
-
-#### Desktop
-This is the homepage on desktop
 
 ![Homepagescreendesktop](./docs/website-screenshots/homepage-big-screen.png)
 
-
-#### Mobile and tablet
-This is the homepage on tablet and mobile screens.
-
-![Homepagescreenbottom](./docs/website-screenshots/homepage-small-screen-bottom.png)
-
-![Homepagescreen](./docs/website-screenshots/homepage-small-screen.png)
-
-### Main quizpage
-
-#### Desktop
-This is the quizpage on desktop.
+### Quizpage
 
 ![Quizpagescreendesktop](./docs/website-screenshots/quizpage-big-screen.png)
 
 
-#### Mobile and tablet
-This is the quizpage on tablet and mobile screens.
+### Finishpage
 
-![Quizpagesmallscreens](./docs/website-screenshots/quizpage-small-screen.png)
-
-### Finish page
-This is the finished page on desktop.
-
-#### Desktop
 ![Finishpagedesktop](./docs/website-screenshots/finishedpage-big-screen.png)
 
-#### Mobile and tablet
-This is the finished page on mobile and tablet.
 
+## Mobile and tablet
+
+
+### Homepage
+![Homepagescreen](./docs/website-screenshots/homepage-small-screen.png)
+
+![Homepagescreenbottom](./docs/website-screenshots/homepage-small-screen-bottom.png)
+
+
+### Quizpage
+![Quizpagesmallscreens](./docs/website-screenshots/quizpage-small-screen.png)
+
+
+### Finishpage
 ![Finishpage](./docs/website-screenshots/finishedpage-small-screen.png)
-
-
 
 
 ## Participants
