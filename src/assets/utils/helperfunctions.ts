@@ -10,7 +10,6 @@ export function getArrayOfObjectsFromLocalStorage(
   arrayOfOjbects: IStoredUserType[],
   storageName: string
 ): IStoredUserType[] {
-  // getting stored data in JSON.format
   const storedData = localStorage.getItem(storageName);
   // if there is not storedData arrayOfObjects should be empty, else parse the JSON string
   arrayOfOjbects = storedData === null ? [] : JSON.parse(storedData);
@@ -45,7 +44,7 @@ export function getLinearGradienceLeftToRightAsString(percentage: number): strin
   return `linear-gradient(to right, #212f45 ${percentage}%, #d9d9d9 ${percentage}%)`;
 }
 
-export function toggleAddClassNameOnElement(headerResultsPanel: Element | null, className: string, add: boolean) {
+export function toggleAddClassNameOnElement(headerResultsPanel: Element | null, className: string, add: boolean): void {
   if (add) {
     headerResultsPanel?.classList.add(className);
   } else {
