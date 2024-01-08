@@ -101,7 +101,7 @@ main {
             border-radius: 10px;
             height: 60px;
             font-weight: $font-bold-style;
-            width: 250px;
+            width: 200px;
             box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
           }
 
@@ -134,7 +134,7 @@ main {
           height: 60px;
           cursor: pointer;
           font-weight: $font-bold-style;
-          width: 300px;
+          width: 200px;
           box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 
           &:hover {
@@ -144,6 +144,7 @@ main {
 
         .start-button-info {
           color: $color-white;
+          text-align: center;
         }
 
         button:focus,
@@ -161,7 +162,7 @@ main {
 
       .rules-text {
         color: $color-white;
-        font-size: 1rem;
+        font-size: 1.3rem;
         max-width: 350px;
         gap: 10px;
         text-align: center;
@@ -177,7 +178,7 @@ main {
       .list-highscore-container {
         background-color: $background-highscore;
         font-family: $font-secondary;
-        width: 50%;
+        width: 100%;
         border-radius: 50px;
         color: $color-white;
         list-style-type: none;
@@ -199,7 +200,7 @@ main {
             li {
               list-style-type: none;
               line-height: 50px;
-              font-size: 1.5rem;
+              font-size: 1.3rem;
             }
           }
         }
@@ -241,6 +242,7 @@ main {
 
       .question-list {
         @include flex-column-center;
+        padding: 25px;
         gap: 15px;
         width: 80%;
 
@@ -304,6 +306,7 @@ main {
       background-color: $background-highscore;
       width: 300px;
       height: 250px;
+      font-size: 1.3rem;
       gap: 10px;
       @include flex-column-center;
       justify-content: center;
@@ -315,6 +318,7 @@ main {
 
     .high-score-box {
       background-color: $background-highscore;
+      letter-spacing: 1px;
       width: 300px;
       height: 250px;
       display: flex;
@@ -339,7 +343,7 @@ main {
           li {
             list-style-type: none;
             line-height: 30px;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             text-align: left;
           }
         }
@@ -353,8 +357,9 @@ main {
 
       .button {
         @include button;
+        width: 200px;
         color: white;
-
+        
         &:hover {
           background-color: $button-hover;
         }

@@ -20,7 +20,6 @@ main {
     }
 
     .center-text-highscore-container {
-      width: 100%;
       flex-direction: row;
       padding: 30px;
 
@@ -35,6 +34,7 @@ main {
       }
 
       .list-highscore-container {
+        width: 50%;
         .highscore-heading {
           font-size: 2rem;
         }
@@ -48,9 +48,15 @@ main {
 
       .flex-container-intro {
         flex-direction: row;
-
         .start-button {
           height: 60px;
+          width: 300px;
+        }
+        input {
+          &.name-input {
+            width: 250px;
+          }
+
         }
       }
     }
@@ -91,12 +97,13 @@ main {
     font-size: 2rem;
 
     .your-score-box {
-      width: 500px;
+      font-size: 1.5rem;
+      width: 450px;
       height: 550px;
     }
 
     .high-score-box {
-      width: 500px;
+      width: 450px;
       height: 550px;
 
       h2 {
@@ -105,6 +112,12 @@ main {
 
       .high-score-list {
         margin: 50px;
+        .list-left,
+        .list-right {
+          li {
+            font-size: 1.5rem;
+          }
+        }
       }
     }
 

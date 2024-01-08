@@ -16,7 +16,15 @@ main {
         }
       }
       .list-highscore-container {
-        width: 50%;
+        width: 100%;
+        .flex-highscore{
+          .list-split-one,
+          .list-split-two {
+            li {
+              font-size: 1.5rem;
+            }
+          }
+        }
       }
     }
   }
@@ -75,6 +83,13 @@ main {
         margin-left: 40px;
         flex-direction: column;
         flex-wrap: nowrap;
+        .list-left,
+        .list-right {
+          li {
+            font-size: 1.3rem;
+          }
+        }
+        
       }
     }
     .finished-buttons-box {
