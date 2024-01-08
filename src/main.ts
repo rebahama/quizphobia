@@ -1,5 +1,5 @@
 import './styles/style.scss';
-import array from './json/quiz.json'; // Importing json file to array for using to randomize questions.
+import array from './json/quiz.json';
 import {
   getArrayOfObjectsFromLocalStorage,
   getRandomQuestions,
@@ -39,23 +39,23 @@ let userButtonsContainer = document.querySelector('#buttonContainer');
  * ************ Variables ****************************
  *****************************************************/
 
-/*                      const                    */
-
-let questionArray = getRandomQuestions(array, 10);
+// arrays
 const highScoreArray: IHighScoreObject[] = [];
-
-/*                      let                   */
+let questionArray = getRandomQuestions(array, 10);
 let storedHighScore: IHighScoreObject[];
 let storedUsers: IStoredUserType[];
+// booleans
+let isAnswerCorrect = false;
+// user
 let selectedUser: string | null = null;
 
 let currentQuestionNumber = 1;
-let isAnswerCorrect = false;
 let questionScore = 0;
 let highscore = 0;
 let rightCount = 0;
-let clearTimeMainInterval: number; // main interval
-let clearTimeQuestionInterval: number; // question interval
+// intervals
+let clearTimeMainInterval: number;
+let clearTimeQuestionInterval: number;
 // main timer
 let mainSeconds = 0;
 let mainMinutes = 0;
@@ -65,22 +65,14 @@ let mainMins: string | null;
 let questionSeconds = 0;
 let questionMinutes = 0;
 
-console.log('originalArray: ', array);
-console.log('questionArray: ', questionArray);
-console.log('selectedUser: ', selectedUser);
-
 /******************************************************
  * ************ Functions ****************************
  *****************************************************/
 
 /**
- * menubutton - go to first page and clear selected user.
- * eventlistener on da buttoncontainer. eventbubbles.
- * target button ids (check ids on buttons)
- * if menubutton - go to start page, clear selected user,
- * else play again - start quiz again function startgame
- * generate new questions
- * reset currentquestion, main interval, elapsed time (check bugs to see)
+ * Function that handles click event delegation for the menu, restart game buttons
+ * @param event click Event
+ * @returns void
  */
 function handleClickOnEndButtons(event: Event): void {
   const target = event.target as HTMLElement;
@@ -88,15 +80,17 @@ function handleClickOnEndButtons(event: Event): void {
     return;
   }
   if (target.id === 'mainMenuButton') {
+    // resets user back to empty
     selectedUser = null;
     startContainer?.classList.remove('hidden');
     highScoreContainer?.classList.remove('hidden');
-    userButtonsContainer = document.querySelector('#buttonContainer'); // might be unnecessary
+    userButtonsContainer = document.querySelector('#buttonContainer');
     generateExistingUsersInHTML(userButtonsContainer);
     displayHighscoreStartGame();
   } else if (target.id === 'restartQuizButton') {
     startGame(selectedUser);
   }
+  // generate new random array
   questionArray = getRandomQuestions(array, 10);
   finishQuizContainer?.classList.add('hidden');
   clearInterval(clearTimeMainInterval);
@@ -108,7 +102,6 @@ function handleClickOnEndButtons(event: Event): void {
  * @param currentQuestionText text in the header for the current question of type Element | null
  */
 function checkNextQuestion(array: IQuestionObject[], currentQuestionText: Element | null): void {
-  // resetting isAnswerCorrect to false / can be placed in other places aswell
   isAnswerCorrect = false;
   if (progressBar === null) {
     return;
@@ -137,9 +130,8 @@ function generateQuestionInHTML(currentQuestionObject: IQuestionObject, question
   if (questionContainer === null) {
     return;
   }
-  // deconstruct and get values from the object to dynamically render in html
   const { question, answers } = currentQuestionObject;
-  // randomize the answers are positioned
+  // randomize how the answers will be positions to not be memorized by user
   const randomAnswersArray = [...answers].sort(() => Math.random() - 0.5).slice(0, answers.length);
   questionContainer.innerHTML = `
     <div>
@@ -150,7 +142,6 @@ function generateQuestionInHTML(currentQuestionObject: IQuestionObject, question
     </div>
   `;
   const questionListContainer = document.querySelector('#questionList');
-  // iterates all the answers and appends each to the buttonlist container
   randomAnswersArray.forEach(answer => {
     const answerButton = document.createElement('button');
     answerButton.textContent = answer;
@@ -168,6 +159,7 @@ function displayHighscoreStartGame(): void {
     listScoreOutput[index].textContent = `${index + 1}. ${user} ${playedHighscore}`;
   });
 }
+
 /**
  * Handles when the user clicks the existing user buttons, toggeling active classes on the target
  * @param event click event
@@ -177,7 +169,6 @@ function displayHighscoreStartGame(): void {
 function handleClickOnUser(event: Event, input: HTMLInputElement): void {
   const target = event.target as HTMLElement;
   const isTargetUserButton = target.tagName === 'BUTTON' && target.classList.contains('intro-buttons');
-  // if input is not empty or the target is not a valid user button exit function
   if (input === null || input.value.length > 0 || !isTargetUserButton) {
     return;
   }
@@ -193,7 +184,6 @@ function handleClickOnUser(event: Event, input: HTMLInputElement): void {
     });
     target.classList.toggle('button-active');
   }
-  // set selected user to the text of the targeted button
   if (target.textContent !== null) {
     selectedUser = target.textContent;
   }
@@ -207,13 +197,11 @@ function handleClickOnUser(event: Event, input: HTMLInputElement): void {
 function disableUserButtonsIfInputIsFilled(input: HTMLInputElement, userButtonsContainer: Element | null): void {
   const userButtons = userButtonsContainer?.querySelectorAll('.intro-buttons');
   const isInputFilled = input.value.length > 0;
-  // if input has value add disabled and a class to visually show this
   userButtons?.forEach(button => {
     if (isInputFilled) {
       button.classList.toggle('button-inactive', true);
       button.classList.toggle('button-active', false);
     } else {
-      // textbox is empty, remove inactive and don´t add active
       button.classList.toggle('button-inactive', false);
       button.classList.toggle('button-active', false);
     }
@@ -227,14 +215,11 @@ function disableUserButtonsIfInputIsFilled(input: HTMLInputElement, userButtonsC
  * @returns void
  */
 function generateExistingUsersInHTML(userButtonsContainer: Element | null): void {
-  // get an array of existing users from localstorage with a helperfunction
   const existingUsersArray = getArrayOfObjectsFromLocalStorage(storedUsers, 'users');
-  // if there are not existing users in the array from localstorage exit the function
   if (userButtonsContainer === null || !(existingUsersArray.length > 0)) {
     return;
   }
   userButtonsContainer.innerHTML = '';
-  // creating and appending the existing users
   existingUsersArray.forEach(user => {
     const userButton = document.createElement('button');
     userButton.classList.add('intro-buttons');
@@ -251,11 +236,10 @@ function generateExistingUsersInHTML(userButtonsContainer: Element | null): void
  */
 function doesUserExistInArray(users: IStoredUserType[], userName: string | null): boolean {
   return users.some(userObject => {
-    // if userObject.user does not exist in this array return false
     if (userObject.user === null) {
       return false;
     }
-    // return a boolean where we are checking if the selected user corresponds to the userObject user string;
+    // returnss if the selected user corresponds to the userObject user string;
     return userObject.user.toLowerCase() === userName?.toLowerCase();
   });
 }
@@ -267,16 +251,14 @@ function doesUserExistInArray(users: IStoredUserType[], userName: string | null)
  */
 function addUserToLocalStorage(userName: string | null): void {
   const currentUsersArray = getArrayOfObjectsFromLocalStorage(storedUsers, 'users');
-  // type checking if userName is null or if the user already exists in array, if so return
   if (userName === null || doesUserExistInArray(currentUsersArray, userName)) {
     return;
   }
-  // create an object for the newUser
   const newUser = {
     id: currentUsersArray.length,
     user: userName,
   };
-  // if currentUsersArray array is empty, then create an array with the newly create user and stringify it
+  // if currentUsersArray array is empty, then create an array with the newly create user
   if (currentUsersArray.length === 0) {
     localStorage.setItem('users', JSON.stringify([newUser]));
   } else {
@@ -288,7 +270,6 @@ function addUserToLocalStorage(userName: string | null): void {
 
 function addHighscoreToLocalStorage(highScoreArray: IHighScoreObject[], selectedUser: string | null): void {
   const storedHighScoreArray = getHighScoreFromLocalStorage(storedHighScore, 'highscores');
-  console.log(storedHighScoreArray);
 
   const newHighscore = {
     user: selectedUser,
@@ -298,9 +279,7 @@ function addHighscoreToLocalStorage(highScoreArray: IHighScoreObject[], selected
   if (storedHighScoreArray.length === 0) {
     localStorage.setItem('highscores', JSON.stringify(highScoreArray));
   } else {
-    console.log('finns redan en i listan');
     storedHighScoreArray.push(newHighscore);
-    console.log(storedHighScoreArray);
     localStorage.setItem('highscores', JSON.stringify(storedHighScoreArray));
   }
   displayHighScoreAfterQuizFinished(finishQuizContainer, questionAndProgressBarContainer);
@@ -315,15 +294,11 @@ function addHighscoreToLocalStorage(highScoreArray: IHighScoreObject[], selected
 function handleClickOnAnswers(event: Event, questionArray: IQuestionObject[]): void {
   const buttons: HTMLButtonElement[] = Array.from(document.querySelectorAll('#questionList button'));
   const isAnyButtonTaken = Array.from(buttons).some(button => button.classList.contains('taken'));
-  console.log(isAnyButtonTaken);
   const target = event.target as HTMLElement;
-  // if target is not a li element or if a button already is taken exist the function
   if (target === null || target.tagName !== 'BUTTON' || isAnyButtonTaken) {
     return;
   }
-  // set what the current question is
   const currentQuestionObject = questionArray[currentQuestionNumber - 1];
-  // checking if the answer clicked is the right answer
   const isTargetTheRightAnswer =
     target.textContent?.toLowerCase() === currentQuestionObject.correct_answer.toLowerCase();
   // adding class taken for keeping track if any answer is already clicked
@@ -331,7 +306,6 @@ function handleClickOnAnswers(event: Event, questionArray: IQuestionObject[]): v
   handleLogicBasedOnAnswer(target, isTargetTheRightAnswer, buttons);
   // animate score update //
   updateDisplayForNextQuestion();
-  // clear interval individual
   clearInterval(clearTimeQuestionInterval);
 }
 
@@ -373,7 +347,6 @@ function handleLogicBasedOnAnswer(
   questionScore = getPointsForAnsweringQuestion(questionSeconds, isAnswerCorrect, questionScore);
   highscore += Math.floor(questionScore);
 
-  console.log('selectedUser:', selectedUser, 'Higscore', highscore);
   const highscoreBanner = document.querySelector('#currentScore');
   if (highscoreBanner !== null) {
     highscoreBanner.textContent = highscore.toString();
@@ -388,7 +361,6 @@ function updateDisplayForNextQuestion(): void {
     if (currentQuestionNumber <= questionArray.length) {
       checkNextQuestion(questionArray, questionNumberText);
     } else if (currentQuestionNumber > questionArray.length) {
-      console.log(currentQuestionNumber);
       // display End screen
       toggleAddClassNameOnElement(headerResultsPanel, 'hidden', true);
       displayHighScoreAfterQuizFinished(finishQuizContainer, questionAndProgressBarContainer);
@@ -439,7 +411,6 @@ function updateUserPositionInHighScore(highScoreArray: IHighScoreObject[]): void
   const highScoreListOutputFinish = document.querySelectorAll('.high-score-list li');
   const storedHighScoreArray = getHighScoreFromLocalStorage(storedHighScore, 'highscores');
   if (highScoreArray.length <= 0) {
-    console.log('hej');
     return;
   }
   highScoreArray.sort((a, b) => b.playedHighscore - a.playedHighscore);
@@ -570,7 +541,7 @@ function startGame(selectedUser: string | null): void {
     startRemoveAndHideSectionsSecondPart(finishQuizContainer, introHeading, quizContainer);
     toggleAddClassNameOnElement(headerResultsPanel, 'hidden', false);
     checkNextQuestion(questionArray, questionNumberText);
-    setTimeout(setMainInterval, 1000); // mainInterval - clearInterval(clearTimeMainInterval) when quiz is done.
+    setTimeout(setMainInterval, 1000);
   }
 }
 
@@ -596,4 +567,4 @@ questionContainer?.addEventListener('click', e => {
 });
 endScreenButtonsContainer?.addEventListener('click', handleClickOnEndButtons);
 
-displayHighscoreStartGame(); // Will generate highscorelist on highscore container on start game
+displayHighscoreStartGame();
