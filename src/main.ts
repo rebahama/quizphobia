@@ -155,7 +155,7 @@ function generateQuestionInHTML(currentQuestionObject: IQuestionObject, question
         <svg class="countdown-circle" id="countdownCircle" width="80" height="80">
         <circle cx="40" cy="40" r="35" stroke="#006466" stroke-width="4" fill="none" />
         </svg>
-      <div class="countdown-text" sid="countdownText">30</div>
+      <div class="countdown-text" id="countdownText">30</div>
     </div>
     </div>
       <p>${question}</p>
@@ -380,6 +380,8 @@ function updateCountDown(): void {
   const elapsed = questionSeconds;
   const countdownElement = document.querySelector('#countdownCircle circle') as SVGCircleElement;
   const countdownText = document.querySelector('#countdownText') as HTMLElement;
+  console.log(countdownElement)
+  console.log(countdownText)
   const circumference = 2 * Math.PI * 35;
   const remainingTime = countdownDuration - elapsed;
 
