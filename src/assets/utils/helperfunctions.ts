@@ -17,26 +17,20 @@ export function getArrayOfObjectsFromLocalStorage(
 }
 
 export function getHighScoreFromLocalStorage(
-  storedHighScore: IHighScoreObject[], 
+  storedHighScore: IHighScoreObject[],
   highScores: string
-):IHighScoreObject[] {
+): IHighScoreObject[] {
   const storedHighscoreData = localStorage.getItem(highScores);
 
   storedHighScore = storedHighscoreData === null ? [] : JSON.parse(storedHighscoreData);
   return storedHighScore;
 }
 
-export function getRandomQuestions(
-  jsonArray: IQuestionObject[],
-  numQuestions: number
-): IQuestionObject[] {
+export function getRandomQuestions(jsonArray: IQuestionObject[], numQuestions: number): IQuestionObject[] {
   return [...jsonArray].sort(() => Math.random() - 0.5).slice(0, numQuestions);
 }
 
-export function getFractionAsString(
-  nominator: number,
-  denominator: number
-): string {
+export function getFractionAsString(nominator: number, denominator: number): string {
   return `${nominator.toString()}/${denominator.toString()}`;
 }
 
@@ -49,5 +43,29 @@ export function toggleAddClassNameOnElement(headerResultsPanel: Element | null, 
     headerResultsPanel?.classList.add(className);
   } else {
     headerResultsPanel?.classList.remove(className);
+  }
+}
+
+export function setTheme(themeName: string): void {
+  localStorage.setItem('theme', themeName);
+  if (themeName === 'light-mode') {
+    document.body.classList.add('light-mode');
+  } else {
+    document.body.classList.remove('light-mode');
+  }
+}
+
+export function initialTheme(): void {
+  const storedTheme = localStorage.getItem('theme');
+  if (storedTheme !== null) {
+    setTheme(storedTheme);
+    return;
+  }
+
+  const prefersLightTheme = window.matchMedia('prefers-color-scheme: light');
+  if (prefersLightTheme.matches) {
+    setTheme('light-mode');
+  } else {
+    setTheme('dark-mode');
   }
 }
