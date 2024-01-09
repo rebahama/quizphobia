@@ -72,9 +72,3 @@ export function initialTheme(): void {
     setTheme('dark-mode');
   }
 }
-
-export function switchThemes(): void {
-  const currentTheme = localStorage.getItem('theme');
-  currentTheme === 'light-mode' ? setTheme('dark-mode') : setTheme('light-mode');
-};
-
