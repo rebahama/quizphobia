@@ -387,3 +387,16 @@ main {
 .show {
   display: block;
 }
+
+.theme-switcher {
+  @include flex-center;
+  svg {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    transition: transform 0.5s ease-in-out;
+    &:hover {
+      transform: rotate(180deg);
+    }
+  }
+}
