@@ -388,6 +388,23 @@ main {
   display: block;
 }
 
+#countdownContainer {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  background: $background-highscore;
+  border-radius: 50%;
+}
+
+.countdown-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+}
+
+
 .theme-switcher {
   @include flex-center;
   svg {
