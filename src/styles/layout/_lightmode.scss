@@ -1,0 +1,179 @@
+.light-mode {
+  background-color: $light-background-primary;
+  .top-banner {
+    background-color: $light-background-header;
+    border-bottom: 2px solid $light-background-highscore;
+    color: black;
+  }
+
+  main {
+    @include flex-column-center;
+    width: 100%;
+    color: black;
+
+    .start-section {
+      .intro-heading {
+        color: black;
+      }
+
+      .start-container {
+        .button-container {
+          .intro-buttons {
+            @include button;
+            background: $light-button-color;
+            color: black;
+            &.button-active {
+              background-color: $light-background-highscore;
+              &:hover {
+                background-color: $light-button-active-hover;
+              }
+            }
+            &.button-inactive {
+              background-color: gray;
+              &:hover {
+                background-color: gray;
+              }
+            }
+
+            &:hover {
+              background-color: $light-button-hover;
+            }
+
+            &:focus {
+              outline: 2px solid $color-red;
+            }
+          }
+        }
+
+        .flex-container-intro {
+          input {
+            cursor: pointer;
+            &.name-input {
+              background-color: $light-background-highscore;
+            }
+
+            &.name-input-text {
+              color: black;
+            }
+
+            &::placeholder {
+              color: black;
+            }
+
+            &:focus {
+              outline: 2px solid $color-red;
+            }
+            &:hover {
+              background-color: $light-input-hover;
+            }
+          }
+
+          .start-button {
+            border: none;
+            background: $light-background-header;
+            color: black;
+            &:hover {
+              background: $light-button-hover;
+            }
+          }
+
+          .start-button-info {
+            color: black;
+          }
+
+          button:focus,
+          input:focus {
+            outline: 2px solid $color-red;
+          }
+        }
+      }
+      .center-text-highscore-container {
+        .rules-text {
+          color: black;
+        }
+
+        /*Style heading and text inside highscore container*/
+        .list-highscore-container {
+          background-color: $light-background-highscore;
+          color: black;
+        }
+      }
+    }
+
+    .question-section {
+      .question-container {
+        color: black;
+
+        div {
+          h2 {
+            color: black;
+          }
+        }
+
+        .question-list {
+          button {
+            color: black;
+            background: $light-button-color;
+
+            &:hover {
+              background: $light-button-hover;
+            }
+
+            &.wrong {
+              background-color: red;
+              &:hover {
+                background-color: red;
+              }
+            }
+
+            &.right {
+              background-color: green;
+              &:hover {
+                background-color: green;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .progress-bar {
+      background: linear-gradient(to right, $light-button-color 10%, $light-progress-bar-gray 10%);
+    }
+
+    //---Quiz finished
+    .quiz-finished {
+      background-color: $light-background-primary;
+      color: black;
+
+      .your-score-box {
+        background-color: $light-background-highscore;
+      }
+
+      .high-score-box {
+        background-color: $light-background-highscore;
+      }
+
+      .finished-buttons-box {
+        .button {
+          @include button;
+          background: $light-button-color;
+          color: black;
+
+          &:hover {
+            background-color: $light-button-hover;
+          }
+
+          &:focus {
+            outline: 2px solid $color-red;
+          }
+        }
+      }
+    }
+  }
+
+  .countdownContainer {
+    background: $light-background-highscore;
+  }
+
+}

@@ -7,6 +7,8 @@ import {
   getLinearGradienceLeftToRightAsString,
   getHighScoreFromLocalStorage,
   toggleAddClassNameOnElement,
+  initialTheme,
+  setTheme
 } from './assets/utils/helperfunctions.ts';
 import type { IQuestionObject, IStoredUserType, IHighScoreObject } from './assets/utils/types.ts';
 
@@ -18,6 +20,7 @@ gsap.registerPlugin(Flip);
  * ************ Selectors ****************************
  *****************************************************/
 
+const themeSwitch = document.querySelector('#themeSwitcher');
 const headerResultsPanel = document.querySelector('#resultsPanel');
 const endScreenButtonsContainer = document.querySelector('#finishedButtonsBox');
 const startButton = document.querySelector('#startButton');
@@ -96,6 +99,18 @@ function handleClickOnEndButtons(event: Event): void {
   clearInterval(clearTimeMainInterval);
 }
 
+
+function updateDisplayForProgressBar(): void {
+  const currentTheme = localStorage.getItem('theme');
+  const firstColor = currentTheme === 'light-mode' ? '#7791a' : '#212f45';
+  const secondColor = currentTheme === 'light-mode' ? '#f0f0f0' : '#d9d9d9';
+  progressBar.style.background = getLinearGradienceLeftToRightAsString(
+    currentQuestionNumber * 10,
+    firstColor,
+    secondColor
+  );
+}
+
 /**
  * Generates the question and updates question number in header
  * @param array type IQuestionObject[]
@@ -107,7 +122,7 @@ function checkNextQuestion(array: IQuestionObject[], currentQuestionText: Elemen
     return;
   }
   // taking question number as percentage in the progressbar to get linear gradient
-  progressBar.style.background = getLinearGradienceLeftToRightAsString(currentQuestionNumber * 10);
+  updateDisplayForProgressBar();
   questionScore = 0;
   questionSeconds = 0;
   clearInterval(clearTimeQuestionInterval);
@@ -369,6 +384,7 @@ function updateDisplayForNextQuestion(): void {
       displayResults();
       addHighscoreToLocalStorage(highScoreArray, selectedUser);
       clearInterval(clearTimeMainInterval);
+      themeSwitch?.classList.remove('hidden');
       currentQuestionNumber = 1;
       rightCount = 0;
       highscore = 0;
@@ -479,10 +495,12 @@ function getPointsForAnsweringQuestion(answerTime: number, rightAnswer: boolean,
 function startRemoveAndHideSections(
   startContainer: Element | null,
   highScoreContainer: Element | null,
-  topBannerHeading: Element | null
+  topBannerHeading: Element | null,
+  themeSwitch: Element | null
 ): void {
   startContainer?.classList.add('hidden');
   highScoreContainer?.classList.add('hidden');
+  themeSwitch?.classList.add('hidden');
   topBannerHeading?.classList.remove('hidden');
 }
 
@@ -537,7 +555,7 @@ function displayHighScoreAfterQuizFinished(
 function startGame(selectedUser: string | null): void {
   if (selectedUser !== null) {
     addUserToLocalStorage(selectedUser);
-    startRemoveAndHideSections(startContainer, highScoreContainer, topBannerHeading);
+    startRemoveAndHideSections(startContainer, highScoreContainer, topBannerHeading, themeSwitch);
     startRemoveAndHideSectionsSecondPart(finishQuizContainer, introHeading, quizContainer);
     toggleAddClassNameOnElement(headerResultsPanel, 'hidden', false);
     checkNextQuestion(questionArray, questionNumberText);
@@ -550,6 +568,7 @@ function startGame(selectedUser: string | null): void {
  *****************************************************/
 
 document.addEventListener('DOMContentLoaded', () => {
+  initialTheme();
   generateExistingUsersInHTML(userButtonsContainer);
   hideQuizAndHighscoreFromStart(quizContainer, finishQuizContainer);
 });
@@ -566,5 +585,11 @@ questionContainer?.addEventListener('click', e => {
   handleClickOnAnswers(e, questionArray);
 });
 endScreenButtonsContainer?.addEventListener('click', handleClickOnEndButtons);
+themeSwitch?.addEventListener('click', () => {
+  const currentTheme = localStorage.getItem('theme');
+  currentTheme === 'light-mode' ? setTheme('dark-mode') : setTheme('light-mode');
+});
+
+
 
 displayHighscoreStartGame();
