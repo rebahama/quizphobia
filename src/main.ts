@@ -149,13 +149,20 @@ function generateQuestionInHTML(currentQuestionObject: IQuestionObject, question
   // randomize how the answers will be positions to not be memorized by user
   const randomAnswersArray = [...answers].sort(() => Math.random() - 0.5).slice(0, answers.length);
   questionContainer.innerHTML = `
+  <div>
     <div>
-      <h2>Question</h2>
+      <div class="countdown-container" id="countdownContainer">
+        <svg class="countdown-circle" id="countdownCircle" width="80" height="80">
+        <circle cx="40" cy="40" r="35" stroke="#006466" stroke-width="4" fill="none" />
+        </svg>
+      <div class="countdown-text" id="countdownText">30</div>
+    </div>
+    </div>
       <p>${question}</p>
     </div>
     <div class="question-list" id="questionList">
-    </div>
-  `;
+  </div>
+`;
   const questionListContainer = document.querySelector('#questionList');
   randomAnswersArray.forEach(answer => {
     const answerButton = document.createElement('button');
@@ -368,6 +375,24 @@ function handleLogicBasedOnAnswer(
   }
 }
 
+function updateCountDown(): void {
+  const countdownDuration = 30;
+  const elapsed = questionSeconds;
+  const countdownElement = document.querySelector('#countdownCircle circle') as SVGCircleElement;
+  const countdownText = document.querySelector('#countdownText') as HTMLElement;
+  const circumference = 2 * Math.PI * 35;
+  const remainingTime = countdownDuration - elapsed;
+
+  if (remainingTime >= 0) {
+    countdownElement.style.strokeDasharray = `${circumference} ${circumference}`;
+    countdownElement.style.strokeDashoffset = circumference.toString();
+    const offset = circumference - (remainingTime / countdownDuration) * circumference;
+    countdownElement.style.strokeDashoffset = offset.toString();
+    countdownText.textContent = Math.round(remainingTime).toString();
+  }
+}
+
+
 function updateDisplayForNextQuestion(): void {
   if (currentQuestionNumber <= questionArray.length) {
     currentQuestionNumber += 1;
@@ -466,7 +491,7 @@ function setQuestionInterval(): void {
     questionMinutes = questionMinutes + 1;
   }
   questionSeconds += 1;
-
+  updateCountDown();
   clearTimeQuestionInterval = setTimeout(setQuestionInterval, 1000);
 }
 
