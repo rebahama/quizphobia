@@ -380,8 +380,6 @@ function updateCountDown(): void {
   const elapsed = questionSeconds;
   const countdownElement = document.querySelector('#countdownCircle circle') as SVGCircleElement;
   const countdownText = document.querySelector('#countdownText') as HTMLElement;
-  console.log(countdownElement)
-  console.log(countdownText)
   const circumference = 2 * Math.PI * 35;
   const remainingTime = countdownDuration - elapsed;
 
