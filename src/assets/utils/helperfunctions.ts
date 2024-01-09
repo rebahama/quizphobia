@@ -34,10 +34,13 @@ export function getFractionAsString(nominator: number, denominator: number): str
   return `${nominator.toString()}/${denominator.toString()}`;
 }
 
-export function getLinearGradienceLeftToRightAsString(percentage: number): string {
-  return `linear-gradient(to right, #212f45 ${percentage}%, #d9d9d9 ${percentage}%)`;
+export function getLinearGradienceLeftToRightAsString(
+  percentage: number,
+  firstColor: string,
+  secondColor: string
+): string {
+  return `linear-gradient(to right, ${firstColor} ${percentage}%, ${secondColor} ${percentage}%)`;
 }
-
 export function toggleAddClassNameOnElement(headerResultsPanel: Element | null, className: string, add: boolean): void {
   if (add) {
     headerResultsPanel?.classList.add(className);
@@ -69,3 +72,9 @@ export function initialTheme(): void {
     setTheme('dark-mode');
   }
 }
+
+export function switchThemes(): void {
+  const currentTheme = localStorage.getItem('theme');
+  currentTheme === 'light-mode' ? setTheme('dark-mode') : setTheme('light-mode');
+};
+
