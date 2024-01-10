@@ -177,8 +177,8 @@ function displayHighscoreStartGame(): void {
 
   storedHighScoreArray.sort((a, b) => b.playedHighscore - a.playedHighscore);
   storedHighScoreArray.slice(0, 10).forEach((highscore, index) => {
-      const { user, playedHighscore } = highscore;
-      listScoreOutput[index].textContent = `${index + 1}. ${user} ${playedHighscore}p`;
+    const { user, playedHighscore } = highscore;
+    listScoreOutput[index].textContent = `${index + 1}. ${user} ${playedHighscore}p`;
   });
 }
 
@@ -228,7 +228,7 @@ function disableUserButtonsIfInputIsFilled(input: HTMLInputElement, userButtonsC
       button.classList.toggle('button-active', false);
     }
   });
-    selectedUser = isInputFilled ? input.value : null;
+  selectedUser = isInputFilled ? input.value : null;
 }
 
 /**
@@ -337,17 +337,11 @@ function handleLogicBasedOnAnswer(
   isTargetTheRightAnswer: boolean,
   buttons: HTMLButtonElement[]
 ): void {
-   const currentTheme = localStorage.getItem('theme');
-   const colorRightAnswer = currentTheme === 'light-mode' ? '#66c7ad' : '#207d73';
-   const colorWrongAnswer = currentTheme === 'light-mode' ? '#c752af' : '#67073d';
+  const currentTheme = localStorage.getItem('theme');
+  const colorRightAnswer = currentTheme === 'light-mode' ? '#66c7ad' : '#207d73';
+  const colorWrongAnswer = currentTheme === 'light-mode' ? '#c752af' : '#67073d';
   if (isTargetTheRightAnswer) {
     isAnswerCorrect = true;
-    gsap.to(answer, {
-      duration: 1,
-      backgroundColor: colorRightAnswer,
-      scale: 1.5,
-      ease: 'elastic',
-    });
     rightCount += 1;
   } else {
     isAnswerCorrect = false;
@@ -357,6 +351,29 @@ function handleLogicBasedOnAnswer(
         htmlButton.style.border = '3px solid #207d73';
       }
     });
+  }
+  // This will remove pointerevent after answering.
+  buttons.forEach(button => {
+    button.style.pointerEvents = 'none'; 
+  });
+  handleAnimationBasedOnAnswer(isAnswerCorrect, answer, colorRightAnswer, colorWrongAnswer);
+  updateScoreAndHighscoreBasedOnAnswer();
+}
+
+function handleAnimationBasedOnAnswer(
+  isAnswerCorrect: boolean, 
+  answer: HTMLElement, 
+  colorRightAnswer: string, 
+  colorWrongAnswer: string): void {
+
+  if (isAnswerCorrect) {
+    gsap.to(answer, {
+      duration: 1,
+      backgroundColor: colorRightAnswer,
+      scale: 1.5,
+      ease: 'elastic',
+    });
+  } else {
     gsap.fromTo(
       answer,
       {
@@ -370,6 +387,9 @@ function handleLogicBasedOnAnswer(
       }
     );
   }
+}
+
+function updateScoreAndHighscoreBasedOnAnswer(): void {
   questionScore = getPointsForAnsweringQuestion(questionSeconds, isAnswerCorrect, questionScore);
   highscore += Math.floor(questionScore);
 
@@ -555,15 +575,6 @@ function startRemoveAndHideSectionsSecondPart(
   quizContainer?.classList.remove('hidden');
 }
 
-/**
- * Displays and Hides HTML containers
- * This function will run when the page is loadead to hide the containers
- * @returns void
- */
-function hideQuizAndHighscoreFromStart(quizContainer: Element | null, finishQuizContainer: Element | null): void {
-  quizContainer?.classList.add('hidden');
-  finishQuizContainer?.classList.add('hidden');
-}
 
 function displayHighScoreAfterQuizFinished(
   finishQuizContainer: Element | null,
@@ -578,11 +589,11 @@ function displayHighScoreAfterQuizFinished(
 
   storedHighScoreArray.sort((a, b) => b.playedHighscore - a.playedHighscore);
   storedHighScoreArray.slice(0, 10).forEach((highscore, index) => {
-      const { user, playedHighscore } = highscore;
-      highScoreListOutputFinish[index].textContent = `${index + 1}. ${user} ${playedHighscore}p`;
-      if (yourScoreBox !== null) {
-        yourScoreBox.textContent = `Your score: ${playedHighscore}`;
-      }
+    const { user, playedHighscore } = highscore;
+    highScoreListOutputFinish[index].textContent = `${index + 1}. ${user} ${playedHighscore}p`;
+    if (yourScoreBox !== null) {
+      yourScoreBox.textContent = `Your score: ${playedHighscore}`;
+    }
   });
 }
 
@@ -604,7 +615,7 @@ function startGame(selectedUser: string | null): void {
 document.addEventListener('DOMContentLoaded', () => {
   initialTheme();
   generateExistingUsersInHTML(userButtonsContainer);
-  hideQuizAndHighscoreFromStart(quizContainer, finishQuizContainer);
+  displayHighscoreStartGame();
 });
 startButton?.addEventListener('click', () => {
   startGame(selectedUser);
@@ -626,4 +637,4 @@ themeSwitch?.addEventListener('click', () => {
 
 
 
-displayHighscoreStartGame();
+
