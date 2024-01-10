@@ -102,19 +102,17 @@
               class="name-input name-input-text"
               aria-label="Your name"
             />
-
-            <button
-              class="start-button"
-              id="startButton"
-              aria-label="Start quiz"
-              aria-describedby="startButtonDescription"
-            >
-              Start quiz
-            </button>
-            <span class="start-button-info" id="startButtonDescription"
-              >Click start button to begin the quiz and test your knowledge on
-              unusual phobias.</span
-            >
+            <div class="button-panel">
+              <button
+                class="start-button"
+                id="startButton"
+                aria-label="Start quiz"
+                aria-describedby="startButtonDescription"
+              >
+                Start quiz
+              </button>
+              <p class="error-message hidden" id="errorMessage">You must select user</p>
+            </div>
           </div>
         </div>
         <div
@@ -123,10 +121,8 @@
         >
           <p class="rules-text">
             <span>Rules to play</span>
-            You'll get one question and four answers. The faster you get the
-            right answer, the more points you'll get. If you choose the wrong
-            answer you'll get minus points Will you make it to the Highscore
-            list?
+            You'll get one question and four answers. The faster you get the right answer, the more points you'll get.
+            If you choose the wrong answer you'll get minus points Will you make it to the Highscore list?
           </p>
 
           <div class="list-highscore-container">

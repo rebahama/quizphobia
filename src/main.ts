@@ -8,7 +8,7 @@ import {
   getHighScoreFromLocalStorage,
   toggleAddClassNameOnElement,
   initialTheme,
-  setTheme
+  setTheme,
 } from './assets/utils/helperfunctions.ts';
 import type { IQuestionObject, IStoredUserType, IHighScoreObject } from './assets/utils/types.ts';
 
@@ -36,6 +36,7 @@ const topBannerHeading = document.querySelector('#topBanner');
 const questionAndProgressBarContainer = document.querySelector('#questionSection');
 const playerInput = document.querySelector('#name') as HTMLInputElement;
 const progressBar = document.querySelector('#progressBar') as HTMLElement;
+const userErrorMessage = document.querySelector('#errorMessage');
 let userButtonsContainer = document.querySelector('#buttonContainer');
 
 /******************************************************
@@ -98,7 +99,6 @@ function handleClickOnEndButtons(event: Event): void {
   finishQuizContainer?.classList.add('hidden');
   clearInterval(clearTimeMainInterval);
 }
-
 
 function updateDisplayForProgressBar(): void {
   const currentTheme = localStorage.getItem('theme');
@@ -206,9 +206,12 @@ function handleClickOnUser(event: Event, input: HTMLInputElement): void {
     });
     target.classList.toggle('button-active');
   }
-  if (target.textContent !== null) {
+  if (target.textContent !== null && target.classList.contains('button-active')) {
     selectedUser = target.textContent;
+  } else {
+    selectedUser = null;
   }
+  userErrorMessage?.classList.add('hidden');
 }
 
 /**
@@ -228,6 +231,7 @@ function disableUserButtonsIfInputIsFilled(input: HTMLInputElement, userButtonsC
       button.classList.toggle('button-active', false);
     }
   });
+  userErrorMessage?.classList.add('hidden');
   selectedUser = isInputFilled ? input.value : null;
 }
 
@@ -331,7 +335,6 @@ function handleClickOnAnswers(event: Event, questionArray: IQuestionObject[]): v
   clearInterval(clearTimeQuestionInterval);
 }
 
-
 function handleLogicBasedOnAnswer(
   answer: HTMLElement,
   isTargetTheRightAnswer: boolean,
@@ -402,6 +405,7 @@ function updateScoreAndHighscoreBasedOnAnswer(): void {
 function updateCountDown(): void {
   const countdownDuration = 30;
   const elapsed = questionSeconds;
+  const countdownContainer = document.querySelector('#countdownContainer') as HTMLElement;
   const countdownElement = document.querySelector('#countdownCircle circle') as SVGCircleElement;
   const countdownText = document.querySelector('#countdownText') as HTMLElement;
   const circumference = 2 * Math.PI * 35;
@@ -413,9 +417,17 @@ function updateCountDown(): void {
     const offset = circumference - (remainingTime / countdownDuration) * circumference;
     countdownElement.style.strokeDashoffset = offset.toString();
     countdownText.textContent = Math.round(remainingTime).toString();
+  } else if (remainingTime === -1) {
+    highscore -= 50;
+    updateDisplayForNextQuestion();
+    countdownContainer.classList.add('countdown-error');
+    countdownText.textContent = 'To Slow';
+    const highscoreBanner = document.querySelector('#currentScore');
+    if (highscoreBanner !== null) {
+      highscoreBanner.textContent = highscore.toString();
+    }
   }
 }
-
 
 function updateDisplayForNextQuestion(): void {
   if (currentQuestionNumber <= questionArray.length) {
@@ -440,7 +452,7 @@ function updateDisplayForNextQuestion(): void {
       mainSeconds = 0;
       mainMinutes = 0;
       if (mainTimerContainer !== null) {
-        mainTimerContainer.textContent = '00:00'; 
+        mainTimerContainer.textContent = '00:00';
       }
     }
   }, 1500);
@@ -582,8 +594,6 @@ function displayHighScoreAfterQuizFinished(
 ): void {
   finishQuizContainer?.classList.remove('hidden');
   questionAndProgressBarContainer?.classList.add('hidden');
-
-  const yourScoreBox = document.querySelector('#yourScore');
   const highScoreListOutputFinish = document.querySelectorAll('.high-score-list li');
   const storedHighScoreArray = getHighScoreFromLocalStorage(storedHighScore, 'highscores');
 
@@ -591,9 +601,6 @@ function displayHighScoreAfterQuizFinished(
   storedHighScoreArray.slice(0, 10).forEach((highscore, index) => {
     const { user, playedHighscore } = highscore;
     highScoreListOutputFinish[index].textContent = `${index + 1}. ${user} ${playedHighscore}p`;
-    if (yourScoreBox !== null) {
-      yourScoreBox.textContent = `Your score: ${playedHighscore}`;
-    }
   });
 }
 
@@ -605,6 +612,8 @@ function startGame(selectedUser: string | null): void {
     toggleAddClassNameOnElement(headerResultsPanel, 'hidden', false);
     checkNextQuestion(questionArray, questionNumberText);
     setTimeout(setMainInterval, 1000);
+  } else {
+    userErrorMessage?.classList.remove('hidden');
   }
 }
 
