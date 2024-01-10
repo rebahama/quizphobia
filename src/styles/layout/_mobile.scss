@@ -16,6 +16,7 @@ body {
 }
 
 .top-banner {
+  border-bottom: 2px solid $button-color;
   h2 {
     font-family: $font-secondary;
     letter-spacing: 3px;
@@ -167,7 +168,7 @@ main {
 
       .rules-text {
         color: $color-white;
-        font-size: 1.3rem;
+        font-size: 1rem;
         max-width: 350px;
         gap: 10px;
         text-align: center;
@@ -189,10 +190,12 @@ main {
         list-style-type: none;
         line-height: 50px;
         font-size: 1.5rem;
+        padding-bottom: 20px;
         box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 
         .highscore-heading {
-          font-size: 1.5rem;
+          padding-top: 10px;
+          font-size: 2rem;
           letter-spacing: 3px;
           text-align: center;
         }
