@@ -13,32 +13,35 @@ body {
   display: flex;
   justify-content: center;
 }
-
-.top-banner {
-  border-bottom: 2px solid $button-color;
-  h2 {
-    font-family: $font-secondary;
-    letter-spacing: 3px;
-  }
-  background-color: $background-header;
-  color: white;
-  display: flex;
-  width: 100vw;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 1rem;
-  padding: 5px 15px;
-  .results-panel {
+header {
+  width: 100%;
+  .top-banner {
+    border-bottom: 2px solid $button-color;
+    h2 {
+      font-family: $font-secondary;
+      letter-spacing: 3px;
+    }
+    background-color: $background-header;
+    color: white;
     display: flex;
+    width: 100%;
+    justify-content: space-between;
     align-items: center;
-    gap: 15px;
-    .score-panel {
-      width: 40px;
-      @include flex-between;
-      gap: 5px;
+    font-size: 1rem;
+    padding: 5px 15px;
+    .results-panel {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      .score-panel {
+        width: 40px;
+        @include flex-between;
+        gap: 5px;
+      }
     }
   }
 }
+
 
 main {
   @include flex-column-center;
