@@ -6,7 +6,7 @@ body {
   align-items: center;
   flex-direction: column;
   font-family: $font-primary;
-  background-image: linear-gradient(90deg, rgba(87, 26, 117, 0.826) , rgba(154, 57, 173, 0.813) 90%),
+  background-image: linear-gradient(90deg, rgba(87, 26, 117, 0.826), rgba(154, 57, 173, 0.813) 90%),
     url('/src/assets/images/QuizHands.jpg');
   background-repeat: no-repeat;
   background-size: cover;
@@ -86,7 +86,7 @@ main {
               background-color: gray;
             }
           }
-          
+
           &:hover {
             background-color: $button-hover;
           }
@@ -108,7 +108,9 @@ main {
             height: 60px;
             font-weight: $font-bold-style;
             width: 200px;
-            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+            box-shadow:
+              0 8px 16px 0 rgba(0, 0, 0, 0.2),
+              0 6px 20px 0 rgba(0, 0, 0, 0.19);
           }
 
           &.name-input-text {
@@ -144,13 +146,15 @@ main {
             cursor: pointer;
             font-weight: $font-bold-style;
             width: 200px;
-            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-  
+            box-shadow:
+              0 8px 16px 0 rgba(0, 0, 0, 0.2),
+              0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
             &:hover {
               background: $button-hover;
             }
           }
-  
+
           .error-message {
             height: 20px;
             color: $color-wrong;
@@ -158,7 +162,6 @@ main {
             text-align: center;
           }
         }
-        
 
         button:focus,
         input:focus {
@@ -198,7 +201,9 @@ main {
         line-height: 50px;
         font-size: 1.5rem;
         padding-bottom: 20px;
-        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+        box-shadow:
+          0 8px 16px 0 rgba(0, 0, 0, 0.2),
+          0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
         .highscore-heading {
           padding-top: 10px;
@@ -242,12 +247,23 @@ main {
         width: 100%;
         @include flex-column-center;
         gap: 15px;
+        div {
+          .countdown-container {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            background: $background-highscore;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            font-size: 1.25rem;
+          }
 
-        h2 {
-          color: $color-white;
-          font-family: $font-secondary;
-          font-size: 1.5rem;
-          letter-spacing: 3px;
+          .countdown-error {
+            padding: 5px !important;
+            transform: scale(1.25);
+            transition: all 0.5s ease-out;
+            background-color: $color-wrong !important;
+          }
         }
 
         p {
@@ -271,7 +287,9 @@ main {
           height: 50px;
           @include flex-center;
           background: $button-color;
-          box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+          box-shadow:
+            0 8px 16px 0 rgba(0, 0, 0, 0.2),
+            0 6px 20px 0 rgba(0, 0, 0, 0.19);
           cursor: pointer;
 
           &:hover {
@@ -287,12 +305,10 @@ main {
     max-width: 350px;
     height: 24px;
     border-radius: 20px;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-    background: linear-gradient(
-      to right,
-      $button-color 10%,
-      $progress-bar-gray 10%
-    );
+    box-shadow:
+      0 8px 16px 0 rgba(0, 0, 0, 0.2),
+      0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background: linear-gradient(to right, $button-color 10%, $progress-bar-gray 10%);
   }
 
   //---Quiz finished
@@ -362,7 +378,7 @@ main {
         @include button;
         width: 200px;
         color: white;
-        
+
         &:hover {
           background-color: $button-hover;
         }
@@ -391,22 +407,12 @@ main {
   display: block;
 }
 
-#countdownContainer {
-  position: relative;
-  width: 80px;
-  height: 80px;
-  background: $background-highscore;
-  border-radius: 50%;
-}
-
 .countdown-text {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 20px;
 }
-
 
 .theme-switcher {
   @include flex-center;

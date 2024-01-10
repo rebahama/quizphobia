@@ -113,6 +113,15 @@
         color: black;
 
         div {
+          div {
+            .countdown-container {
+              background: $light-background-highscore;
+            }
+            
+            .countdown-error {
+              background-color: $light-color-wrong !important;
+            }
+          }
           h2 {
             color: black;
           }
@@ -165,7 +174,4 @@
     }
   }
 
-  #countdownContainer {
-    background: $light-background-highscore;
-  }
 }
