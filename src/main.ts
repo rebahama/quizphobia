@@ -366,6 +366,10 @@ function handleLogicBasedOnAnswer(
       }
     );
   }
+  // This will remove pointerevent after answering.
+  buttons.forEach(button => {
+    button.style.pointerEvents = 'none'; 
+  });
   questionScore = getPointsForAnsweringQuestion(questionSeconds, isAnswerCorrect, questionScore);
   highscore += Math.floor(questionScore);
 
@@ -374,6 +378,12 @@ function handleLogicBasedOnAnswer(
     highscoreBanner.textContent = highscore.toString();
   }
 }
+/*
+function handleAnimationBasedOnAnswer(isAnswerCorrect: boolean): void{
+
+  if(isAnswerCorrect){}
+}
+*/
 
 function updateCountDown(): void {
   const countdownDuration = 30;
@@ -546,15 +556,6 @@ function startRemoveAndHideSectionsSecondPart(
   quizContainer?.classList.remove('hidden');
 }
 
-/**
- * Displays and Hides HTML containers
- * This function will run when the page is loadead to hide the containers
- * @returns void
- */
-function hideQuizAndHighscoreFromStart(quizContainer: Element | null, finishQuizContainer: Element | null): void {
-  quizContainer?.classList.add('hidden');
-  finishQuizContainer?.classList.add('hidden');
-}
 
 function displayHighScoreAfterQuizFinished(
   finishQuizContainer: Element | null,
@@ -595,7 +596,7 @@ function startGame(selectedUser: string | null): void {
 document.addEventListener('DOMContentLoaded', () => {
   initialTheme();
   generateExistingUsersInHTML(userButtonsContainer);
-  hideQuizAndHighscoreFromStart(quizContainer, finishQuizContainer);
+  displayHighscoreStartGame();
 });
 startButton?.addEventListener('click', () => {
   startGame(selectedUser);
@@ -617,4 +618,4 @@ themeSwitch?.addEventListener('click', () => {
 
 
 
-displayHighscoreStartGame();
+
