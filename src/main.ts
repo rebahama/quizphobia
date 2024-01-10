@@ -451,6 +451,7 @@ function updateDisplayForNextQuestion(): void {
       highscore = 0;
       mainSeconds = 0;
       mainMinutes = 0;
+      playerInput.value = '';
       if (mainTimerContainer !== null) {
         mainTimerContainer.textContent = '00:00';
       }
