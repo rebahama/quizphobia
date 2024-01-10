@@ -2,7 +2,7 @@
   background-color: $light-background-primary;
   .top-banner {
     background-color: $light-background-header;
-    border-bottom: 2px solid $light-background-highscore;
+    border-bottom: 2px solid $light-button-color;
     color: black;
   }
 
@@ -40,7 +40,7 @@
             }
 
             &:focus {
-              outline: 2px solid $color-red;
+              outline: 2px solid $light-button-focus;
             }
           }
         }
@@ -61,7 +61,7 @@
             }
 
             &:focus {
-              outline: 2px solid $color-red;
+              outline: 2px solid $light-button-focus;
             }
             &:hover {
               background-color: $light-input-hover;
@@ -83,7 +83,7 @@
 
           button:focus,
           input:focus {
-            outline: 2px solid $color-red;
+            outline: 2px solid $light-button-focus;
           }
         }
       }
@@ -118,20 +118,6 @@
             &:hover {
               background: $light-button-hover;
             }
-
-            &.wrong {
-              background-color: red;
-              &:hover {
-                background-color: red;
-              }
-            }
-
-            &.right {
-              background-color: green;
-              &:hover {
-                background-color: green;
-              }
-            }
           }
         }
       }
@@ -165,7 +151,7 @@
           }
 
           &:focus {
-            outline: 2px solid $color-red;
+            outline: 2px solid $light-button-focus;
           }
         }
       }
