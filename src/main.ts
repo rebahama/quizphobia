@@ -385,6 +385,7 @@ function handleLogicBasedOnAnswer(
 function updateCountDown(): void {
   const countdownDuration = 30;
   const elapsed = questionSeconds;
+  const countdownContainer = document.querySelector('#countdownContainer') as HTMLElement;
   const countdownElement = document.querySelector('#countdownCircle circle') as SVGCircleElement;
   const countdownText = document.querySelector('#countdownText') as HTMLElement;
   const circumference = 2 * Math.PI * 35;
@@ -399,6 +400,8 @@ function updateCountDown(): void {
   } else if (remainingTime === -1) {
     highscore -= 50;
     updateDisplayForNextQuestion();
+    countdownContainer.classList.add('countdown-error');
+    countdownText.textContent = 'To Slow';
     const highscoreBanner = document.querySelector('#currentScore');
     if (highscoreBanner !== null) {
       highscoreBanner.textContent = highscore.toString();
