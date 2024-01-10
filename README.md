@@ -1,8 +1,48 @@
 # Phobia Quiz
 
+
 ## Website Screenshots
 
-![Quiz Game Preview](./preview.PNG)
+### Hompage
+Here we can see some intro text and a highscore list that displays the users that are saved in local storage. We can see the 3 users that have been saved to localstorage above the input and start quiz button.
+![Homepage](./docs/website-screenshots/homepage.png)
+
+### Quizpage
+
+
+Here we can se a timer that counts down to 0 and also a question is displayed with 4 diffrent answers. In the green header we an also se the question number along the time elapsed and also a star with a score. This score will be updated according to the answer that the user clicks.
+![Mainpage](./docs/website-screenshots/mainpage.png)
+
+### Finishpage
+This is the page the user gets to when the final answer have been clicked, the highscore list is the same one as the homepage and it is displayed from localstorage. The user will get how many questions was correct answered aloong with time and score. The user can restart the quiz again or click the main menu to get back to the homepage.
+
+![Finish](./docs/website-screenshots/lastpage.png)
+
+### Right and wrong answer
+
+#### Right answer
+When user choose the right answer the quiz will display the following:
+![Right answer](./docs/website-screenshots/right-answer.png)
+
+#### Wrong answer
+
+When user choose the wrong answer the quiz will display the following:
+
+![Right answer](./docs/website-screenshots/wrong-answer.png)
+
+### Change theme
+
+The user can switch between two themes with a button in the header.
+
+#### Light theme
+![theme](./docs/website-screenshots/change-theme.png)
+
+#### Dark theme
+![theme](./docs/website-screenshots/homepage.png)
+
+## Wireframe
+
+![Design](./src/assets/design/Quiz-Design.jpg)
 
 ## Tech Stack
 
@@ -10,7 +50,9 @@
 - CSS / Sass
 - TypeScript
 
+
 ## Other Technologies
+
 
 ### Local Storage
 
@@ -18,7 +60,7 @@ Local Storage is used to store the users and the highscore list.
 
 ### GSAP
 
-For making the animations we used [GSAP (GreenSock Animation Platform)](https://gsap.com/)
+For making the animations we used [GSAP (GreenSock Animation Platform)](https://gsap.com/) version 3.12.4
 
 ## Code Formatting and Linting
 
@@ -44,7 +86,10 @@ This project is marked as "In Progress."
 To run the Quiz Game on your local machine, follow these steps:
 
 1. Download or clone the repository.
-2. Install the necessary dependencies and node_moduls by running `npm install`.
+2. Install the necessary dependencies and node_moduls by running:
+* `npm install`
+
+* `npm install gsap`
 3. Start the application using `npm run dev` (Vite).
 
 ## Description
