@@ -221,7 +221,7 @@ function disableUserButtonsIfInputIsFilled(input: HTMLInputElement, userButtonsC
       button.classList.toggle('button-active', false);
     }
   });
-  selectedUser = input.value;
+    selectedUser = isInputFilled ? input.value : null;
 }
 
 /**
@@ -388,6 +388,11 @@ function updateDisplayForNextQuestion(): void {
       currentQuestionNumber = 1;
       rightCount = 0;
       highscore = 0;
+      mainSeconds = 0;
+      mainMinutes = 0;
+      if (mainTimerContainer !== null) {
+        mainTimerContainer.textContent = '00:00'; 
+      }
     }
   }, 1500);
 }
