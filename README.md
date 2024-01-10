@@ -18,6 +18,28 @@ This is the page the user gets to when the final answer have been clicked, the h
 
 ![Finish](./docs/website-screenshots/lastpage.png)
 
+### Right and wrong answer
+
+#### Right answer
+When user choose the right answer the quiz will display the following:
+![Right answer](./docs/website-screenshots/right-answer.png)
+
+#### Wrong answer
+
+When user choose the wrong answer the quiz will display the following:
+
+![Right answer](./docs/website-screenshots/wrong-answer.png)
+
+### Change theme
+
+The user can switch between two themes with a button in the header.
+
+#### Light theme
+![theme](./docs/website-screenshots/change-theme.png)
+
+#### Dark theme
+![theme](./docs/website-screenshots/homepage.png)
+
 ## Wireframe
 
 ![Design](./src/assets/design/Quiz-Design.jpg)
