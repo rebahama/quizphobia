@@ -1,5 +1,6 @@
 .light-mode {
-  background-color: $light-background-primary;
+  background-image: linear-gradient(90deg, rgba(181, 137, 190, 0.813), rgba(162, 109, 186, 0.826) 90%),
+  url('/src/assets/images/QuizHands.jpg');
   .top-banner {
     background-color: $light-background-header;
     border-bottom: 2px solid $light-button-color;
@@ -67,19 +68,26 @@
               background-color: $light-input-hover;
             }
           }
-
-          .start-button {
-            border: none;
-            background: $light-background-header;
-            color: black;
-            &:hover {
-              background: $light-button-hover;
+          .button-panel {
+            @include flex-column-center;
+            gap: 10px;
+            height: 90px;
+            .start-button {
+              border: none;
+              background: $light-background-header;
+              color: black;
+              &:hover {
+                background: $light-button-hover;
+              }
+            }
+  
+            .error-message {
+              color: $color-wrong;
+              text-align: center;
+              font-weight: 500;
             }
           }
-
-          .start-button-info {
-            color: black;
-          }
+    
 
           button:focus,
           input:focus {
@@ -129,7 +137,6 @@
 
     //---Quiz finished
     .quiz-finished {
-      background-color: $light-background-primary;
       color: black;
 
       .your-score-box {
@@ -161,5 +168,4 @@
   #countdownContainer {
     background: $light-background-highscore;
   }
-
 }
