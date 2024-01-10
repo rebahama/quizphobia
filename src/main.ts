@@ -176,9 +176,9 @@ function displayHighscoreStartGame(): void {
   const listScoreOutput = document.querySelectorAll('.list-score-output li');
 
   storedHighScoreArray.sort((a, b) => b.playedHighscore - a.playedHighscore);
-  storedHighScoreArray.forEach((highscore, index) => {
-    const { user, playedHighscore } = highscore;
-    listScoreOutput[index].textContent = `${index + 1}. ${user} ${playedHighscore}`;
+  storedHighScoreArray.slice(0, 10).forEach((highscore, index) => {
+      const { user, playedHighscore } = highscore;
+      listScoreOutput[index].textContent = `${index + 1}. ${user} ${playedHighscore}p`;
   });
 }
 
@@ -331,16 +331,20 @@ function handleClickOnAnswers(event: Event, questionArray: IQuestionObject[]): v
   clearInterval(clearTimeQuestionInterval);
 }
 
+
 function handleLogicBasedOnAnswer(
   answer: HTMLElement,
   isTargetTheRightAnswer: boolean,
   buttons: HTMLButtonElement[]
 ): void {
+   const currentTheme = localStorage.getItem('theme');
+   const colorRightAnswer = currentTheme === 'light-mode' ? '#66c7ad' : '#207d73';
+   const colorWrongAnswer = currentTheme === 'light-mode' ? '#c752af' : '#67073d';
   if (isTargetTheRightAnswer) {
     isAnswerCorrect = true;
     gsap.to(answer, {
       duration: 1,
-      backgroundColor: '#207d73',
+      backgroundColor: colorRightAnswer,
       scale: 1.5,
       ease: 'elastic',
     });
@@ -362,7 +366,7 @@ function handleLogicBasedOnAnswer(
         ease: 'bounce.out',
         scale: 0.8,
         duration: 1,
-        backgroundColor: '#67073d',
+        backgroundColor: colorWrongAnswer,
       }
     );
   }
@@ -461,7 +465,7 @@ function updateUserPositionInHighScore(highScoreArray: IHighScoreObject[]): void
   }
   highScoreArray.sort((a, b) => b.playedHighscore - a.playedHighscore);
 
-  storedHighScoreArray.forEach((highscore, index) => {
+  storedHighScoreArray.slice(0, 10).forEach((highscore, index) => {
     const { user, playedHighscore } = highscore;
     listScoreOutput[index].textContent = `${index + 1}. ${user} ${playedHighscore}`;
     highScoreListOutputFinish[index].textContent = `${index + 1}. ${user} ${playedHighscore}`;
@@ -573,12 +577,12 @@ function displayHighScoreAfterQuizFinished(
   const storedHighScoreArray = getHighScoreFromLocalStorage(storedHighScore, 'highscores');
 
   storedHighScoreArray.sort((a, b) => b.playedHighscore - a.playedHighscore);
-  storedHighScoreArray.forEach((highscore, index) => {
-    const { user, playedHighscore } = highscore;
-    highScoreListOutputFinish[index].textContent = `${index + 1}. ${user} ${playedHighscore}`;
-    if (yourScoreBox !== null) {
-      yourScoreBox.textContent = `Your score: ${playedHighscore}`;
-    }
+  storedHighScoreArray.slice(0, 10).forEach((highscore, index) => {
+      const { user, playedHighscore } = highscore;
+      highScoreListOutputFinish[index].textContent = `${index + 1}. ${user} ${playedHighscore}p`;
+      if (yourScoreBox !== null) {
+        yourScoreBox.textContent = `Your score: ${playedHighscore}`;
+      }
   });
 }
 
