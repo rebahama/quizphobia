@@ -38,6 +38,8 @@ const playerInput = document.querySelector('#name') as HTMLInputElement;
 const progressBar = document.querySelector('#progressBar') as HTMLElement;
 const userErrorMessage = document.querySelector('#errorMessage');
 let userButtonsContainer = document.querySelector('#buttonContainer');
+const highscoreStar = document.querySelector('#highscoreStar'); // selector för stjärnan
+
 
 /******************************************************
  * ************ Variables ****************************
@@ -362,7 +364,14 @@ function handleLogicBasedOnAnswer(
   handleAnimationBasedOnAnswer(isAnswerCorrect, answer, colorRightAnswer, colorWrongAnswer);
   updateScoreAndHighscoreBasedOnAnswer();
   animatePointUpdate(isAnswerCorrect, colorRightAnswer, colorWrongAnswer);
+  // Kalla på funktionen för att animera stjärnan
 }
+
+// Gör animationen för stjärnan, använd  --  gsap.fromTo(highscoreStar, { gör animering här }, {gör animering här ]})--
+/* När man ska göra en animering som reagerar på klick så får man använda en fromTo 
+  så animeringen går från en ''punkt'' till en annan
+  När du är  klar så ta bort alla dess kommentarer , rad 41, 367, 370, 371, 372, 373 */
+
 
 function handleAnimationBasedOnAnswer(
   isAnswerCorrect: boolean,
@@ -370,6 +379,7 @@ function handleAnimationBasedOnAnswer(
   colorRightAnswer: string,
   colorWrongAnswer: string
 ): void {
+ 
   if (isAnswerCorrect) {
     gsap.to(answer, {
       duration: 1,
@@ -377,6 +387,7 @@ function handleAnimationBasedOnAnswer(
       scale: 1.5,
       ease: 'elastic',
     });
+    
   } else {
     gsap.fromTo(
       answer,
@@ -391,10 +402,12 @@ function handleAnimationBasedOnAnswer(
       }
     );
   }
+ 
 }
 
 function animatePointUpdate(isAnswerCorrect: boolean, colorRightAnswer: string, colorWrongAnswer: string): void {
   const animationPoint: HTMLParagraphElement | null = document.querySelector('#animationPoint');
+  
   if (animationPoint !== null) {
     animationPoint.textContent = `${questionScore}`;
     animationPoint.classList.remove('hidden');
