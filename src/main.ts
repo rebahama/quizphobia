@@ -361,6 +361,7 @@ function handleLogicBasedOnAnswer(
   });
   handleAnimationBasedOnAnswer(isAnswerCorrect, answer, colorRightAnswer, colorWrongAnswer);
   updateScoreAndHighscoreBasedOnAnswer();
+  animatePointUpdate(isAnswerCorrect,colorRightAnswer, colorWrongAnswer);
 }
 
 function handleAnimationBasedOnAnswer(
@@ -391,6 +392,42 @@ function handleAnimationBasedOnAnswer(
     );
   }
 }
+
+function animatePointUpdate(isAnswerCorrect: boolean, colorRightAnswer: string, colorWrongAnswer: string): void {
+  const animationPoint: HTMLParagraphElement | null = document.querySelector('#animationPoint');
+  if (animationPoint !== null) {
+    animationPoint.textContent = `${questionScore}`;
+    animationPoint.classList.remove('hidden');
+    if (isAnswerCorrect) {
+      gsap.fromTo(animationPoint, 
+        {
+          y: 0,
+          opacity: 100
+        },
+        {
+          ease: 'bounce.out',
+          duration: 2,
+          y: -110,
+          opacity: 0,
+          color: colorRightAnswer
+        });
+    } else {
+      gsap.fromTo(animationPoint, 
+        {
+          y: 0,
+          opacity: 100
+        },
+        {
+          ease: 'bounce.out',
+          duration: 2,
+          y: -110,
+          opacity: 0,
+          color: colorWrongAnswer
+        });
+    }
+  }
+}
+
 
 function updateScoreAndHighscoreBasedOnAnswer(): void {
   questionScore = getPointsForAnsweringQuestion(questionSeconds, isAnswerCorrect, questionScore);
