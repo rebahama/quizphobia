@@ -102,7 +102,7 @@ function handleClickOnEndButtons(event: Event): void {
 
 function updateDisplayForProgressBar(): void {
   const currentTheme = localStorage.getItem('theme');
-  const firstColor = currentTheme === 'light-mode' ? '#7791a' : '#212f45';
+  const firstColor = currentTheme === 'light-mode' ? '#9675bf' : '#212f45';
   const secondColor = currentTheme === 'light-mode' ? '#f0f0f0' : '#d9d9d9';
   progressBar.style.background = getLinearGradienceLeftToRightAsString(
     currentQuestionNumber * 10,
@@ -357,19 +357,19 @@ function handleLogicBasedOnAnswer(
   }
   // This will remove pointerevent after answering.
   buttons.forEach(button => {
-    button.style.pointerEvents = 'none'; 
+    button.style.pointerEvents = 'none';
   });
   handleAnimationBasedOnAnswer(isAnswerCorrect, answer, colorRightAnswer, colorWrongAnswer);
   updateScoreAndHighscoreBasedOnAnswer();
-  animatePointUpdate(isAnswerCorrect,colorRightAnswer, colorWrongAnswer);
+  animatePointUpdate(isAnswerCorrect, colorRightAnswer, colorWrongAnswer);
 }
 
 function handleAnimationBasedOnAnswer(
-  isAnswerCorrect: boolean, 
-  answer: HTMLElement, 
-  colorRightAnswer: string, 
-  colorWrongAnswer: string): void {
-
+  isAnswerCorrect: boolean,
+  answer: HTMLElement,
+  colorRightAnswer: string,
+  colorWrongAnswer: string
+): void {
   if (isAnswerCorrect) {
     gsap.to(answer, {
       duration: 1,
@@ -398,36 +398,22 @@ function animatePointUpdate(isAnswerCorrect: boolean, colorRightAnswer: string, 
   if (animationPoint !== null) {
     animationPoint.textContent = `${questionScore}`;
     animationPoint.classList.remove('hidden');
-    if (isAnswerCorrect) {
-      gsap.fromTo(animationPoint, 
-        {
-          y: 0,
-          opacity: 100
-        },
-        {
-          ease: 'bounce.out',
-          duration: 2,
-          y: -110,
-          opacity: 0,
-          color: colorRightAnswer
-        });
-    } else {
-      gsap.fromTo(animationPoint, 
-        {
-          y: 0,
-          opacity: 100
-        },
-        {
-          ease: 'bounce.out',
-          duration: 2,
-          y: -110,
-          opacity: 0,
-          color: colorWrongAnswer
-        });
-    }
+    animationPoint.style.color = isAnswerCorrect ? colorRightAnswer : colorWrongAnswer; 
   }
+  gsap.fromTo(
+    animationPoint,
+    {
+      y: 0,
+      opacity: 100,
+    },
+    {
+      ease: 'bounce.out',
+      duration: 2,
+      y: -110,
+      opacity: 0,
+    }
+  );
 }
-
 
 function updateScoreAndHighscoreBasedOnAnswer(): void {
   questionScore = getPointsForAnsweringQuestion(questionSeconds, isAnswerCorrect, questionScore);
@@ -625,7 +611,6 @@ function startRemoveAndHideSectionsSecondPart(
   quizContainer?.classList.remove('hidden');
 }
 
-
 function displayHighScoreAfterQuizFinished(
   finishQuizContainer: Element | null,
   questionAndProgressBarContainer: Element | null
@@ -681,7 +666,3 @@ themeSwitch?.addEventListener('click', () => {
   const currentTheme = localStorage.getItem('theme');
   currentTheme === 'light-mode' ? setTheme('dark-mode') : setTheme('light-mode');
 });
-
-
-
-
