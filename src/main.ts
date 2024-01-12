@@ -38,7 +38,7 @@ const playerInput = document.querySelector('#name') as HTMLInputElement;
 const progressBar = document.querySelector('#progressBar') as HTMLElement;
 const userErrorMessage = document.querySelector('#errorMessage');
 let userButtonsContainer = document.querySelector('#buttonContainer');
-const highscoreStar = document.querySelector('#highscoreStar'); // selector för stjärnan
+const highscoreStar = document.querySelector('#highscoreStar');
 
 
 /******************************************************
@@ -364,14 +364,8 @@ function handleLogicBasedOnAnswer(
   handleAnimationBasedOnAnswer(isAnswerCorrect, answer, colorRightAnswer, colorWrongAnswer);
   updateScoreAndHighscoreBasedOnAnswer();
   animatePointUpdate(isAnswerCorrect, colorRightAnswer, colorWrongAnswer);
-  // Kalla på funktionen för att animera stjärnan
+  gsap.fromTo(highscoreStar, { rotation: 0 }, { rotation: 360, duration: 2, repeat: -1, ease: 'linear' });
 }
-
-// Gör animationen för stjärnan, använd  --  gsap.fromTo(highscoreStar, { gör animering här }, {gör animering här ]})--
-/* När man ska göra en animering som reagerar på klick så får man använda en fromTo 
-  så animeringen går från en ''punkt'' till en annan
-  När du är  klar så ta bort alla dess kommentarer , rad 41, 367, 370, 371, 372, 373 */
-
 
 function handleAnimationBasedOnAnswer(
   isAnswerCorrect: boolean,
