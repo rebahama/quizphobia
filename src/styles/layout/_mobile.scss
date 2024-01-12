@@ -38,11 +38,19 @@ header {
       display: flex;
       align-items: center;
       gap: 15px;
+      width: 160px;
 
       .score-panel {
-        width: 40px;
+        min-width: 40px;
+        max-width: 60px;
         @include flex-between;
-        gap: 5px;
+        gap: 7px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        img {
+          margin-bottom: 3px;
+        }
       }
     }
   }

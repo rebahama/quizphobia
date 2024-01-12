@@ -40,7 +40,6 @@ const userErrorMessage = document.querySelector('#errorMessage');
 let userButtonsContainer = document.querySelector('#buttonContainer');
 const highscoreStar = document.querySelector('#highscoreStar');
 
-
 /******************************************************
  * ************ Variables ****************************
  *****************************************************/
@@ -362,9 +361,42 @@ function handleLogicBasedOnAnswer(
     button.style.pointerEvents = 'none';
   });
   handleAnimationBasedOnAnswer(isAnswerCorrect, answer, colorRightAnswer, colorWrongAnswer);
+  handleAnimationOnHighscore(isAnswerCorrect, colorRightAnswer, colorWrongAnswer);
   updateScoreAndHighscoreBasedOnAnswer();
   animatePointUpdate(isAnswerCorrect, colorRightAnswer, colorWrongAnswer);
-  gsap.fromTo(highscoreStar, { rotation: 0 }, { rotation: 360, duration: 2, repeat: -1, ease: 'linear' });
+  gsap.fromTo(highscoreStar, { rotation: 0 }, { rotation: 360, duration: 2, scale: 1.25, ease: 'ease' });
+  setTimeout(() => {
+    gsap.to(highscoreStar, {
+      scale: 1
+    });
+  }, 2000);
+}
+
+function handleAnimationOnHighscore(
+  isAnswerCorrect: boolean,
+  colorRightAnswer: string,
+  colorWrongAnswer: string
+): void {
+  const highscoreBanner = document.querySelector('#currentScore') as HTMLElement;
+  const highscoreColor = isAnswerCorrect ? colorRightAnswer : colorWrongAnswer;
+  const currentTheme = localStorage.getItem('theme');
+  gsap.to(highscoreBanner, {
+    duration: 0.5,
+    color: highscoreColor,
+    textShadow: 'black 0 -1px 1px',
+    scale: 1.25,
+    ease: 'linear',
+  });
+  const originalColor = currentTheme === 'light-mode' ? 'black' : 'white';
+  setTimeout(() => {
+    gsap.to(highscoreBanner, {
+      duration: 0,
+      color: originalColor,
+      textShadow: 'none',
+      scale: 1,
+      ease: 'linear',
+    });
+  }, 2000);
 }
 
 function handleAnimationBasedOnAnswer(
@@ -373,7 +405,6 @@ function handleAnimationBasedOnAnswer(
   colorRightAnswer: string,
   colorWrongAnswer: string
 ): void {
- 
   if (isAnswerCorrect) {
     gsap.to(answer, {
       duration: 1,
@@ -381,7 +412,6 @@ function handleAnimationBasedOnAnswer(
       scale: 1.5,
       ease: 'elastic',
     });
-    
   } else {
     gsap.fromTo(
       answer,
@@ -396,16 +426,15 @@ function handleAnimationBasedOnAnswer(
       }
     );
   }
- 
 }
 
 function animatePointUpdate(isAnswerCorrect: boolean, colorRightAnswer: string, colorWrongAnswer: string): void {
   const animationPoint: HTMLParagraphElement | null = document.querySelector('#animationPoint');
-  
+
   if (animationPoint !== null) {
     animationPoint.textContent = `${questionScore}`;
     animationPoint.classList.remove('hidden');
-    animationPoint.style.color = isAnswerCorrect ? colorRightAnswer : colorWrongAnswer; 
+    animationPoint.style.color = isAnswerCorrect ? colorRightAnswer : colorWrongAnswer;
   }
   gsap.fromTo(
     animationPoint,
@@ -486,7 +515,7 @@ function updateDisplayForNextQuestion(): void {
         mainTimerContainer.textContent = '00:00';
       }
     }
-  }, 1500);
+  }, 2000);
 }
 
 /**
