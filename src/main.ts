@@ -38,6 +38,8 @@ const playerInput = document.querySelector('#name') as HTMLInputElement;
 const progressBar = document.querySelector('#progressBar') as HTMLElement;
 const userErrorMessage = document.querySelector('#errorMessage');
 let userButtonsContainer = document.querySelector('#buttonContainer');
+const highscoreStar = document.querySelector('#highscoreStar');
+
 
 /******************************************************
  * ************ Variables ****************************
@@ -362,6 +364,7 @@ function handleLogicBasedOnAnswer(
   handleAnimationBasedOnAnswer(isAnswerCorrect, answer, colorRightAnswer, colorWrongAnswer);
   updateScoreAndHighscoreBasedOnAnswer();
   animatePointUpdate(isAnswerCorrect, colorRightAnswer, colorWrongAnswer);
+  gsap.fromTo(highscoreStar, { rotation: 0 }, { rotation: 360, duration: 2, repeat: -1, ease: 'linear' });
 }
 
 function handleAnimationBasedOnAnswer(
@@ -370,6 +373,7 @@ function handleAnimationBasedOnAnswer(
   colorRightAnswer: string,
   colorWrongAnswer: string
 ): void {
+ 
   if (isAnswerCorrect) {
     gsap.to(answer, {
       duration: 1,
@@ -377,6 +381,7 @@ function handleAnimationBasedOnAnswer(
       scale: 1.5,
       ease: 'elastic',
     });
+    
   } else {
     gsap.fromTo(
       answer,
@@ -391,10 +396,12 @@ function handleAnimationBasedOnAnswer(
       }
     );
   }
+ 
 }
 
 function animatePointUpdate(isAnswerCorrect: boolean, colorRightAnswer: string, colorWrongAnswer: string): void {
   const animationPoint: HTMLParagraphElement | null = document.querySelector('#animationPoint');
+  
   if (animationPoint !== null) {
     animationPoint.textContent = `${questionScore}`;
     animationPoint.classList.remove('hidden');
