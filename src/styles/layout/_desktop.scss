@@ -29,13 +29,15 @@ main {
         width: 50%;
         gap: 30px;
         text-align: left;
+
         span {
           font-size: 1.5rem;
         }
       }
 
       .list-highscore-container {
-        width: 50%;
+        width: 75%;
+
         .highscore-heading {
           font-size: 2rem;
         }
@@ -50,10 +52,12 @@ main {
       .flex-container-intro {
         flex-direction: row;
         align-items: flex-start;
+
         .start-button {
           height: 60px;
           width: 300px;
         }
+
         input {
           &.name-input {
             width: 250px;
@@ -114,6 +118,7 @@ main {
 
       .high-score-list {
         margin: 50px;
+
         .list-left,
         .list-right {
           li {
