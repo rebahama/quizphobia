@@ -46,7 +46,8 @@ const highscoreStar = document.querySelector('#highscoreStar');
 
 // arrays
 const highScoreArray: IHighScoreObject[] = [];
-let questionArray = getRandomQuestions(array, 10);
+const questionArray = getRandomQuestions(array, 10);
+
 let storedHighScore: IHighScoreObject[];
 let storedUsers: IStoredUserType[];
 // booleans
@@ -96,7 +97,6 @@ function handleClickOnEndButtons(event: Event): void {
     startGame(selectedUser);
   }
   // generate new random array
-  questionArray = getRandomQuestions(array, 10);
   finishQuizContainer?.classList.add('hidden');
   clearInterval(clearTimeMainInterval);
 }
