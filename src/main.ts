@@ -46,7 +46,7 @@ const highscoreStar = document.querySelector('#highscoreStar');
 
 // arrays
 const highScoreArray: IHighScoreObject[] = [];
-const questionArray = getRandomQuestions(array, 10);
+let questionArray = getRandomQuestions(array, 10);
 
 let storedHighScore: IHighScoreObject[];
 let storedUsers: IStoredUserType[];
@@ -94,9 +94,12 @@ function handleClickOnEndButtons(event: Event): void {
     generateExistingUsersInHTML(userButtonsContainer);
     displayHighscoreStartGame();
   } else if (target.id === 'restartQuizButton') {
+    questionArray = [];
+    questionArray = getRandomQuestions(array, 10);
     startGame(selectedUser);
   }
   // generate new random array
+  
   finishQuizContainer?.classList.add('hidden');
   clearInterval(clearTimeMainInterval);
 }
